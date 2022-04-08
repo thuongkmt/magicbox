@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .btn {
+            margin-top: 5px;
+        }
+
+        .alert {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body lang="en">
+    <div>
+        <div class="m-subheader">
+            <div class="d-flex align-items-center">
+                <div class="mr-auto col-md-6">
+                    <h3 class="m-subheader__title m-subheader__title--separator">
+                        <span>{{l("Diagnostic")}}</span>
+                    </h3>
+                    <span class="m-section__sub">
+                        {{l("Hardware Diagnostic")}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="m-content">
+            <div class="m-portlet m-portlet--mobile">
+                <div class="m-portlet__body">
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <!-- <div class="alert alert-info" role="alert"> -->
+                            <h4>Fridge</h4>
+                            <!-- </div> -->
+                            <button type="button" class="btn btn-success" (click)="OpenLock()">Open Lock</button>
+
+                            <button type="button" class="btn btn-success" (click)="RefreshProduct()">Reload Inventory</button>
+
+                            <button type="button" class="btn btn-success" (click)="RefreshCloudInventory()">Reload Cloud Inventory</button>
+                            
+                            <button type="button" class="btn btn-success" (click)="StartTransaction()">Start Transaction</button>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>Temperature</h4>
+                            <span style="font-size:12pt;margin-right: 40px">Current: </span>
+                            <span style="font-size:12pt; color: #2ca189">{{currentTmp}} °C</span>
+                            <br>
+                            <span style="font-size:12pt;margin-right: 45px">Source: </span>
+                            <span style="font-size:12pt;  color:#2ca189">{{tmpIndex}}</span>
+                            <br>
+                            <span style="font-size:12pt;margin-right: 5px">Last Update: </span>
+                            <span style="font-size:12pt;  color:#2ca189">{{tmpLastUpdate}}</span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <!-- <div class="alert alert-info" role="alert"> -->
+                            <h4>Terminal</h4>
+                            <!-- </div> -->
+                            <button type="button" class="btn btn-warning" (click)="EnableTerminal()">Enable</button>
+
+                            <button type="button" class="btn btn-warning" (click)="DisableTerminal()">Disable</button>
+
+                            <button type="button" class="btn btn-warning" (click)="OpenLatch()">Open Latch</button>
+                        </div>
+                    </div>
+                    <br>
+                    <h4>Inventory</h4>
+                    <table class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Tag Id</th>
+                                <th>Price</th>
+                                <th>Antenna</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of inventories">
+                                <td>{{ item.Product.ProductName }}</td>
+                                <td>{{ item.TagId }}</td>
+                                <td>{{ item.Product.Price }}</td>
+                                <td>{{ item.TrayLevel }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

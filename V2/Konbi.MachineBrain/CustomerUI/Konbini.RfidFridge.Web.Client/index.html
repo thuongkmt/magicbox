@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Magic Box</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/css/main.css">
+    <link rel="stylesheet" href="asset/css/for7Inch.css">
+    <link rel="stylesheet" href="asset/css/calc.css">
+    <link rel="stylesheet" href="asset/css/loading.css">
+
+    <!-- npm install bootstrap@3 jquery --save -->
+    <script src="lib/jquery.min.js"></script>
+    <script>
+        window.$ = window.jQuery = require('jquery');
+        // Load the full build.
+        var _ = require('lodash');
+    </script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="js/winston.js"></script>
+    <script src="js/device_control.js"></script>
+    <script src="js/rabitmq.js"></script>
+    <script src="js/system_config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/preauth_payment.js"></script>
+
+</head>
+
+<body>
+    <button type="button" style="opacity: 0; position: fixed; left: 0px; top: 0px; z-index: 9999;height: 200px;"
+        onclick="eventChangeLayout()">Change</button>
+    <main role="main" class="container">
+        <!-- Screen Restock -->
+        <div id="screen-restock" class="row">
+            <!-- Loading -->
+            <div id="spinner-loading">
+                <div class="loading"></div>
+                <span class="text-loading">Loading&#8230;</span>
+            </div>
+
+            <!-- Enter Passcode -->
+            <div id="layout-passcode" class="col-lg-6">
+                <div class="calc-body">
+                    <div class="calc-screen">
+                        <h2 class="title-header">
+                            <span>Enter Passcode</span>
+                        </h2>
+                        <div id="calc-operation" class="calc-operation">
+                            <span id="passcode1">*</span>
+                            <span id="passcode2">*</span>
+                            <span id="passcode3">*</span>
+                            <span id="passcode4">*</span>
+                            <span id="passcode5">*</span>
+                            <span id="passcode6">*</span>
+                        </div>
+                    </div>
+                    <div class="calc-button-row">
+                        <div class="button" onclick="enterButton(7)">7</div>
+                        <div class="button" onclick="enterButton(8)">8</div>
+                        <div class="button" onclick="enterButton(9)">9</div>
+                    </div>
+                    <div class="calc-button-row">
+                        <div class="button" onclick="enterButton(4)">4</div>
+                        <div class="button" onclick="enterButton(5)">5</div>
+                        <div class="button" onclick="enterButton(6)">6</div>
+                    </div>
+                    <div class="calc-button-row">
+                        <div class="button" onclick="enterButton(1)">1</div>
+                        <div class="button" onclick="enterButton(2)">2</div>
+                        <div class="button" onclick="enterButton(3)">3</div>
+                    </div>
+                    <div class="calc-button-row">
+                        <div class="button" onclick="enterButton(66)">&#8635;</div>
+                        <div class="button" onclick="enterButton(0)">0</div>
+                        <div class="button" onclick="enterButton(88)">&#8592;</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Choose Option -->
+            <div id="layout-option" class="col-lg-6">
+                <h2 class="title-header" style="text-align: left; margin-left: 20px;">
+                    <span id="content-welcome">Welcome</span>
+                </h2>
+
+                <div class="row justify-content-center" style="margin-top: 10%; margin-bottom: 3%;">
+                    <button type="button" class="button-choose-option"
+                        onclick="openLayoutRestock()">Restock/Unload</button>
+                </div>
+                <!-- <div class="row justify-content-center" style="margin-bottom: 3%;">
+                    <button type="button" class="button-choose-option" onclick="openLayoutUnload()">Unload</button>
+                </div> -->
+                <div class="row justify-content-center" style="margin-bottom: 3%;">
+                    <button type="button" class="button-choose-option" onclick="manualOpenDoor()">Open Door</button>
+                </div>
+                <div class="row justify-content-center">
+                    <button type="button" class="button-choose-option" onclick="backToSale()">Back To Sale</button>
+                </div>
+            </div>
+
+            <!-- Restock -->
+            <div id="layout-restock" class="col-lg-6">
+                <div class="row">
+                    <div class="col-xs">
+                        <h1 class="title-header" style="text-align: left; margin-left: 20px;">
+                            <span id="content-welcome">Restock/Unload</span>
+                        </h1>
+                    </div>
+                    <div class="col-xs">
+                        <button type="button" class="button-restock-open" onclick="manualOpenDoor()">Open Door</button>
+                    </div>
+                </div>
+                <div class="row justify-content-center" style="margin-left: unset; margin-right: unset;">
+                    <!-- <div class="col-sm" style="text-align: left; padding-left: 1rem; font-size: 2rem; color: white;">
+                        Restock Product
+                    </div> -->
+                    <div class="table-responsive" style="margin-top: 30px;">
+                        <table id="table-restock" class="table table-bordered scroll" style="color: #fff;">
+                            <thead style="background-color: #425062;">
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm" style="text-align: left; padding-left: 1rem; font-size: 2rem; color: white;">
+                        <span id="total-items-restock">Total Restock: 0</span>
+                    </div>
+                </div>
+                <div class="row justify-content-center" style="margin-left: unset; margin-right: unset;">
+                    <!-- <div class="col-sm" style="text-align: left; padding-left: 1rem; font-size: 2rem; color: white;">
+                        Unload Product
+                    </div> -->
+
+                    <div class="table-responsive" style="margin-top: 30px;">
+                        <table id="table_unload" class="table table-bordered scroll" style="color: #fff;">
+                            <thead style="background-color: #425062;">
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Tag ID</th>
+                                    <th scope="col">Quantity</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm" style="text-align: left; padding-left: 1rem; font-size: 2rem; color: white;">
+                        <span id="total-items-unload">Totak Unload: 0</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-left: unset; margin-right: unset;  width: 98%;">
+
+                    <div class="w-100"></div>
+                    <div class="col-xs">
+                        <button type="button" class="button-layout" style="width: 9rem; height: auto; float: left;"
+                            onclick="clickConfirmRestockWithSession()">Confirm</button>
+                    </div>
+                    <div class="col-xs" style="margin-left: 1rem;">
+                        <button type="button" class="button-layout" style="width: 15rem; height: auto;"
+                            onclick="getProducts()">Get Products</button>
+                    </div>
+                    <div class="col-xs" style="margin-left: 1rem;">
+                        <button type="button" class="button-layout" style="width: 9rem; height: auto; float: right;"
+                            onclick="clickLayoutOptions()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unload -->
+            <div id="layout-unload" class="col-lg-6">
+                <!-- <div class="row">
+                    <div class="col-xs">
+                        <h1 class="title-header" style="text-align: left; margin-left: 20px;">
+                            <span id="content-welcome">Unload</span>
+                        </h1>
+                    </div>
+                    <div class="col-xs" style="margin-left: 3rem;">
+                        <button type="button" class="button-restock-open" onclick="manualOpenDoor()">Open Door</button>
+                    </div>
+                </div>
+                <div class="row justify-content-center" style="margin-left: unset; margin-right: unset;">
+                    <div class="table-responsive" style="margin-top: 30px;">
+                        <table id="table_unload" class="table table-bordered scroll" style="color: #fff;">
+                            <thead style="background-color: #425062;">
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Tag ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row"
+                    style="margin-left: unset; margin-right: unset; position: fixed; bottom: 5em; width: 98%;">
+                    <div class="col" style="text-align: left; padding-left: 1rem; font-size: 2rem; color: white;">
+                        <span id="total-items-unload" style="font-size: 3rem; font-weight: 600;">Total: 0</span>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col-xs">
+                        <button type="button" class="button-layout" style="width: 15rem; height: auto; float: left;"
+                            onclick="clickConfirmUnload()">Confirm</button>
+                    </div>
+                    <div class="col-xs">
+                        <button type="button" class="button-layout"
+                            style="width: 15rem; height: auto; float: right; margin-left: 5rem;"
+                            onclick="clickLayoutOptions()">Cancel</button>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- Result -->
+            <div id="layout-result" class="col-lg-6">
+                <div class="row">
+                    <h1 class="title">
+                        <span id="title-result">Unload/Restock</span>
+                        <span id="content-result">True/False</span>
+                    </h1>
+                </div>
+
+                <div class="row"
+                    style="margin-left: unset; margin-right: unset; position: fixed; bottom: 5em; width: 98%;">
+                    <div class="col-xs">
+                        <button id="title-button" type="button" class="button-layout"
+                            style="width: 15rem; height: auto; float: left;"
+                            onclick="clickUnloadRestockMore()">Unload/Restock More</button>
+                    </div>
+                    <div class="col-xs">
+                        <button type="button" class="button-layout"
+                            style="width: 15rem; height: auto; float: right; margin-left: 5rem;"
+                            onclick="clickLayoutOptions()">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen Sale -->
+        <div id="screen-sale" class="row">
+            <!-- Loading -->
+            <div id="spinner-loading-sale">
+                <div class="loading"></div>
+                <span id="spinner-loading-sale-msg" class="text-loading">Loading&#8230;</span>
+            </div>
+
+            <!-- Tap/Insert Credit card to Begin TXN -->
+            <div id="tap-insert" class="col-lg-6" style="margin-top: 3%;">
+                <h1 id="title-tap-insert" class="title">
+                    <!-- <span>Tap/Insert</span>
+                    <span>Credit Card</span>
+                    <span>to Begin</span> -->
+                </h1>
+
+                <button id="btn-start" type="button" class="btn btn-success" onclick="customerStart()"
+                    style="width: 250px; height: 5rem;">START!</button>
+            </div>
+
+            <!-- Please Select Products -->
+            <div id="select-products" class="col-lg-6" style="margin-top: 8%;">
+                <h1 id="title-select-products" class="title">
+                    <span>Please</span>
+                    <span>Select</span>
+                    <span>Products</span>
+                </h1>
+            </div>
+
+            <!-- Shopping Cart -->
+            <div id="shopping-cart" class="col-lg-6">
+                <div class="row" style="color: #ffffff; margin-top: -20px;">
+                    <div class="col-12" style="border-bottom: 1px solid #ffffff; 
+                                                font-size: 3rem; 
+                                                font-weight: 800;">
+                        Shopping Cart
+                    </div>
+                    <div id="content-shoppingcart" class="col-12"
+                        style="overflow-y: auto; overflow-x: hidden; height: 60vh;">
+
+                    </div>
+                </div>
+
+                <div id="total-value" class="row" style="color: coral; padding-left: 2rem; font-size: 3.5rem;"></div>
+
+                <div class="row" style="color: #fff; padding-left: 2rem; font-size: 2.2rem; height: 3rem;">
+                    <span id="count-down-payment"></span>
+                </div>
+
+                <div class="row" style="color: #ffffff; margin-top: 5px;">
+                    <div class="col-6">
+                        <button id="btn-opendoor" type="button" class="btn btn-danger" onclick="openDoor()"
+                            style="width: 250px; height: 5rem;">Open Door</button>
+                    </div>
+
+                    <div class="col-6">
+                        <button id="btn-makepayment" type="button" class="btn btn-success" onclick="makePayment()"
+                            style="width: 250px; height: 5rem;">Make Payment</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="message-screen" class="col-lg-6" style="margin-top: 3%;">
+                <h1 id="title-message-screen" class="title" style="color: white">
+                    <!-- PLEASE INSERT YOUR CARD TO TAKE BACK REFUND -->
+                </h1>
+<!-- 
+                <button id="btn-start" type="button" class="btn btn-success" onclick="customerStart()"
+                    style="width: 250px; height: 5rem;">START!</button> -->
+            </div>
+
+            <!-- You have been charged -->
+            <div id="have-been-charged" class="col-lg-6" style="margin-top: 3%;">
+                <h1 class="title" style="text-align: center;">
+                    <span>You have</span>
+                    <span>been</span>
+                    <span>charged</span>
+                    <span id="total-charged"></span>
+                </h1>
+            </div>
+        </div>
+
+        <div id="modalMsg" class="modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><strong>Message</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <span class="dialog-message" style="font-size: 1.5rem;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer id="footer" class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6" style="text-align: unset;">
+                    <div class="alert alert-info alert-info-custom" role="alert">
+                        <span id="bottomText">&nbsp;</span>
+                        <span id="temperature" class="temperature">--°C</span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6" style="text-align: unset;">
+
+                    <span id="version" style="color: white;float: right;font-size: 12px;" class="">1.0.0.0</span>
+                </div>
+            </div>
+
+
+        </div>
+        <br>
+    </footer>
+</body>
+
+<script src="js/main.js"></script>
+
+</html>

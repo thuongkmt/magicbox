@@ -1,0 +1,281 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Products")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("ProductsHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+                <button (click)="exportToCsv()" class="btn btn-outline-success">
+                    {{l("ExportToCSV")}}</button>
+                
+                <button (click)="importProduct()" class="btn btn-outline-success">
+                    {{l("ImportProducts")}}</button>
+
+                <button *ngIf="isGranted('Pages.Products.Create')" (click)="createProduct()"
+                    class="btn btn-primary blue">
+                    <i class="fa fa-plus"></i> {{l("CreateNewProduct")}}</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getProducts()" class="btn btn-primary" type="submit"><i
+                                                class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="m-separator m-separator--dashed"></div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="NameFilter">{{l("Name")}}</label>
+                                    <input type="text" class="form-control" id="NameFilter" name="nameFilter"
+                                        placeholder="" style="width:auto" [(ngModel)]="nameFilter"
+                                        (change)="getProducts()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>{{l("Sku")}}</label>
+                                    <input type="text" class="form-control" id="SkuFilter" name="skuFilter"
+                                        placeholder="" style="width:auto" [(ngModel)]="skuFilter"
+                                        (change)="getProducts()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="PriceFilter">{{l("Price")}}</label>
+                                <div class="form-group align-items-center">
+                                    <div class="input-group" style="vertical-align: middle">
+                                        <input type="number" class="form-control" id="MinPriceFilter"
+                                            name="minPriceFilter" placeholder="Min" style="min-width:50px"
+                                            [(ngModel)]="minPriceFilter" (change)="getProducts()">
+                                            <span class="input-group-text">-</span>
+                                        <input type="number" class="form-control" id = "MaxPriceFilter" name = "maxPriceFilter" placeholder="Max" style="min-width:50px" [(ngModel)]="maxPriceFilter" (change)="getProducts()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>{{l("Tag")}}</label>
+                                    <input type="text" class="form-control" id="TagFilter" name="tagFilter"
+                                        placeholder="" style="width:auto" [(ngModel)]="tagFilter"
+                                        (change)="getProducts()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>{{l("Barcode")}}</label>
+                                    <input type="text" class="form-control" id="BarcodeFilter" name="barcodeFilter"
+                                        placeholder="" style="width:auto" [(ngModel)]="barcodeFilter"
+                                        (change)="getProducts()">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>{{l("Category")}}</label>
+                                    <select class="form-control" name="categoryFilter" [(ngModel)]="categoryFilter"
+                                        (ngModelChange)="getProducts($event)">
+                                        <option *ngFor="let item of categories" value="{{item.id}}">
+                                              {{item.name}}
+                                          </option> 
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                        <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                            <p-table #dataTable (onLazyLoad)="getProducts($event)" sortField="name"
+                            [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Products.Edit', 'Pages.Products.Delete')">
+                                        {{l('Actions')}}
+                                    </th>
+
+                                    <th style="width: 200px" pSortableColumn="name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="sku">
+                                        {{l('SKU')}}
+                                        <p-sortIcon field="sku"></p-sortIcon>
+                                    </th>
+                                    
+                                    <th style="width: 100px" pSortableColumn="price">
+                                        {{l('Price')}}
+                                        <p-sortIcon field="price"></p-sortIcon>
+                                    </th>
+                                    
+                                    <th style="width: 100px" pSortableColumn="barcode">
+                                        {{l('Barcode')}}
+                                        <p-sortIcon field="barcode"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="barcode">
+                                        {{l('Tag')}}
+                                        <p-sortIcon field="tag"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="tagPrefix">
+                                        Tag Prefix
+                                        <p-sortIcon field="tagPrefix"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 150px" pSortableColumn="imageUrl">
+                                        {{l('ImageUrl')}}
+                                    </th>
+
+                                    <th style="width: 120px" pSortableColumn="creationTime">
+                                        {{l('Created date')}}
+                                        <p-sortIcon field="creationTime"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>                           
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Products.Edit', 'Pages.Products.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i>
+                                                <span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        (click)="viewProductModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        *ngIf="permission.isGranted('Pages.Products.Edit')"
+                                                        (click)="createOrEditProductModal.show(record.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        *ngIf="permission.isGranted('Pages.Products.Delete')"
+                                                        (click)="deleteProduct(record)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:200px">
+                                            <span class="ui-column-title"> {{l('Name')}}</span>
+                                            {{record.name}}
+                                    </td>
+
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('SKU')}}</span>
+                                        {{record.sku}}
+                                    </td>
+                                    
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Price')}}</span>
+                                        {{record.price}}
+                                    </td>
+
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Barcode')}}</span>
+                                        {{record.barcode}}
+                                    </td>
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Tag')}}</span>
+                                        {{record.tag}}
+                                    </td>
+
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> Tag Prefix</span>
+                                        {{record.tagPrefix}}
+                                    </td>
+
+                                    <td style="width:150px">
+                                        <img height="120px" width="120px" *ngIf="record.imageUrl!=null"
+                                            src="{{baseRemoteUrl + '/images/thumb_' +record.imageUrl}}"
+                                            (error)="handleImageLoadFailed($event)" />
+
+                                        <img height="120px" width="120px" *ngIf="record.imageUrl==null"
+                                        src="/assets/images/no-image.png" (error)="handleImageLoadFailed($event)" />
+                                    </td>
+                                    <td style="width:120px">
+                                        <span class="ui-column-title"> {{l('Created date')}}</span>
+                                        {{record.creationTime | momentFormat:'L HH:mm'}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{l('NoData')}}
+                        </div>
+
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}" #paginator
+                                (onPageChange)="getProducts($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                        <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <createOrEditProductModal #createOrEditProductModal (modalSave)="getProducts()"></createOrEditProductModal>
+    <viewProductModal #viewProductModal></viewProductModal>
+    <importExcelProductModal #importExcelProductModal (modalSave)="getProducts()"></importExcelProductModal>
+</div>

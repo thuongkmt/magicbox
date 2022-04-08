@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Magic Box</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/css/main.css">
+    <link rel="stylesheet" href="asset/css/for7Inch.css">
+    <link rel="stylesheet" href="asset/css/calc.css">
+    <link rel="stylesheet" href="asset/css/loading.css">
+
+    <!-- npm install bootstrap@3 jquery --save -->
+    <script src="lib/jquery.min.js"></script>
+    <script>
+        window.$ = window.jQuery = require('jquery');
+        // Load the full build.
+        var _ = require('lodash');
+    </script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="js/winston.js"></script>
+    <script src="js/device_control.js"></script>
+    <script src="js/rabitmq.js"></script>
+    <script src="js/system_config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/devicechecking.js"></script>
+
+</head>
+
+<body>
+    <div style="margin-top: 100px; margin-left:20px" class="table-responsive">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col" width="100px">Comport</th>
+                    <th scope="col" width="300px">Error</th>
+                    <th scope="col" width="100px">Status</th>
+                </tr>
+            </thead>
+            <tbody id="table-device">
+                <!-- <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr> -->
+            </tbody>
+        </table>
+
+    </div>
+    <div id="footer" class="footer d-none">
+        <div class="row d-flex justify-content-center">
+            <h4 style="color: white">DEVICE CHECKING ERROR</h4>
+            <h4 style="color: white">PLEASE FIX IT AND RESTART SYSTEM</h4>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <!-- <button type="button" class="btn btn-danger" onclick="RestartApp()">RESTART</button> -->
+            &nbsp;
+            &nbsp;
+            <button type="button" class="btn btn-primary" onclick="SkipChecking()">SKIP</button>
+        </div>
+    </div>
+
+    <!-- <div>
+        <div class="loading"></div>
+        <span class="text-loading">Wait for Devices start...&#8230;</span>
+    </div> -->
+</body>
+<script>
+    SubMachineStatusExchange(function (msg) {
+        console.log("Machine Status: " + msg);
+        var data = JSON.parse(msg);
+        if (data.Status == "IDLE") {
+            window.location.href = "index.html";
+        }
+        if (data.Status == "DEVICE_CHECKING_ERROR") {
+            //window.location.href = "index.html";
+            $("#footer").removeClass("d-none");
+        }
+    });
+
+
+    SubDeviceChecking(function (msg) {
+        console.log("DeviceChecking: " + msg);
+        var data = JSON.parse(msg);
+
+        var rowHtml = '';
+        data.forEach(item => {
+            var status = item.StatusString;
+            var error = item.Error;
+            var comport = item.Comport;
+            rowHtml += '<tr><td>' + item.FriendlyName + '</td> <td> ' + comport + ' </td> <td>' + error + '</td> <td>' + status + '</td></tr>';
+        });
+        // console.log("rowHtml: " + rowHtml);
+        $('#table-device').html(rowHtml);
+
+    });
+
+    setMachineStatus("DEVICE_CHECKING");
+
+</script>
+
+</html>

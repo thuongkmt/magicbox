@@ -1,0 +1,140 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Restock Report")}}</span>
+                </h3>
+            </div>
+            <div class="mr-auto col-md-6 text-right">            
+                <button [disabled]="!enableExportButton" (click)="exportToCsv()"
+                    class="btn btn-outline-success m--margin-top-5 m--margin-bottom-5">
+                    <i class="fa fa-file-excel-o"></i> {{l("Export To CSV")}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <!-- Filter -->
+                <div class="m-form m-form--label-align-right">
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <label for="MachineFilter">{{l("Machine")}}</label>
+                                <select id="MachineFilter" name="MachineFilter" class="form-control"
+                                    [(ngModel)]="machineFilter" (change)="loadTopupList();">
+                                    <option value=''>{{l('--All Machines--')}}</option>
+                                    <option *ngFor="let mc of machines" value="{{mc.id}}">{{mc.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <label for="FromDate">{{l("FromDate")}}</label>
+                                <input type="date" class="form-control" id="FromDate" name="FromDate"
+                                    [(ngModel)]="fromDate" (change)="loadTopupList();"
+                                    style="min-width: 130px; padding-right: 0px;">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <label for="ToDate">{{l("ToDate")}}</label>
+                                <input type="date" class="form-control" id="ToDate" name="ToDate" [(ngModel)]="toDate"
+                                (change)="loadTopupList();" style="min-width: 130px; padding-right: 0px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="loadTopupList($event)" [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="machine.name">
+                                        {{l('Report.topup.list.machine')}}
+                                        <p-sortIcon field="machine.name"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="startDate">
+                                        <!-- {{l('Report.topup.list.startTime')}} -->
+                                        Restock Complete
+                                        <p-sortIcon field="startDate"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="endDate">
+                                        <!-- {{l('Report.topup.list.endTime')}} -->
+                                        Restock Started
+                                        <p-sortIcon field="endDate"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="total">
+                                        {{l('Total')}}
+                                        <p-sortIcon field="total"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="sold">
+                                        {{l('Sold')}}
+                                        <p-sortIcon field="sold"></p-sortIcon>
+                                    </th>
+                                    <th>
+                                        {{l('Report.topup.list.salesAmt')}}
+                                    </th>
+                                    <th>
+                                        {{l('Report.topup.list.restocker')}}
+                                    </th>
+                                    <th>
+                                        {{l('Report.topup.list.type')}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr (click)="showDetailTopupModal(record)" style="cursor:pointer;">
+                                    <td>
+                                        {{record.machineName}}
+                                    </td>
+                                    <td>
+                                        {{record.startTime| momentFormat:'L HH:mm'}}
+                                    </td>
+                                    <td>
+                                        {{record.endTime| momentFormat:'L HH:mm'}}
+                                    </td>
+                                    <td>
+                                        {{record.total}}
+                                    </td>
+                                    <td>
+                                        {{record.sold}}
+                                    </td>
+                                    <td>
+                                        {{currencySymbol}}{{record.salesAmount.toFixed(2)}}
+                                        <!-- {{record.salesAmount | currency}} -->
+                                    </td>
+                                    <td>
+                                        {{record.restockerName}}
+                                    </td>
+                                    <td>
+                                        {{record.type == 0 ? "Restock" : "Unload"}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}" #paginator
+                                (onPageChange)="loadTopupList($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <detail-topup #detailTopupModal ></detail-topup>
+    </div>

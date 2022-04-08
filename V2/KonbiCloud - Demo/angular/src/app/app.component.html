@@ -1,0 +1,14 @@
+<div class="m-grid m-grid--hor m-grid--root m-page" [ngClass]="{'subscription-bar-visible': subscriptionStatusBarVisible()}">
+    <default-layout *ngIf="theme=='default'"></default-layout>
+    <demo8-layout *ngIf="theme=='demo8'"></demo8-layout>
+</div>
+
+<loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+<linkedAccountsModal #linkedAccountsModal (modalClose)="getRecentlyLinkedUsers()"></linkedAccountsModal>
+<changePasswordModal #changePasswordModal></changePasswordModal>
+<changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
+<mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
+<notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
+
+<commonLookupModal #userLookupModal (itemSelected)="chatBarComponent.addFriendSelected($event)"></commonLookupModal>
+<chat-bar #chatBarComponent *ngIf="!installationMode" [userLookupModal]="userLookupModal"></chat-bar>

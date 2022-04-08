@@ -1,0 +1,57 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #inventoryForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="inventory.id">{{l("EditInventory")}}</span>
+                        <span *ngIf="!inventory.id">{{l("CreateNewInventory")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="ProductName">{{l("Product")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="ProductName" name="productName" [(ngModel)]="productName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectProductModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setProductIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="inventory.productId" [(ngModel)]="inventory.productId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="Inventory_TagId">{{l("TagId")}} *</label>
+									<input type="text" id="Inventory_TagId" class="form-control" [(ngModel)]="inventory.tagId" name="TagId"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Inventory_TrayLevel">{{l("TrayLevel")}}</label>
+									<input type="number" id="Inventory_TrayLevel" class="form-control" [(ngModel)]="inventory.trayLevel" name="TrayLevel"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Inventory_Price">{{l("Price")}}</label>
+									<input type="number" id="Inventory_Price" class="form-control" [(ngModel)]="inventory.price" name="Price"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!inventoryForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<productLookupTableModal #productLookupTableModal (modalSave)="getNewProductId()"></productLookupTableModal>
+		 
+</div>

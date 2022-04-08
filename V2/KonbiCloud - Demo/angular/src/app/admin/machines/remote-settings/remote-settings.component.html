@@ -1,0 +1,90 @@
+  
+<div id="boundRemoteCommand" class="panel" style="padding:10px;">
+
+    <div >
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+            <span>{{l("Sent remote settings command")}} </span>
+        </h4>
+    </div>
+    <hr />
+    <div class="remoteCommandBound">
+        <div class="row clearfix" style="display:none">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="CommandArgs" type="text" name="CommandArgs" [(ngModel)]="command.CommandArgs" class="validate form-control">
+                        <label for="CommandArgs" class="form-label">{{l("Command Argument")}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <button (click)="sendCommand('DisconnectReconnectVmc')" class="btn btn-danger">Disconnect/Reconnect VMC</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <button (click)="sendCommand('RemoteMoveElevatorToLevel')"  class="btn btn-danger">Remote move elevator</button>
+                        <input id="moveToEvelator" type="text" name="moveToEvelator" [(ngModel)]="moveToEvelator" placeholder="" class="" style="width:35px;" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <button (click)="sendCommand('RemoteDispense')"  class="btn btn-danger">Remote Dispense</button>
+                        <input id="dispenseSlotNumber" type="text" name="dispenseSlotNumber" [(ngModel)]="dispenseSlotNumber" placeholder="" class="" style="width:35px;" /> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <button (click)="sendCommand('RemoteCheckVmcElevator')"  class="btn btn-danger">Remote check elevator location</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <button (click)="sendCommand('RestartPC')"  class="btn btn-danger">Restart Machine</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <button (click)="sendCommand('SetOverleyCustomerTemporalMessage')"  class="btn btn-danger">Set Overley Mesage For Customer</button>
+
+                        <input id="overleyCustomerMsg" type="text" name="overleyCustomerMsg" [(ngModel)]="overleyCustomerMsg" placeholder="Message content" class="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+           
+</div>

@@ -1,0 +1,67 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Details")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("StartDate")}} :</h6>
+                        {{ item.restockSession.startDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("EndDate")}} :</h6>
+                        {{ item.restockSession.endDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Total")}} :</h6>
+                        {{ item.restockSession.total }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("LeftOver")}} :</h6>
+                        {{ item.restockSession.leftOver }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Sold")}} :</h6>
+                        {{ item.restockSession.sold }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Error")}} :</h6>
+                        {{ item.restockSession.error }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("IsProcessing")}} :</h6>
+                        <div *ngIf="item.restockSession.isProcessing" class="text-left"><i class="fa fa-check-circle kt--font-success"
+                                title="True"></i></div>
+                        <div *ngIf="!item.restockSession.isProcessing" class="text-left"><i class="fa fa-times-circle" title="False"></i></div>
+                    </div>                    <div class="col-6 mb-3">
+                        <h6>{{l("RestockerName")}} :</h6>
+                        {{ item.restockSession.restockerName }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Restocked")}} :</h6>
+                        {{ item.restockSession.restocked }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Unloaded")}} :</h6>
+                        {{ item.restockSession.unloaded }}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

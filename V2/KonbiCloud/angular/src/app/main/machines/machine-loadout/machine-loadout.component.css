@@ -1,0 +1,74 @@
+
+#boundMachineConfigurationDetail .invItemBount {
+    padding: 0 6px 0 0px;
+    float: left;
+    margin-bottom: 6px;
+}
+
+#boundMachineConfigurationDetail .invItemBount .inv-content {
+    background-color: white;
+    min-height: 255px;
+    
+    overflow-x:hidden;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    padding:2px;
+}
+
+#boundMachineConfigurationDetail .invItemBount .producInvBound {
+    height: 180px;
+    
+}
+    #boundMachineConfigurationDetail .panel{
+        border:none;
+
+    }
+
+    #boundMachineConfigurationDetail .btn-inv {
+        padding: 3px;
+    }
+
+.modal-content{
+    border-radius:5px;
+}
+#editInventory .input-group
+{
+    text-align:left;
+}
+
+#editInventory .input-group {
+    text-align: left;
+}
+
+    #editInventory .input-group input, #editInventory .input-group button {
+        display: inline;
+    }
+    #editInventory .input-group input, #editInventory .input-group select {
+        height: 30px;
+        border-radius: 2px;
+        border: solid 1px #ccc;
+        width: 100%;
+        padding-left:3px;
+    }
+
+.invOperations .btn i {
+    font-size: inherit;
+    top: inherit;
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .ten-columns {
+        width: 10% !important;
+    }
+
+    .item-inventory {
+        max-height: 261px;
+    }
+}
+
+#mainScreen
+{
+    display: grid;
+}
+

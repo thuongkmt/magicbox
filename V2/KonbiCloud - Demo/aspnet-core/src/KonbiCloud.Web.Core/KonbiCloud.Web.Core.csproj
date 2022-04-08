@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>KonbiCloud.Web.Core</AssemblyName>
+    <PackageId>KonbiCloud.Web.Core</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>KonbiCloud.Web</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\KonbiCloud.Application.Shared\Machines\Dtos\SessionDto.cs" Link="RFIDTable\SignalR\Dto\SessionDto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KonbiCloud.Application\KonbiCloud.Application.csproj" />
+    <ProjectReference Include="..\KonbiCloud.EntityFrameworkCore\KonbiCloud.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="4.0.0" />
+    <PackageReference Include="Abp.AspNetZeroCore.Web" Version="1.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="2.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.6.20" />
+    <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.ZeroCore.IdentityServer4" Version="4.0.0" />
+    <PackageReference Include="Abp.AspNetCore" Version="4.0.0" />
+    <PackageReference Include="Abp.HangFire.AspNetCore" Version="4.0.0" />
+    <PackageReference Include="Abp.RedisCache" Version="4.0.0" />
+  </ItemGroup>
+</Project>

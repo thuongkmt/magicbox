@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>KonbiCloud.Application</AssemblyName>
+    <PackageId>KonbiCloud.Application</PackageId>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>KonbiCloud</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Azure\**" />
+    <Compile Remove="Machines\Dtos\**" />
+    <Compile Remove="PlateMenu\**" />
+    <Compile Remove="Plate\**" />
+    <Compile Remove="RFIDTable\**" />
+    <Compile Remove="Trays\**" />
+    <EmbeddedResource Remove="Azure\**" />
+    <EmbeddedResource Remove="Machines\Dtos\**" />
+    <EmbeddedResource Remove="PlateMenu\**" />
+    <EmbeddedResource Remove="Plate\**" />
+    <EmbeddedResource Remove="RFIDTable\**" />
+    <EmbeddedResource Remove="Trays\**" />
+    <None Remove="Azure\**" />
+    <None Remove="Machines\Dtos\**" />
+    <None Remove="PlateMenu\**" />
+    <None Remove="Plate\**" />
+    <None Remove="RFIDTable\**" />
+    <None Remove="Trays\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BackgroundJobs\PaymentResponseNsqIncomingMessageService.cs" />
+    <Compile Remove="BackgroundJobs\RfidTable\RfidTableNsqIncomingMessageService.cs" />
+    <Compile Remove="BackgroundJobs\SyncDishJob.cs" />
+    <Compile Remove="CloudSync\ICloudSyncService.cs" />
+    <Compile Remove="CloudSync\IDishSyncService.cs" />
+    <Compile Remove="CloudSync\IPlateCategorySyncService.cs" />
+    <Compile Remove="CloudSync\IPlateMenuSyncService.cs" />
+    <Compile Remove="CloudSync\IPlateSyncService.cs" />
+    <Compile Remove="CloudSync\ISessionSyncService.cs" />
+    <Compile Remove="CloudSync\ITraySyncService.cs" />
+    <Compile Remove="CloudSync\RabbitMqTransactionSyncService.cs" />
+    <Compile Remove="CloudSync\RestApiDishSyncService.cs" />
+    <Compile Remove="CloudSync\RestApiPlateCategorySyncService.cs" />
+    <Compile Remove="CloudSync\RestApiPlateMenuSyncService.cs" />
+    <Compile Remove="CloudSync\RestApiPlateSyncService.cs" />
+    <Compile Remove="CloudSync\RestApiSessionSyncService.cs" />
+    <Compile Remove="CloudSync\RestApiTransactionSyncService.cs" />
+    <Compile Remove="CloudSync\RestApiTraySyncService.cs" />
+    <Compile Remove="CloudSync\SyncItemData.cs" />
+    <Compile Remove="Common\TestsAppService.cs" />
+    <Compile Remove="Machines\SessionsAppService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.5" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="MessagePack" Version="1.7.3.4" />
+    <PackageReference Include="Microsoft.Azure.Devices" Version="1.17.1" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.18.1" />
+    <PackageReference Include="Microsoft.Azure.EventHubs" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.1.1" />
+    <PackageReference Include="NsqSharp" Version="0.5.4" />
+    <PackageReference Include="RabbitMQ.client" Version="5.1.0" />
+    <PackageReference Include="SeriLog" Version="2.8.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="ServiceStack.Redis.Core" Version="5.4.0" />
+    <PackageReference Include="Slack.Webhooks" Version="1.0.5" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.513" />
+    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Common\Konbi.Common\Konbini.Messages\Konbini.Messages.csproj" />
+    <ProjectReference Include="..\KonbiCloud.Application.Shared\KonbiCloud.Application.Shared.csproj" />
+    <ProjectReference Include="..\KonbiCloud.Core\KonbiCloud.Core.csproj" />
+    <ProjectReference Include="..\KonbiCloud.EntityFrameworkCore\KonbiCloud.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Transactions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BackgroundJobs\RfidTable\" />
+  </ItemGroup>
+</Project>

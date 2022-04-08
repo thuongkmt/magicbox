@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawInputBrain", "RawInputBrain.csproj", "{517AAE88-AE5B-4B98-863A-C6C39D1CC833}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_Bosch|Any CPU = Debug_Bosch|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Debug-Lenovo|Any CPU = Debug-Lenovo|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Release-CP|Any CPU = Release-CP|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Debug_Bosch|Any CPU.ActiveCfg = Debug_Bosch|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Debug_Bosch|Any CPU.Build.0 = Debug_Bosch|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Debug-Lenovo|Any CPU.ActiveCfg = Debug-Lenovo|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Debug-Lenovo|Any CPU.Build.0 = Debug-Lenovo|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Release-CP|Any CPU.ActiveCfg = Release-CP|Any CPU
+		{517AAE88-AE5B-4B98-863A-C6C39D1CC833}.Release-CP|Any CPU.Build.0 = Release-CP|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0AB37F36-781B-4607-ABF5-A610BAD92C4A}
+	EndGlobalSection
+EndGlobal

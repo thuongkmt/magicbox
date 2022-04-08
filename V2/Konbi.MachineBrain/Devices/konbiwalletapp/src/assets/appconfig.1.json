@@ -1,0 +1,14 @@
+// {
+//     // "webAdminBackendUrl": "http://192.168.1.112:22742",
+//     // "magicBoxBackendurl":"http://192.168.1.112:9000",
+//     // "rabbitMqStompUrl":"ws://192.168.1.112:15674/ws",
+//     // "rabbitMqUser":"guest",
+//     // "rabbitMqUserPwd":"guest"
+
+//     "webAdminBackendUrl": "http://localhost:22742",
+//     "magicBoxBackendurl":"http://localhost:9000",
+//     "rabbitMqStompUrl":"ws://localhost:15674/ws",
+//     "rabbitMqUser":"guest",
+//     "rabbitMqUserPwd":"guest"
+// }
+  

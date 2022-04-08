@@ -1,0 +1,76 @@
+<div [@routerTransition]>
+
+  <div class="m-subheader">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto">
+        <h3 class="m-subheader__title m-subheader__title--separator">
+          <span>{{l("Plate Menu Calendar")}}</span>
+        </h3>
+        <span class="m-section__sub">
+          {{l("Plate Menu Calendar")}}
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="m-content">
+    <div class="m-portlet" style="padding: 10px;">
+      <div class="m-portlet__body  m-portlet__body--no-padding">
+        <div class="row m-row--no-padding">
+          <!-- <div class="m-portlet m-portlet--full-height" style="width: 100%"> -->
+          <div class="m-portlet__head" style="width: 100%; border-bottom: 1px solid #ebedf2;">
+            <div class="m-portlet__head-caption">
+              <div class="m-widget24__item">
+                <h4 class="m-widget24__title">
+                  Sumary for next 7 days
+                </h4>
+                <span class="m-widget24__desc">
+                  Day has no menu
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="m-portlet__body" style="padding-top: 10px; text-align: center; width: 100%;">
+            <div style="display: inline-block;">
+
+              <div *ngFor="let item of lstDayNoMenuOfWeek;let i=index" style="margin: 10px; padding: 5px 0px; float: left; font-weight: bold">
+                <a  href="javascript:void(0)" (click)="getRouterLink(item)">{{item}}</a>
+              </div>
+
+            </div>
+          </div>
+          <!-- </div> -->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center m-portlet" style="padding: 20px 10px"  [busyIf]="isLoading">
+      <div style="margin: 10px 0px 30px 0px">
+        <div class="btn-group" class="pull-right">
+          <!-- <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+            Previous
+          </div> -->
+          <div class="btn btn-primary" mwlCalendarToday [(viewDate)]="viewDate" (click)="CalendarChange()">
+            Today
+          </div>
+          <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (click)="CalendarChange()">
+            Next Month
+          </div>
+        </div>
+
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      </div>
+
+      <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" (dayClicked)="dayClicked($event.day)">
+      </mwl-calendar-month-view>
+
+    </div>
+
+  </div>
+
+  <app-plate-menu-day #plateMenuDayComponent></app-plate-menu-day>
+
+</div>

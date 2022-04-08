@@ -1,0 +1,33 @@
+.btn {
+    width: 120px;
+    padding-bottom: 10px;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    background-color: gray;
+}
+
+.col-sm {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.card h3 {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.card span {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.card .topup {
+    font-weight: 800;
+}
+
+.card .content-line {
+    line-height: 26px;
+}
+

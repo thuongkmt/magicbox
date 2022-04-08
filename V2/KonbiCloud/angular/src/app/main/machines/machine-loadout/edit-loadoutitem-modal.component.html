@@ -1,0 +1,64 @@
+<div class="modal fade" bsModal #editLoadoutItemModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form  #editLoadoutForm="ngForm" id="frm_edit_loadout" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">{{l("Assign Product")}}</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editLoadoutItemModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="editInventory">
+                    <div class="row" style="margin-bottom: 50px;">
+                        <div class="col col-sm-4">
+                            <img src="{{selectedProduct.imageUrl != null && selectedProduct.imageUrl != ''? baseRemoteUrl + '/images/thumb_' +selectedProduct.imageUrl : '/assets/images/no-image.png'}}"
+                                 style="height:140px;max-width:140px;">
+                        </div>
+                        <div class="col col-sm-8">
+                            <div class="form-group">
+                                <div class="input-group ">
+                                    <select name="product" class="form-control" [(ngModel)]="productId" (ngModelChange)="onSelectProductChange()">
+                                        <option value="">--Select Product--</option>
+                                        <option *ngFor="let product of products" [ngValue]="product.id">{{product.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>SKU:&nbsp;</label>{{selectedProduct.sku}}
+                            </div>
+                            <div class="form-group">
+                                <label>Price:&nbsp;</label>{{currencySymbol}}{{selectedProduct.price}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{l("Price")}}</label>
+                        <div class="input-group ">
+                            <input name="price" type="number" [(ngModel)]="selectedItem.price" minlength="1" min="0" max="999999" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label>{{l("Quantity")}}</label>
+                        <div class="input-group ">
+                            <input name="quantity" type="number" [(ngModel)]="selectedItem.quantity" required maxlength="10" minlength="1" min="0" max="999999" class="validate form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{l("Capacity")}}</label>
+                        <div class="input-group ">
+                            <input name="capacity" type="number" [(ngModel)]="selectedItem.capacity" required maxlength="10" minlength="1" min="0" max="999999" class="validate form-control">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="padding: 0px; padding-top: 15px;">
+                        <button [disabled]="saving" type="button" class="btn btn-default" data-dismiss="modal" (click)="editLoadoutItemModal.hide()">{{l("Cancel")}}</button>
+                        <button [disabled]="!editLoadoutForm.form.valid || saving || selectedProduct.id == undefined" type="submit" class="btn btn-primary">{{l("Save")}}</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

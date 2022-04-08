@@ -1,0 +1,78 @@
+<div style="display: flex; flex-wrap: wrap;" [@routerTransition] id="machineStatus">
+    <div *ngFor="let mchStatus of machineStatus;let i = index" style="height: 570px;" class="col-lg-4 col-md-4 machinePanel">            
+        <div class="insidePanel">
+            <div class="mchHeader">
+                <div >
+                    <div  style="float:left;color:green;">
+                        <b> {{mchStatus.MachineName}}</b>
+                    </div>
+                    <div  style="float:right;padding-right:10px;">
+                        <button style="cursor: auto;font-weight: bold;" *ngIf='mchStatus.IsOnline; else elseBlock' class="btn btn-success">Online</button>
+                        <ng-template #elseBlock>
+                            <button style="font-weight: bold; cursor: auto; background-color: gray; color:white !important" class="btn">Offline</button>
+                        </ng-template>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div >
+                    <span style="color:grey">{{mchStatus.MachineId}}</span>
+                </div>
+            </div>
+
+            <hr *ngIf="mchStatus.IsOnline; else else1Block" class="machine-Online" style="height:5px;margin-right:10px;border-radius:5px;" />
+            <ng-template #else1Block>
+                <hr class="machine-Offline" style="height:5px;margin-right:10px;border-radius:5px;" />
+            </ng-template>
+
+            <table id="msTable">
+                <tbody>
+                    <tr>
+                        <td>{{l("DoorState")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            <i *ngIf="mchStatus.DoorState" class="fa fa-lock fa-lg" style="color:red;"></i>
+                            <i *ngIf="!mchStatus.DoorState" class="fa fa-lock-open fa-lg" style="color:#34bfa3;"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{l("Temperature")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            <span class='text-center' style='display:inline;'>
+                                {{mchStatus.Temperature}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{l("MachineIP")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.MachineIp}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{l("CPU")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.Cpu}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{l("Memory")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.Memory}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{l("Hdd")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.Hdd}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{l("PaymentState")}}</td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.PaymentState}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinePay", "LinePay\LinePay.csproj", "{CB243FAE-E16B-4A76-B18D-854DDF81797B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinePayCSharp", "LinePayCSharp\LinePayCSharp.csproj", "{E9245C6A-C4BE-4C8B-9E48-976E5FEA017E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB243FAE-E16B-4A76-B18D-854DDF81797B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB243FAE-E16B-4A76-B18D-854DDF81797B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB243FAE-E16B-4A76-B18D-854DDF81797B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB243FAE-E16B-4A76-B18D-854DDF81797B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9245C6A-C4BE-4C8B-9E48-976E5FEA017E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9245C6A-C4BE-4C8B-9E48-976E5FEA017E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9245C6A-C4BE-4C8B-9E48-976E5FEA017E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9245C6A-C4BE-4C8B-9E48-976E5FEA017E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBD821B6-48C8-4688-B8E3-2D040BA780EE}
+	EndGlobalSection
+EndGlobal

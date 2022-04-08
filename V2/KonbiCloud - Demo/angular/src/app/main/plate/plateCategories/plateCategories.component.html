@@ -1,0 +1,156 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("PlateCategories")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("PlateCategoriesHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+                <!-- <button (click)="exportToExcel()" class="btn btn-outline-success">
+                    <i class="fa fa-file-excel-o"></i> {{l("ExportToExcel")}}</button> -->
+                <button *ngIf="isGranted('Pages.PlateCategories.Create')" (click)="createPlateCategory()" class="btn btn-primary blue">
+                    <i class="fa fa-plus"></i> {{l("CreateNewPlateCategory")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getPlateCategories()" class="btn btn-primary" type="submit">
+                                                <i class="flaticon-search-1"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="m-separator m-separator--dashed"></div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="NameFilter">{{l("Name")}}</label>
+                                    <input type="text" class="form-control" id="NameFilter" name="nameFilter" [(ngModel)]="nameFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="DescFilter">{{l("Desc")}}</label>
+                                    <input type="text" class="form-control" id="DescFilter" name="descFilter" [(ngModel)]="descFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown">
+                                    <i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown">
+                                    <i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="getPlateCategories($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                            [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 150px" pSortableColumn="plateCategory.id">
+                                        {{l('ID')}}
+                                        <p-sortIcon field="plateCategory.id"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="plateCategory.name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="plateCategory.name"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="plateCategory.desc">
+                                        {{l('Desc')}}
+                                        <p-sortIcon field="plateCategory.desc"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.PlateCategories.Edit', 'Pages.PlateCategories.Delete')">{{l('Actions')}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('ID')}}</span>
+                                        {{record.plateCategory.id}}
+                                    </td>
+
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        {{record.plateCategory.name}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Desc')}}</span>
+                                        {{record.plateCategory.desc}}
+                                    </td>
+
+                                    <td style="width: 130px" [hidden]="!isGrantedAny('Pages.PlateCategories.Edit', 'Pages.PlateCategories.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i>
+                                                <span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <!-- <li>
+                                                    <a href="javascript:;" (click)="viewPlateCategoryModal.show(record)">{{l('View')}}</a>
+                                                </li> -->
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.PlateCategories.Edit')" (click)="createOrEditPlateCategoryModal.show(record.plateCategory.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.PlateCategories.Delete') && (record.plateCategory.plates.length == 0)"
+                                                        (click)="deletePlateCategory(record.plateCategory)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [hidden]="true" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" #paginator (onPageChange)="getPlateCategories($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count"  style="margin-top: 15px">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditPlateCategoryModal #createOrEditPlateCategoryModal (modalSave)="getPlateCategories()"></createOrEditPlateCategoryModal>
+    <!-- <viewPlateCategoryModal #viewPlateCategoryModal></viewPlateCategoryModal> -->
+
+</div>

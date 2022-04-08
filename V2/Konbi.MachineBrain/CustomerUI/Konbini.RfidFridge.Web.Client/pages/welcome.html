@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <!-- Compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <script src="../js/device_control.js"></script>
+    <script src="../js/rabitmq.js"></script>
+    <script src="../lib/jquery.min.js"></script>
+    <style>
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: black;
+            opacity: 0.5;
+            height: 100px;
+        }
+
+        .footer-content {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+
+        }
+
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            /*  Background fallback in case of IE8 & down, or in case video doens't load, such as with slower connections  */
+            background: #333;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* The only rule that matters */
+
+        #video-background {
+            /*  making the video fullscreen  */
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+        }
+
+        /* These just style the content */
+
+        article {
+            /*  just a fancy border  */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 10px solid rgba(255, 255, 255, 0.5);
+            margin: 10px;
+        }
+
+        h1 {
+            /* position: absolute;
+            top: 60%;
+            width: 100%; */
+            font-size: 70px;
+            letter-spacing: 3px;
+            color: #fff;
+            font-family: Oswald, sans-serif;
+            /* text-align: center; */
+        }
+
+        .mid-text {
+            position: absolute;
+            top: 45%;
+            width: 100%;
+            font-size: 100px;
+            letter-spacing: 1px;
+            color: yellow;
+            font-family: 'Ubuntu', sans-serif;
+            text-align: center;
+        }
+
+        h1 span {
+            font-family: sans-serif;
+            letter-spacing: 0;
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        h1 span a {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!--  Video is muted & autoplays, placed after major DOM elements for performance & has an image fallback  -->
+    <video autoplay loop id="video-background" muted plays-inline>
+        <source src="../asset/videos/welcome.mp4" type="video/mp4">
+    </video>
+    <span class="mid-text">
+        TAP CARD TO BEGIN
+    </span>
+    <div class="footer">
+
+
+    </div>
+    <div class="footer-content">
+        <h1 id="time" class="float-right align-middle" style="padding-right: 20px">
+        </h1>
+        <img class="d-inline" src='../asset/images/image.png' width="100" style="margin-bottom: 50px" />
+        <h1 class="d-inline">
+            Konbini Magic Box
+        </h1>
+
+    </div>
+</body>
+<script>
+    window.jQuery = window.$ = module.exports
+
+    $(document).ready(function () {
+        reloadTime();
+
+        setInterval(function () {
+            reloadTime();
+        }, 1000);
+
+        SubMachineStatusExchange(function (data) {
+            console.log(data);
+            if (data == "TRANSACTION_START") {
+                window.location.href = "../index.html";
+            }
+        });
+    });
+
+    function reloadTime() {
+        var time = new Date().toLocaleTimeString();
+        var time_parts = time.split(' ');
+        var ampm = time_parts[1];
+        time_parts = time_parts[0].split(':');
+
+        $("#time").text(time_parts[0] + ':' + time_parts[1] + ' ' + ampm);
+    }
+</script>
+
+</html>

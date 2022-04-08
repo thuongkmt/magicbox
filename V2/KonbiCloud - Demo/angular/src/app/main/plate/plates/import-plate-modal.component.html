@@ -1,0 +1,68 @@
+<div bsModal #importPlateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importPlateModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Import Plate")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" *ngIf="importStep == 1">
+                <div class="form-group">
+                    <div>
+                        <label for="Plate_ImageUrl">
+                            <h4>Step 1: Upload plate pictures</h4>
+                            <div *ngIf="files.length > 0" class="pull-left">Total: {{files.length}} picture(s)</div>
+                        </label>
+                        <div class="form-group" id="Plate_ImageUrl">
+                            <div>
+                                <div ngfDrop multiple="3" selectable="1" [(validDrag)]="validComboDrag" [(files)]="files" accept="image/*" [maxSize]="maxSize"
+                                    [(lastInvalids)]="lastInvalids" [(dragFiles)]="dragFiles" class="well my-drop-zone" [class.invalid-drag]="validComboDrag===false"
+                                    [class.valid-drag]="validComboDrag" (filesChange)="lastFileAt=getDate()">
+                                    <div style="font-size: 15px; text-align: center; padding-top: 15px;"> Click select/Drop images to zone</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="files.length > 0">
+                        <div *ngFor="let item of files;let i=index" style="float: left; margin-left: 5px; margin-top: 5px;">
+                            <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
+                                <div class="previewIcon" [ngfBackground]="item"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal-body" *ngIf="importStep == 2">
+                <div class="form-group">
+                    <div>
+                        <label for="Plate_ImageUrl">
+                            <h4>Step 2: Select CSV file to upload</h4>
+                        </label>
+                        <div class="form-group" id="Plate_ImageUrl">
+                            <input type="file" (change)="importCSV($event.target.files)" accept=".csv" style="display:none;" #import class="form-control">
+                            <button [hidden]="!isGrantedAny('Pages.Plates.ImportCSV')" type="button" class="btn btn-outline-success" (click)="import.click()">Choose CSV file</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                   
+                <button type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                <button *ngIf="importStep == 1" [disabled]="saving" type="button" class="btn btn-primary blue" (click)="btnNextToStep2Click()">{{l("Next to Step 2")}}</button>
+                
+            </div>
+        </div>
+    </div>
+
+</div>

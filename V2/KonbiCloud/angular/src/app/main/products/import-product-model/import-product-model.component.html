@@ -1,0 +1,38 @@
+<div bsModal #importProductModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importProductModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #productForm="ngForm" novalidate (ngSubmit)="import()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("ImportProducts")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dateOfBirth">Select CSV file.</label>
+                        <div class="input-group">
+                            <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" (change)="fileChangeListener($event)" accept=".csv"
+                            />
+                            <!--<input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                                  </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-outline-success" [disabled]="!productForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-file-excel"></i>
+                        <span>{{l("Import")}}</span>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

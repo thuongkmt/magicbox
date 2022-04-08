@@ -1,0 +1,100 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form #productForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span>Map Tag By Range</span>
+						<!-- <span *ngIf="!product.id">{{l("CreateNewProduct")}}</span> -->
+					</h4>
+					<button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-8">
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="Product">Product *</label>
+										<select class="form-control" name="productList" [(ngModel)]="productId">
+											<option *ngFor="let item of products" value="{{item.id}}">
+												{{item.name}}
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="TagPrefix">Tag Prefix *</label>
+										<input type="text" id="TagPrefix" class="form-control" (change)="buildTag()"
+											[(ngModel)]="model.prefix" name="TagPrefix" required />
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="StartTag">Start Tag *</label>
+										<input type="text" id="StartTag" class="form-control" (change)="buildTag()"
+											[(ngModel)]="model.startTag" name="StartTag" required />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="NumberOfTags">Number Of Tags *</label>
+										<input type="number" step="1" pattern="[0-9]*.?[0-9]{0,2}" id="NumberOfTags" (change)="buildTag()"
+											class="form-control" [(ngModel)]="model.numberOfTags" name="NumberOfTags"
+											required />
+										<!-- <label [hidden]="isValidProductPrice" style="color:red">The minimum value is 1</label> -->
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="EndTag">End Tag *</label>
+										<input type="text" id="EndTag" class="form-control" [(ngModel)]="model.endTag"
+											name="EndTag" required disabled />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="TagList">Tag List</label>
+								<input type="text" id="StartTag" class="form-control tag-list"
+									[(ngModel)]="model.tagListStart" name="TagListStart" disabled />
+							</div>
+							<div class="form-group">
+								<label style="font-weight: bold" for="TagListEnd">. . .</label>
+								<input type="text" id="StartTag" class="form-control tag-list"
+									[(ngModel)]="model.tagListEnd" name="TagListEnd" disabled />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button [disabled]="saving" type="button" class="btn btn-default"
+						(click)="close()">{{l("Cancel")}}</button>
+					<button type="submit" class="btn btn-primary blue" [disabled]="!productForm.form.valid"
+						[buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+						<span>{{l("Save")}}</span></button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>

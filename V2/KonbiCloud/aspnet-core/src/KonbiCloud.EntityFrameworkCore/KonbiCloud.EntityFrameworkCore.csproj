@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <RootNamespace>KonbiCloud</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20181026132333_test.cs" />
+    <Compile Remove="Migrations\20190104050155_ChangeDiscId.cs" />
+    <Compile Remove="Migrations\20190104050155_ChangeDiscId.Designer.cs" />
+    <Compile Remove="Migrations\20190422095049_Update_Products_ProductCategories_Table_Add_ProductCategoryRelations_Table.cs" />
+    <Compile Remove="Migrations\20190422095454_Update_Products_ProductCategories_Table_Add_ProductCategoryRelations_Table.cs" />
+    <Compile Remove="Migrations\20190422100036_Update_Products_ProductCategories_Table_Add_ProductCategoryRelations_Table.cs" />
+    <Compile Remove="Migrations\20190422100549_Update_Products_ProductCategories_Table_Add_ProductCategoryRelations_Table.cs" />
+    <Compile Remove="Migrations\20190422100723_Update_Products_ProductCategories_Table_Add_ProductCategoryRelations_Table.cs" />
+    <Compile Remove="Migrations\20190422101355_Update_Products_ProductCategories_Table_Add_ProductCategoryRelations_Table.cs" />
+    <Compile Remove="Migrations\20190426114100_UpdateProductTable_SetPriceIsNullable.cs" />
+    <Compile Remove="Migrations\20190610104826_AlterTable_AlertConfiguration_ChangeColumnsToNullable.cs" />
+    <Compile Remove="Migrations\20190620110602_Add_CashlessDetails_Table.cs" />
+    <Compile Remove="Migrations\20190620110602_Add_CashlessDetails_Table.Designer.cs" />
+    <Compile Remove="Migrations\20200812113750_AddRefRS_Machine.cs" />
+    <Compile Remove="Migrations\20200812113750_AddRefRS_Machine.Designer.cs" />
+
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KonbiCloud.Core\KonbiCloud.Core.csproj" />
+  </ItemGroup>
+</Project>

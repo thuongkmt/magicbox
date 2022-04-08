@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5A9E8473-E2C9-44EC-B0C0-C40AE72450D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Konbini.RfidFridge.Domain</RootNamespace>
+    <AssemblyName>Konbini.RfidFridge.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\AuditableEntity.cs" />
+    <Compile Include="Base\BaseEntity.cs" />
+    <Compile Include="Base\Entity.cs" />
+    <Compile Include="Base\IAuditableEntity.cs" />
+    <Compile Include="Base\IEntity.cs" />
+    <Compile Include="CloudDto\MachineStatusDto.cs" />
+    <Compile Include="DTO\CcWallet\TereWalletMbChargeResponse.cs" />
+    <Compile Include="DTO\DashboardDto.cs" />
+    <Compile Include="DTO\DeviceChecking\DeviceCheckingDTO.cs" />
+    <Compile Include="DTO\GrabPay\GrabPayMbChargeResponse.cs" />
+    <Compile Include="DTO\Tera\TereWalletMbChargeResponse.cs" />
+    <Compile Include="DTO\ValidateByAuthCodeDto.cs" />
+    <Compile Include="DTO\DiskDriver.cs" />
+    <Compile Include="DTO\GrabPay\Cancel\RequestCancel.cs" />
+    <Compile Include="DTO\GrabPay\Cancel\ResponseCancel.cs" />
+    <Compile Include="DTO\GrabPay\ConsumerPresentedQR\RequestPerformTransaction.cs" />
+    <Compile Include="DTO\GrabPay\ConsumerPresentedQR\ResponsePerformTransaction.cs" />
+    <Compile Include="DTO\GrabPay\ErrorResponse\InvalidRequest.cs" />
+    <Compile Include="DTO\GrabPay\ErrorResponse\LogicError.cs" />
+    <Compile Include="DTO\GrabPay\Inquiry\RequestInquiry.cs" />
+    <Compile Include="DTO\GrabPay\Inquiry\ResponseInquiry.cs" />
+    <Compile Include="DTO\GrabPay\MerchantPresentedQRCode\RequestCreateOrder.cs" />
+    <Compile Include="DTO\GrabPay\MerchantPresentedQRCode\ResponseCreateOrder.cs" />
+    <Compile Include="DTO\GrabPay\Refund\RequestRefund.cs" />
+    <Compile Include="DTO\GrabPay\Refund\ResponseRefund.cs" />
+    <Compile Include="DTO\InventoryDto.cs" />
+    <Compile Include="DTO\IucApprovedResponse.cs" />
+    <Compile Include="DTO\IucErrorCode.cs" />
+    <Compile Include="DTO\DialogMessageDTO.cs" />
+    <Compile Include="DTO\MachineStatusMessageDto.cs" />
+    <Compile Include="DTO\OrderDto.cs" />
+    <Compile Include="DTO\PcHeartBeartStatus.cs" />
+    <Compile Include="DTO\SaleResponse.cs" />
+    <Compile Include="DTO\TagIdDto.cs" />
+    <Compile Include="DTO\ProductDto.cs" />
+    <Compile Include="DTO\TemperatureDto.cs" />
+    <Compile Include="Entities\Machine.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\Inventory.cs" />
+    <Compile Include="Enums\DeviceChecking\DeviceName.cs" />
+    <Compile Include="Enums\FridgeReader.cs" />
+    <Compile Include="Enums\GrabPay\ListOfStatus.cs" />
+    <Compile Include="Enums\GrabPay\ListOfSupportedCurrency.cs" />
+    <Compile Include="Enums\GrabPay\ListOfTxType.cs" />
+    <Compile Include="Enums\TransactionAction.cs" />
+    <Compile Include="Enums\TransactionState.cs" />
+    <Compile Include="Enums\PaymentType.cs" />
+    <Compile Include="Enums\MachineStatus.cs" />
+    <Compile Include="GlobalAppData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+</Project>

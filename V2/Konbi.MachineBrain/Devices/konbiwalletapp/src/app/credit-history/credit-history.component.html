@@ -1,0 +1,11 @@
+<mat-list>
+    <h3 mat-subheader>Credit histories</h3>
+    <mat-list-item *ngFor="let history of userHistories">
+      <mat-icon mat-list-icon>done</mat-icon>
+      <span class="credit-content" mat-line>{{history.message}}</span><br/><br/>
+      
+      <h4 mat-line> <span style="font-weight:bold;color: red;">{{history.value | currency}}</span> @ {{history.createdDate | date:'dd/MM/yyyy HH:mm'}} </h4>
+    </mat-list-item>
+    
+  </mat-list>
+  

@@ -1,0 +1,77 @@
+version: "3"
+# NETWORK
+networks:
+  magicbox-network:
+    driver: bridge
+# SERVICES
+services: 
+# container MYSQL
+  my-mysql:
+    container_name: mysql
+    image: "mysql"
+    hostname: mysql
+    restart: always
+    networks: 
+      - magicbox-network
+    volumes: 
+      - ./db/data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/my.cnf
+    environment: 
+      - MYSQL_ROOT_PASSWORD=K0nbini62
+      - MYSQL_USER=konbi
+      - MYSQL_PASSWORD=K0nbini62
+      - MYSQL_DATABASE=magicboxcloud
+    ports: 
+      - "3306:3306"
+  # container NETCORE
+  my-netcore:
+    container_name: magicbox_netcore
+    image: "nnthuong/magicbox_netcore:v1.0.7" 
+    hostname: magicbox_netcore
+    restart: always
+    networks: 
+      - magicbox-network
+    volumes: 
+      - ./netcore/log/:/app/App_Data/
+      - ./netcore/images:/app/Images/
+      - ./netcore/appsettings.json:/app/appsettings.json
+      - ./netcore/appsettings.production.json:/app/appsettings.production.json
+    environment:
+      - VIRTUAL_HOST=magicbox-api.konbitech.com
+      - VIRTUAL_PORT=22743
+    ports: 
+      - "22743:22743"
+    depends_on:
+      - my-mysql
+    links:
+      - my-mysql
+  # container ANGULAR
+  my-angular: 
+    container_name: magicbox_angular
+    image: "nnthuong/magicbox_angular:v1.0.6"
+    hostname: magicbox_angular
+    networks: 
+      - magicbox-network
+    volumes: 
+      - ./angular/appconfig.production.json:/usr/share/nginx/html/assets/appconfig.production.json
+    environment:
+      - VIRTUAL_HOST=magicbox.konbitech.com
+      - VIRTUAL_PORT=4300
+    ports: 
+      - "4300:4300"
+  # nginx reverse-proxy
+  reverse-proxy:
+    container_name: nginx-server
+    image: nginx
+    links:
+      - my-netcore
+      - my-angular
+    ports:
+      - "80:80"
+    networks: 
+      - magicbox-network
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+      - ./nginx/log/access.log:/var/log/nginx/access.log
+      - ./nginx/log/error.log:/var/log/nginx/error.log
+  

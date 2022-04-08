@@ -1,0 +1,309 @@
+﻿<div [@routerTransition]>
+  
+  
+  
+                <div class="m-subheader m-grid__item">
+                  
+                    <div class="m-subheader__main">
+                        <h3 class="m-subheader__title">
+                            <span>{{l("RestockSessions")}}</span>
+                        </h3>
+                        <span class="m-subheader__separator m-subheader__separator--v"></span>
+                        <span class="m-subheader__desc">
+                            {{l("RestockSessionsHeaderInfo")}}
+                        </span>
+                    </div>
+                    <div class="m-subheader__toolbar">
+                        <div class="m-subheader__wrapper">
+            				<button (click)="exportToCsv()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> Export To CSV</button>
+                <!-- <button *ngIf="isGranted('Pages.RestockSessions.Create')" (click)="createRestockSession()" 
+            			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewRestockSession")}}</button> -->
+                        </div>
+                    </div>
+                  
+                </div>
+            
+    
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="m-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getRestockSessions()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--border-dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinStartDateFilter">{{l("StartDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinStartDateFilter" name="MinStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minStartDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxStartDateFilter" name="MaxStartDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxStartDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinEndDateFilter">{{l("EndDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinEndDateFilter" name="MinEndDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minEndDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxEndDateFilter" name="MaxEndDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxEndDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTotalFilter">{{l("MinMax")}} {{l("Total")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTotalFilter" [(ngModel)]="minTotalFilter" placeholder="{{l('MinValue')}}" name="minTotalFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTotalFilter" placeholder="{{l('MaxValue')}}" name="maxTotalFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinLeftOverFilter">{{l("MinMax")}} {{l("LeftOver")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinLeftOverFilter" [(ngModel)]="minLeftOverFilter" placeholder="{{l('MinValue')}}" name="minLeftOverFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxLeftOverFilter" placeholder="{{l('MaxValue')}}" name="maxLeftOverFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinSoldFilter">{{l("MinMax")}} {{l("Sold")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinSoldFilter" [(ngModel)]="minSoldFilter" placeholder="{{l('MinValue')}}" name="minSoldFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxSoldFilter" placeholder="{{l('MaxValue')}}" name="maxSoldFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinErrorFilter">{{l("MinMax")}} {{l("Error")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinErrorFilter" [(ngModel)]="minErrorFilter" placeholder="{{l('MinValue')}}" name="minErrorFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxErrorFilter" placeholder="{{l('MaxValue')}}" name="maxErrorFilter" />
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="IsProcessingFilterSelect">{{l("IsProcessing")}}</label>
+								<select class="form-control" name="IsProcessingFilter" id="IsProcessingFilterSelect" [(ngModel)]="isProcessingFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RestockerNameFilter">{{l("RestockerName")}}</label>
+									<input type="text" class="form-control" id="RestockerNameFilter" name="restockerNameFilter" [(ngModel)]="restockerNameFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinRestockedFilter">{{l("MinMax")}} {{l("Restocked")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinRestockedFilter" [(ngModel)]="minRestockedFilter" placeholder="{{l('MinValue')}}" name="minRestockedFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxRestockedFilter" placeholder="{{l('MaxValue')}}" name="maxRestockedFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinUnloadedFilter">{{l("MinMax")}} {{l("Unloaded")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinUnloadedFilter" [(ngModel)]="minUnloadedFilter" placeholder="{{l('MinValue')}}" name="minUnloadedFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxUnloadedFilter" placeholder="{{l('MaxValue')}}" name="maxUnloadedFilter" />
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getRestockSessions($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.RestockSessions.Edit', 'Pages.RestockSessions.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="startDate">
+                                        {{l('StartDate')}}
+                                        <p-sortIcon field="restockSession.startDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="endDate">
+                                        {{l('EndDate')}}
+                                        <p-sortIcon field="restockSession.endDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="total">
+                                        {{l('Total')}}
+                                        <p-sortIcon field="restockSession.total"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="leftOver">
+                                        {{l('LeftOver')}}
+                                        <p-sortIcon field="restockSession.leftOver"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sold">
+                                        {{l('Sold')}}
+                                        <p-sortIcon field="restockSession.sold"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="error">
+                                        {{l('Error')}}
+                                        <p-sortIcon field="restockSession.error"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="isProcessing">
+                                        {{l('IsProcessing')}}
+                                        <p-sortIcon field="restockSession.isProcessing"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restockerName">
+                                        {{l('RestockerName')}}
+                                        <p-sortIcon field="restockSession.restockerName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="restocked">
+                                        {{l('Restocked')}}
+                                        <p-sortIcon field="restockSession.restocked"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="unloaded">
+                                        {{l('Unloaded')}}
+                                        <p-sortIcon field="restockSession.unloaded"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.RestockSessions.Edit', 'Pages.RestockSessions.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;" 
+														(click)="void(0)">{{l('View')}}</a>
+                                                </li>
+                                                
+												<!-- <li> viewRestockSessionModal.show(record)
+                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.RestockSessions.Edit')" 
+														(click)="createOrEditRestockSessionModal.show(record.restockSession.id)">{{l('Edit')}}</a>												
+                                                </li>
+												<li>
+											        <a  href="javascript:;" *ngIf="permission.isGranted('Pages.RestockSessions.Delete')"
+														(click)="deleteRestockSession(record.restockSession)">{{l('Delete')}}</a>
+												</li> -->
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('StartDate')}}</span>
+                                        <span *ngIf="record.restockSession.startDate">
+											{{record.restockSession.startDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.restockSession.startDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('EndDate')}}</span>
+                                        <span *ngIf="record.restockSession.endDate">
+											{{record.restockSession.endDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.restockSession.endDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Total')}}</span>
+											{{record.restockSession.total}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('LeftOver')}}</span>
+											{{record.restockSession.leftOver}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Sold')}}</span>
+											{{record.restockSession.sold}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Error')}}</span>
+											{{record.restockSession.error}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('IsProcessing')}}</span>
+                                        <div *ngIf="record.restockSession.isProcessing" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.restockSession.isProcessing" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RestockerName')}}</span>
+											{{record.restockSession.restockerName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Restocked')}}</span>
+											{{record.restockSession.restocked}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Unloaded')}}</span>
+											{{record.restockSession.unloaded}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getRestockSessions($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <createOrEditRestockSessionModal #createOrEditRestockSessionModal (modalSave)="getRestockSessions()"></createOrEditRestockSessionModal>    
+    <viewRestockSessionModal #viewRestockSessionModal></viewRestockSessionModal>
+    
+  
+</div>

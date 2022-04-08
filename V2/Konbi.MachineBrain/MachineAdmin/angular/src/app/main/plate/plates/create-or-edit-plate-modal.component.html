@@ -1,0 +1,147 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #plateForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="plate.id">{{l("EditPlate")}}</span>
+                        <span *ngIf="!plate.id">{{l("CreateNewPlate")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group">
+                        <label for="PlateCategoryName">{{l("PlateCategory")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="PlateCategoryName" name="plateCategoryName" [(ngModel)]="plateCategoryName" type="text" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectPlateCategoryModal()" type="button">
+                                    <i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div>
+                            <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setPlateCategoryIdNull()">
+                                    <i class="fa fa-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="plate.plateCategoryId" [(ngModel)]="plate.plateCategoryId" type="text" hidden>
+
+
+                    <div class="form-group">
+                        <label for="Plate_Name">{{l("Name")}}</label>
+                        <input type="text" id="Plate_Name" class="form-control" [(ngModel)]="plate.name" name="Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Plate_Desc">{{l("Description")}}</label>
+                        <textarea id="Plate_Desc" name="Desc" [(ngModel)]="plate.desc" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group" style="display: flex;">
+
+
+                        <div class="col-md-6" style="float: left; padding-left: 0px;">
+                            <label for="Plate_ImageUrl">{{l("Plate picture (max 3 images)")}}</label>
+                            <div class="form-group" id="Plate_ImageUrl">
+                                <div>
+                                    <div ngfDrop multiple="3" selectable="1" [(validDrag)]="validComboDrag" [(files)]="files" accept="image/*" [maxSize]="maxSize"
+                                        [(lastInvalids)]="lastInvalids" [(dragFiles)]="dragFiles" class="well my-drop-zone" [class.invalid-drag]="validComboDrag===false"
+                                        [class.valid-drag]="validComboDrag" (filesChange)="lastFileAt=getDate()">
+                                        <div style="font-size: 15px; text-align: center; padding-top: 15px;"> Click select/Drop images to zone</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="files.length > 0" class="col-md-6" style="float: left; padding-left: 0px; padding-top: 5px;">
+                            <div *ngFor="let item of files;let i=index" style="float: left; margin-left: 10px">
+                                <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
+                                    <div class="previewIcon" [ngfBackground]="item"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="files.length == 0" class="col-md-6" style="float: left; padding-left: 0px; padding-top: 5px;">
+                            <div *ngFor="let item of plate.imageUrl.split('|');let i=index" style="float: left; margin-left: 10px">
+                                <img [src]="item" style="width: 100px; height: 100px;">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Plate_Code">{{l("Code")}}</label>
+                        <label *ngIf='!plate.id' for="Plate_Code" style="color: rgb(244, 81, 108); margin-left: 10px;">( *required)</label>
+                        <!-- <input type="text" id="Plate_Code" class="form-control" [(ngModel)]="plate.code" name="Code" [disabled]='plate.id' required/> -->
+                        <div class="input-group">
+                            <input type="text" id="Plate_Code" class="form-control" [(ngModel)]="plate.code" name="Code" [disabled]='plate.id' required/>
+                            <div class="input-group-append" *ngIf='!plate.id'>
+                                <button class="btn btn-primary blue" (click)="onScanPlateModelClick()" type="button">
+                                    <i class="fa fa-search"></i> {{l("Scan model")}}</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="plate.id">
+                        <label for="Plate_Avaiable">{{l("Number of Plate Inventory")}}</label>
+                        <div id="Plate_Avaiable">
+                            <span>
+                                <b style="color: rgb(244, 81, 108); font-size: 17px;">{{plate.avaiable}}</b>
+                            </span>
+                            <a href="app/main/plate/dishes/{{plate.id}}" class="pull-right" style="font-weight: bold;font-size: 17px;">
+                                {{l("Plate Inventory Manager")}}</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Plate_Color">{{l("Color")}}</label>
+                        <input type="text" id="Plate_Color" class="form-control" [(ngModel)]="plate.color" name="Color" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!plateForm.form.valid" [buttonBusy]="saving" [disabled]="saving"
+                        [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <plateCategoryLookupTableModal #plateCategoryLookupTableModal (modalSave)="getNewPlateCategoryId()"></plateCategoryLookupTableModal>
+
+    <div bsModal #scanPlateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="scanPlateModal" aria-hidden="true"
+        [config]="{backdrop: 'static'}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("Scan Plate Code")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="onCloseScanPlateModel()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="m-portlet m-portlet--mobile">
+                    <div class="m-portlet__body" style="text-align: center">
+                        <div style="font-weight: bold; font-size: 16px; color: red">Plate Code: {{tmpPlateCode}}</div>
+                        <div style="font-weight: bold; margin-top: 10px;">( Please put your plate into the RFID table to detect code )</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="text-align: center">
+                    <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="onUseScanPlateModel()">{{l("Use code")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

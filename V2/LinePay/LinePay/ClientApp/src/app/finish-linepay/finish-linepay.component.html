@@ -1,0 +1,15 @@
+<div id="m-line-pay-info-success">
+  <div class="card" style="width: 38rem;">
+    <img class="card-img-top" style="width: 37rem; height: 180px;" src="http://konbinisg.com/image/konbini/logo.png" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Payment Successful</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <ul class="list-group list-group-flush">
+        <li *ngFor="let product of arrayProduct; let i = index" class="list-group-item">{{i+1}}. {{product}}</li>
+      </ul>
+      <div class="text-right">
+        <a style="margin-top: 20px;" href="#" class="btn btn-primary pull-right">Total: ฿{{linePay.amount}}</a>
+      </div>
+    </div>
+  </div>
+</div>

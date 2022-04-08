@@ -1,0 +1,57 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #creditHistoryForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="creditHistory.id">{{l("EditCreditHistory")}}</span>
+                        <span *ngIf="!creditHistory.id">{{l("CreateNewCreditHistory")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="UserCreditUserId">{{l("UserCredit")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="UserCreditUserId" name="userCreditUserId" [(ngModel)]="userCreditUserId" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectUserCreditModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setUserCreditIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="creditHistory.userCreditId" [(ngModel)]="creditHistory.userCreditId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="CreditHistory_Value">{{l("Value")}}</label>
+									<input type="number" id="CreditHistory_Value" class="form-control" [(ngModel)]="creditHistory.value" name="Value"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="CreditHistory_Message">{{l("Message")}} *</label>
+									<input type="text" id="CreditHistory_Message" class="form-control" [(ngModel)]="creditHistory.message" name="Message"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="CreditHistory_Hash">{{l("Hash")}}</label>
+									<input type="text" id="CreditHistory_Hash" class="form-control" [(ngModel)]="creditHistory.hash" name="Hash"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!creditHistoryForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<userCreditLookupTableModal #userCreditLookupTableModal (modalSave)="getNewUserCreditId()"></userCreditLookupTableModal>
+		 
+</div>

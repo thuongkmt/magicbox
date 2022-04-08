@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Magic Box</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/css/main.css">
+    <link rel="stylesheet" href="asset/css/for7Inch.css">
+    <link rel="stylesheet" href="asset/css/calc.css">
+    <link rel="stylesheet" href="asset/css/loading.css">
+
+    <!-- npm install bootstrap@3 jquery --save -->
+    <script src="lib/jquery.min.js"></script>
+    <script>
+        window.$ = window.jQuery = require('jquery');
+        // Load the full build.
+        var _ = require('lodash');
+    </script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="js/winston.js"></script>
+    <script src="js/device_control.js"></script>
+    <script src="js/rabitmq.js"></script>
+    <script src="js/system_config.js"></script>
+    <script src="js/common.js"></script>
+</head>
+
+<body>
+    <div>
+        <div class="loading"></div>
+        <span class="text-loading">System is starting, please wait...&#8230;</span>
+    </div>
+</body>
+<script>
+
+    var isHwApiOk = false;
+    var isRabbitMQOk = false;
+    var currentTimerApi = setInterval(function () {
+        var result = CheckLocalHwApi();
+        console.log("HwApi:" + result);
+        if (result) {
+            isHwApiOk = true;
+            clearInterval(currentTimerApi);
+        }
+    }, 2000);
+
+
+    var currentTimer = setInterval(function () {
+        var result = CheckRabbitMqConnection();
+        console.log("RabbitMQ:" + result);
+        if (result) {
+            clearInterval(currentTimer);
+            SubMachineStatusExchange(function (msg) {
+                console.log("Machine Status: " + msg);
+                var data = JSON.parse(msg);
+                if (data.Status == "DEVICE_CHECKING") {
+                    console.log("sida");
+                    window.location.href = "device_checking.html";
+                }
+            });
+            isRabbitMQOk = true;
+
+           // setMachineStatus("STARTING_UP");
+        }
+    }, 2000);
+
+    var currentTimerFinish = setInterval(function () {
+        if (isRabbitMQOk == true && isHwApiOk == true) { 
+            clearInterval(currentTimerFinish);
+            console.log("FINISH CHECKING");
+            
+            setMachineStatus("UI_STARTED");
+        }
+    }, 1000);
+
+
+
+</script>
+
+</html>

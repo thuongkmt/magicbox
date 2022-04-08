@@ -1,0 +1,95 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form *ngIf="active" #restockSessionForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span *ngIf="restockSession.id">{{l("EditRestockSession")}}</span>
+						<span *ngIf="!restockSession.id">{{l("CreateNewRestockSession")}}</span>
+					</h4>
+					<button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="RestockSession_StartDate">{{l("StartDate")}}</label>
+						<input required class="form-control m-input" type="datetime" bsDatepicker
+							[(ngModel)]="restockSession.startDate._d" id="RestockSession_StartDate"
+							name="RestockSession_StartDate">
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_EndDate">{{l("EndDate")}}</label>
+						<input required class="form-control m-input" type="datetime" bsDatepicker
+							[(ngModel)]="restockSession.endDate._d" id="RestockSession_EndDate"
+							name="RestockSession_EndDate">
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_Total">{{l("Total")}}</label>
+						<input type="number" id="RestockSession_Total" class="form-control"
+							[(ngModel)]="restockSession.total" name="Total" />
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_LeftOver">{{l("LeftOver")}}</label>
+						<input type="number" id="RestockSession_LeftOver" class="form-control"
+							[(ngModel)]="restockSession.leftOver" name="LeftOver" />
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_Sold">{{l("Sold")}}</label>
+						<input type="number" id="RestockSession_Sold" class="form-control"
+							[(ngModel)]="restockSession.sold" name="Sold" />
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_Error">{{l("Error")}}</label>
+						<input type="number" id="RestockSession_Error" class="form-control"
+							[(ngModel)]="restockSession.error" name="Error" />
+					</div>
+
+					<br />
+					<div class="m-checkbox-list">
+						<label for="RestockSession_IsProcessing" class="kt-checkbox">
+							<input id="RestockSession_IsProcessing" type="checkbox" name="IsProcessing"
+								[(ngModel)]="restockSession.isProcessing">
+							{{l("IsProcessing")}}
+							<span></span>
+						</label>
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_RestockerName">{{l("RestockerName")}}</label>
+						<input type="text" id="RestockSession_RestockerName" class="form-control"
+							[(ngModel)]="restockSession.restockerName" name="RestockerName" />
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_Restocked">{{l("Restocked")}}</label>
+						<input type="number" id="RestockSession_Restocked" class="form-control"
+							[(ngModel)]="restockSession.restocked" name="Restocked" />
+					</div>
+
+					<div class="form-group">
+						<label for="RestockSession_Unloaded">{{l("Unloaded")}}</label>
+						<input type="number" id="RestockSession_Unloaded" class="form-control"
+							[(ngModel)]="restockSession.unloaded" name="Unloaded" />
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<button [disabled]="saving" type="button" class="btn btn-default"
+						(click)="close()">{{l("Cancel")}}</button>
+					<button type="submit" class="btn btn-primary blue" [disabled]="!restockSessionForm.form.valid"
+						[buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+						<span>{{l("Save")}}</span></button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>

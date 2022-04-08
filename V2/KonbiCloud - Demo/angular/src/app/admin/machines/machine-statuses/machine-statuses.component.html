@@ -1,0 +1,105 @@
+<div style="display: flex; flex-wrap: wrap;" [@routerTransition]>
+    <div *ngFor="let mchStatus of machineStatus;let i = index" style="
+    height: 437px;" class="col-lg-4 col-md-4 machinePanel">            
+        <div class="insidePanel">
+            <div class="mchHeader">
+                <div>
+                    <div style="float:left;">
+                        <b> {{mchStatus.Name}}</b>
+                    </div>
+                    <div style="float:right;padding-right:10px;">
+                        <button style="cursor: auto" *ngIf='!mchStatus.IsOffline; else elseBlock' class="btn btn-success">Online</button>
+                        <ng-template #elseBlock><button style="cursor: auto; background-color: gray !important" class="btn">Offline</button></ng-template>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div>
+                    <span style="color:grey">{{mchStatus.MachineId}}</span>
+                </div>
+            </div>
+
+            <hr *ngIf="!mchStatus.IsOffline; else else1Block" class="machine-Online" style="height:5px;margin-right:10px;border-radius:5px;" />
+            <ng-template #else1Block>
+                <hr class="machine-Offline" style="height:5px;margin-right:10px;border-radius:5px;" />
+            </ng-template>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{l("Vmc Type")}}
+                        </td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.VmcType}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{l("Machine Type")}}
+                        </td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.MachineType}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{l("Dispense Error Count")}}
+                        </td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.DispenseErrorCount}}
+                        </td>
+                    </tr>
+                    <tr *ngIf='mchStatus.VmcType=="Ambient"'>
+                        <td>
+                            {{l("Temperature")}}
+                        </td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            <span class='text-center ' style='height:20px;width:20px;display:inline'>
+                                {{mchStatus.Temperature != 1000 ? mchStatus.Temperature :"" }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{l("Devices:")}}
+                        </td>
+                    </tr>
+                    <tr style="height: 123px;">
+                        <div class="col-lg-12 col-md-12 machinePanel">
+                            <div class="col-lg-4 col-md-4" style="float: left;">Name</div>
+                            <div class="col-lg-4 col-md-4 text-center" style="float: left;">Status</div>
+                            <div class="col-lg-4 col-md-4 text-right" style="float: left;">State</div>
+                        </div>
+
+                        <div *ngFor="let device of mchStatus.DeviceStatus" class="col-lg-12 col-md-12 machinePanel">
+                            <div class="col-lg-4 col-md-4">{{device.Name}}</div>
+                            <div class="col-lg-4 col-md-4 text-center">
+                                <div *ngIf="device.IsConnected; else elseBlock">
+                                    <i class="material-icons " style="color: mediumseagreen; font-size: medium;">thumb_up</i>
+                                </div>
+                                <ng-template #elseBlock><i class="material-icons" style="color: red;font-size: medium;">build</i></ng-template>
+                            </div>
+                            <div class="col-lg-4 col-md-4 text-right">{{device.State}}</div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <tr style="border-bottom: none !important;">
+                        <td>
+                            {{l("Last Update")}}
+                        </td>
+                        <td style="text-align: right;padding-right: 20px;">
+                            {{mchStatus.LastModified| date:'dd/MM/yyyy HH:mm:ss'}}
+                        </td>
+                    </tr>                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

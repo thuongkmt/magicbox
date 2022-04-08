@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AD25D5CE-6749-4C54-AD1D-C9BBEA05DCE4}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>Konbini.License</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Management" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Encrypt\Encryptor.cs" />
+    <Compile Include="Encrypt\ObjectEncryptor.cs" />
+    <Compile Include="License\Base32Converter.cs" />
+    <Compile Include="License\ComputerInfo.cs" />
+    <Compile Include="License\Edition.cs" />
+    <Compile Include="License\KeyManager.cs" />
+    <Compile Include="License\KeyValuesClass.cs" />
+    <Compile Include="License\LicenseInfo.cs" />
+    <Compile Include="License\LicenseType.cs" />
+    <Compile Include="License\ObjectPacketLicense.cs" />
+    <Compile Include="Algorithm\AlgorithmDES.cs" />
+    <Compile Include="Algorithm\AlgorithmKeyType.cs" />
+    <Compile Include="Algorithm\AlgorithmRijndael.cs" />
+    <Compile Include="Algorithm\AlgorithmTripleDES.cs" />
+    <Compile Include="Algorithm\AlgorithmType.cs" />
+    <Compile Include="Algorithm\TransformType.cs" />
+  </ItemGroup>
+  <ItemGroup />
+</Project>

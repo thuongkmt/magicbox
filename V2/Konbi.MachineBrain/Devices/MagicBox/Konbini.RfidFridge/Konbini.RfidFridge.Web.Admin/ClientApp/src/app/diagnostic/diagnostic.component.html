@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .btn {
+      margin-bottom: 10px;
+
+    }
+    .col-sm {
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+    }
+  </style>
+</head>
+<body lang="en">
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm"> 
+      <div class="alert alert-info" role="alert">
+        <h4>Fridge</h4>   
+      </div>
+      <button type="button" class="btn btn-success" (click)="OpenLock()">Open Lock</button>
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="RefreshProduct()">Reload Inventory</button>
+      &nbsp;
+      <button type="button" class="btn btn-danger" (click)="ClearInventory()">Clear Inventory</button>
+    </div>
+   
+    <div class="col-sm"> 
+      <div class="alert alert-info" role="alert">
+        <h4>Terminal</h4>
+      </div>
+      <button type="button" class="btn btn-warning" (click)="EnableTerminal()">Enable</button>
+      &nbsp;
+      <button type="button" class="btn btn-warning" (click)="DisableTerminal()">Disable</button>
+    </div>
+  </div>
+
+  <table class='table table-striped'>
+    <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Tag Id</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of inventories">
+      <td>{{ item.Product.ProductName }}</td>
+      <td>{{ item.TagId }}</td>
+      <td>{{ item.Product.Price }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+

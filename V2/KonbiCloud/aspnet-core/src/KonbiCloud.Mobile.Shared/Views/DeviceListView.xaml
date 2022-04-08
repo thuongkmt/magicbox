@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="DevicesPage"
+             xmlns:base="clr-namespace:KonbiCloud.ViewModels.Base;assembly=KonbiCloud.Mobile.Shared"
+             xmlns:controls="clr-namespace:KonbiCloud.Controls;assembly=KonbiCloud.Mobile.Shared"
+             xmlns:behaviors="clr-namespace:KonbiCloud.Behaviors;assembly=KonbiCloud.Mobile.Shared"
+             x:Class="KonbiCloud.Views.DeviceListView"
+             base:ViewManager.AutoWireViewModel="true"
+             Title="Discover devices">
+    <ContentPage.ToolbarItems>
+
+        <controls:HideableToolbarItem 
+            Order="Primary" 
+            Text="Add Tags"  
+            Command="{Binding AddTagsCommand}" 
+            IsVisible="{Binding EnableBtn}"
+            ParentPage="{x:Reference DevicesPage}" />
+
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="DeviceItemTemplate">
+            <ViewCell>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Triggers>
+                        <DataTrigger TargetType="Grid"
+                                 Binding="{Binding IsConnected}"
+                                 Value="true">
+                            <Setter Property="BackgroundColor" Value="#1A00FF00"></Setter>
+                        </DataTrigger>
+                    </Grid.Triggers>
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="10,0">
+                        <Label Text="{Binding Name}" FontSize="Large" />
+                        <Label Text="{Binding Id, StringFormat='{0}'}" TextColor="Gray" FontSize="Small"/>
+                    </StackLayout>
+                    <!--<Label Grid.Column="1"
+                         Margin="10"
+                         Text="{Binding IsConnected}"
+                         VerticalTextAlignment="Center"></Label>-->
+                </Grid>
+            </ViewCell>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0" Orientation="Horizontal">
+            <Button Text="Scan" Command="{Binding RefreshCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding IsScanning}"/>
+            <Button Text="Disconnect" Command="{Binding DisconnectCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EnableBtn}"/>
+        </StackLayout>
+        <ListView HasUnevenRows="True"
+                  Grid.Row="1"
+                  RowHeight="50"
+                  ItemsSource="{Binding Devices}"
+                  SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
+                  ItemTemplate="{StaticResource DeviceItemTemplate}">
+            <!--<ListView.ItemTemplate>                
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Id}"/>
+                    
+                </DataTemplate>
+            </ListView.ItemTemplate>-->
+        </ListView>
+
+    </Grid>
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:ActionCollection>
+                <behaviors:InvokeCommandAction Command="{Binding PageAppearingCommand}" />
+            </behaviors:ActionCollection>
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
+</ContentPage>

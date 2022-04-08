@@ -1,0 +1,18 @@
+{
+  "remoteServiceBaseUrl": "http://139.162.47.219:22743",
+  "appBaseUrl": "http://139.162.47.219:4300",
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+	{
+		"from": "he-IL",
+		"to": "he"
+	}
+  ]
+}

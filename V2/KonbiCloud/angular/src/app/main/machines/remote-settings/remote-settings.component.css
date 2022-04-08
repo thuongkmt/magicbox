@@ -1,0 +1,10 @@
+#boundRemoteCommand .form-line {
+    border-bottom:none;
+}
+
+#boundRemoteCommand input{
+    border:1px solid grey;
+    border-radius:2px;
+    vertical-align:middle;
+    margin-left:5px;
+}

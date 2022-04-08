@@ -1,0 +1,66 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title">
+                    <span>Inventory Overview</span>
+                </h3>
+            </div>
+            <div class="col-md-6 text-right">
+                <button (click)="exportToCsv()" class="btn btn-outline-success">
+                    <i class="fa fa-file-excel-o"></i> {{l("Export To CSV")}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class="row">
+                    <div class="header-bar">
+                        <span><i class="fa fa-stop-circle left-over"></i> Current Stock</span>
+                        <span><i class="fa fa-stop-circle sold"></i> Sold</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <ng-template ngFor let-item [ngForOf]="inventories" let-i="index"
+                        [busyIf]="primengTableHelper.isLoading">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+
+                                    <h3 class="machine-title" (click)="goToDetail(item)">{{item.machineName}}</h3>
+
+                                </div>
+                                <div *ngIf="item.topupDate" class="topup-text">
+                                    <span class="topup">Topup: </span>
+                                    <span>{{item.topupDate| momentFormat:'L HH:mm'}} </span>
+                                </div>
+                                <div *ngIf="!item.topupDate" class="topup-text">
+                                    <span class="topup">Topup: </span>
+                                    <span>N/A </span>
+                                </div>
+                                <div class="desc">
+                                    <div class="left-over">{{item.currentStock}}</div>
+                                    <div class="sold">{{item.sold}}</div>
+                                </div>
+                                <div class="last-updated mt-3">
+                                    <span>updated </span>
+                                    <span *ngIf="!item.lastUpdated">: Never</span>
+                                    <span *ngIf="item.lastUpdated">{{item.lastUpdated.fromNow()}}</span>
+                                    <!-- <span><i *ngIf="canRefresh(item.lastUpdated)"
+                                            (click)="requestUpdateStock($event,item.machineId)"
+                                            class="fa fa-retweet request-stock-update"></i></span> -->
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

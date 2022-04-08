@@ -1,0 +1,45 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title">
+                    <span>Inventory Overview</span>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class="row">
+                    <div class="header-bar">
+                        <span><i class="fa fa-stop-circle left-over"></i> Left Over</span>
+                        <span><i class="fa fa-stop-circle sold"></i> Sold</span>
+                        <span><i class="fa fa-stop-circle error"></i> Error</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <ng-template ngFor let-item [ngForOf]="inventories" let-i="index"
+                        [busyIf]="primengTableHelper.isLoading">
+                        <a class="card" href="javascript:void(0)" (click)="goToDetail(item)">
+                            <div class="card-body">
+                                <div>
+                                    <h3>{{item.machineName}}</h3>
+                                </div>
+                                <div>
+                                    <span class="topup">Topup: </span>
+                                    <span>{{item.topupDate| date:'dd/MM/yyyy HH: mm'}} </span>
+                                </div>
+                                <div class="desc">
+                                    <div class="left-over">{{item.leftOver}}</div>
+                                    <div class="sold">{{item.sold}}</div>
+                                    <div class="error">{{item.error}}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

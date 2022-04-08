@@ -1,0 +1,38 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <form *ngIf="active" #blackListCardForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+              <div class="modal-header">
+                  <h4 class="modal-title">
+                      <span *ngIf="blackListCard.id">{{l("Edit")}}</span>
+                      <span *ngIf="!blackListCard.id">{{l("Create")}}</span>
+                  </h4>
+                  <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="BlackListCard_CardLabel">{{l("CardLabel")}}</label>
+                      <input type="text" id="BlackListCard_CardLabel" class="form-control" [(ngModel)]="blackListCard.cardLabel" name="CardLabel"/>
+                  </div>
+      
+                  <div class="form-group">
+                      <label for="BlackListCard_CardNumber">{{l("CardNumber")}}</label>
+                      <input type="text" id="BlackListCard_CardNumber" class="form-control" [(ngModel)]="blackListCard.cardNumber" name="CardNumber"    />
+                  </div>
+
+                  <div class="form-group">
+                          <label for="BlackListCard_UnpaidAmountl">{{l("UnpaidAmount")}}</label>
+                          <input type="text" id="BlackListCard_UnpaidAmount" class="form-control" [(ngModel)]="blackListCard.unpaidAmount" name="UnpaidAmount"    />
+                      </div>
+              </div>
+              <div class="modal-footer">
+                  <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                  <button type="submit" class="btn btn-primary blue" [disabled]="!blackListCardForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+              </div>
+          </form>
+      </div>
+  </div>
+
+</div>

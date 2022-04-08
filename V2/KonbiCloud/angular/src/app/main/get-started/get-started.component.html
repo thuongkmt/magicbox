@@ -1,0 +1,67 @@
+<div [@routerTransition]>
+
+  <div class="m-subheader">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto col-md-6">
+        <h3 class="m-subheader__title m-subheader__title--separator">
+          <span>{{l("Getting Started")}}</span>
+        </h3>
+        <span class="m-section__sub">
+          {{l("Getting Started Step by Step")}}
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="m-content" [busyIf]="isLoading">
+    <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__body">
+
+
+        <div class="main-container page__container">
+          <div class="timeline">
+
+            <div class="timeline__group" *ngFor="let item of lstGetStartedStep">
+              <div class="timeline__box">
+
+                <div *ngIf="item.stepDoneFlg > 0" class="timeline__date" style="">
+                  <i style="font-size: 22px;" class="fa fa-check"></i>
+                </div>
+
+                <div *ngIf="item.stepDoneFlg == 0" class="timeline__date" style="background-color: #aaa">
+                  <i style="font-size: 22px;" class="fa fa-arrow-right"></i>
+                </div>
+
+                <div class="timeline__post" style="display: inline-block; width: 100%;">
+                  <div class="timeline__content" style="float: left;">
+                    <div style="font-weight: bold" [innerHTML]="item.stepTitle"></div>
+                    <p *ngIf="item.stepSubTitle">{{item.stepSubTitle}}</p>
+                  </div>
+                  <!-- *ngIf="item.stepDoneFlg == 0" -->
+                  <div class="timeline__action" style="float: right; margin-left: 15px;">
+                    <button (click)="btnCreateStepClick(item)" style="background-color: #4557bb;" class="btn btn-primary">{{l("Create")}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div *ngIf="isShowCompleted" class="timeline__post" style="display: inline-block;  width: 100%; margin-top: 20px; font-size: 19px; color: #4557bb">
+            <div class="timeline__content" style="float: left;">
+              <div style="font-weight: bold">You have now completed production!</div>
+            </div>
+            <div class="timeline__action" style="float: right; margin-left: 15px;">
+              <button (click)="goToDashboardClick()" style="background-color: #4557bb;" class="btn btn-primary">{{l("Go To Dashboard")}}</button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

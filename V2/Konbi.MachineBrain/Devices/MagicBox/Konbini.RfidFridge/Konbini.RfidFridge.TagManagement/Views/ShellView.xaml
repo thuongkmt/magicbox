@@ -1,0 +1,72 @@
+﻿<Window x:Class="Konbini.RfidFridge.TagManagement.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Loaded="ShellView_OnLoaded"
+        KeyDown="Window_KeyDown"
+        ResizeMode="NoResize"
+        Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="Tag Management" Height="600" Width="950" >
+  
+    <materialDesign:DialogHost Identifier="RootDialog"
+                               SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="300">
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                 
+                                  DockPanel.Dock="Top"
+                                  HorizontalAlignment="Right" Margin="16"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Left">
+                        <ListBox x:Name="MenuItemsList" Margin="20 0 0 0"
+                                 ItemsSource="{Binding DisplayedMenuItemCollection}" SelectedItem="{Binding Path=SelectedMenuItem, Mode=TwoWay}"  SelectedIndex="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=DisplayName}" Visibility="{Binding Path=Visibility}"  FontSize="20" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel>
+                <materialDesign:ColorZone
+                    Padding="3"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    Mode="PrimaryMid"
+                    DockPanel.Dock="Top"
+                    >
+                    <StackPanel>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                          IsChecked="{Binding ToggleMenu}"
+                                          HorizontalAlignment="Left"
+                                          x:Name="MenuToggleButton" Visibility="{Binding TopBarVisibility}"/>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       FontSize="22">
+                                Tag Management
+                            </TextBlock>
+                            <!--<Button x:Name="ShutDown"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                    Content="{materialDesign:PackIcon WindowClose,Size=24}" />-->
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:ColorZone>
+                <ContentControl x:Name="ActiveItem" />
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+</Window>

@@ -1,0 +1,104 @@
+﻿<div [@routerTransition]>
+  
+  
+  
+                <div class="m-subheader m-grid__item">
+                  
+                    <div class="m-subheader__main">
+                        <h3 class="m-subheader__title">
+            				<span *ngIf="active && restockSession.id">{{"EditRestockSession" }}</span>
+            				<span *ngIf="active && !restockSession.id">{{l("CreateRestockSession")}}</span>
+            			</h3>
+            			<span class="m-subheader__separator m-subheader__separator--v"></span>
+            			<div class="m-subheader__breadcrumbs">
+            				<a [routerLink]="['/app/main/restock/restockSessions']"
+            					class="m-subheader__breadcrumbs-home"><i
+            						class="flaticon2-shelter"></i>{{l("RestockSession")}}</a>
+            				<span class="m-subheader__breadcrumbs-separator"></span>
+            				<a 
+            					class="m-subheader__breadcrumbs-link m-subheader__breadcrumbs-link--active">
+            					<span *ngIf="active && restockSession.id">{{l("Edit")}}</span>
+            					<span *ngIf="active && !restockSession.id">{{l("Create")}}</span>
+            				</a>
+            			</div>
+                    </div>
+                  
+                </div>
+            
+    
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">              
+                
+                
+								<div class="form-group">
+									<label for="RestockSession_StartDate">{{l("StartDate")}}</label>
+									 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="restockSession.startDate" id="RestockSession_StartDate" name="RestockSession_StartDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_EndDate">{{l("EndDate")}}</label>
+									 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="restockSession.endDate" id="RestockSession_EndDate" name="RestockSession_EndDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_Total">{{l("Total")}}</label>
+									<input type="number" id="RestockSession_Total" class="form-control" [(ngModel)]="restockSession.total" name="Total"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_LeftOver">{{l("LeftOver")}}</label>
+									<input type="number" id="RestockSession_LeftOver" class="form-control" [(ngModel)]="restockSession.leftOver" name="LeftOver"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_Sold">{{l("Sold")}}</label>
+									<input type="number" id="RestockSession_Sold" class="form-control" [(ngModel)]="restockSession.sold" name="Sold"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_Error">{{l("Error")}}</label>
+									<input type="number" id="RestockSession_Error" class="form-control" [(ngModel)]="restockSession.error" name="Error"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="RestockSession_IsProcessing" class="m-checkbox">
+										<input id="RestockSession_IsProcessing" type="checkbox" name="IsProcessing" [(ngModel)]="restockSession.isProcessing"> 
+										{{l("IsProcessing")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_RestockerName">{{l("RestockerName")}}</label>
+									<input type="text" id="RestockSession_RestockerName" class="form-control" [(ngModel)]="restockSession.restockerName" name="RestockerName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_Restocked">{{l("Restocked")}}</label>
+									<input type="number" id="RestockSession_Restocked" class="form-control" [(ngModel)]="restockSession.restocked" name="Restocked"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="RestockSession_Unloaded">{{l("Unloaded")}}</label>
+									<input type="number" id="RestockSession_Unloaded" class="form-control" [(ngModel)]="restockSession.unloaded" name="Unloaded"  />
+								</div>
+					
+            </div>
+              <div class="m-portlet__foot">
+				<div class="col-lg-12">
+					<button (click)="save()" class="btn btn-primary blue float-right"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> 
+                        <span>{{l("Save")}}</span>
+                    </button>
+                    <button *ngIf="!this.restockSession.id" (click)="saveAndNew()" class="btn btn-primary blue float-right"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> 
+                        <span>{{l("SaveAndNew")}}</span>
+                    </button>
+				</div>
+		    </div>
+        </div>
+    </div>
+  
+  
+</div>

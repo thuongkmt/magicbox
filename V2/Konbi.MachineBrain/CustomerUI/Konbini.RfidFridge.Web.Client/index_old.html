@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Magic Box</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/css/main.css">
+    <!-- <script src="./lib/jquery.min.js"></script> -->
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        window.$ = window.jQuery = require('jquery');
+    </script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="js/device_control.js"></script>
+    <script src="js/rabitmq.js"></script>
+    <script src="js/system_config.js"></script>
+
+    <style>
+        /* .modal {
+            position: relative;
+        }
+        
+        .modal-dialog {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+         */
+        
+        .dialog-message {
+            font-size: 50pt;
+        }
+        
+        .modal-content {
+            margin: 0 auto;
+        }
+        
+        .modal-header {
+            background-color: coral;
+        }
+        
+        .modal-title {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="alert alert-info" role="alert">
+                    <span class="header">YOUR ORDER</span>
+                </div>
+                <div style="max-height: 750px;overflow-y: auto">
+                    <table class="table table_font" style="margin:20">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col" width="20">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_content_order">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div>
+                    <img id="advsImg" />
+                </div>
+            </div>
+        </div>
+
+        <div id="modalMsg" class="modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span class="dialog-message"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="alert alert-warning" role="alert">
+                        <span class="total">TOTAL</span>
+                        <span class="price" id="total">$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="alert alert-success" role="alert">
+                        <span id="instruction-message" class="instruction-message">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="alert alert-info" role="alert">
+                        <span id="bottomText">&nbsp;</span>
+                        <span id="temperature" class="temperature">--°C</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br>
+    </footer>
+</body>
+<script>
+    var oldTimeout;
+
+    function showDialog(msg, timeout) {
+        $("#modalMsg").modal("hide");
+        clearTimeout(oldTimeout);
+
+        if (msg != "") {
+            $("span.dialog-message").html(msg);
+            $('#modalMsg').modal({
+                keyboard: false,
+                backdrop: true
+            });
+
+            if (timeout !== 0) {
+                oldTimeout = setTimeout(function() {
+                    $("#modalMsg").modal("hide");
+                }, timeout * 1000);
+            }
+        }
+    }
+
+    $(document).ready(function() {
+        console.log("READY");
+        $("#modalMsg").modal("hide");
+
+        GetConfig('RfidFridgeSetting.CustomerUI.Messages.TapCard', function(data) {
+            $("#instruction-message").html(data);
+        });
+
+        GetConfig('RfidFridgeSetting.Machine.BottomText', function(data) {
+            $("#bottomText").html(data);
+        });
+
+        GetConfig('RfidFridgeSetting.Machine.AdvsImage', function(data) {
+            $("#advsImg").attr("src", data)
+        });
+
+        // SUB STORM MESSAGE
+        var amount = 0;
+        SubMsg(function(msg) {
+            var data = JSON.parse(msg);
+            var contentHtml = "";
+            data.Inventories.forEach(element => {
+                contentHtml += "<tr><td>" + element.Product.ProductName + "</td><td>$" + element
+                    .Price +
+                    "</td></tr>"
+            });
+            amount = data.Amount;
+            $("#table_content_order").html(contentHtml);
+            $("#total").text("Total: " + data.Amount);
+        }, function(msg) {
+            var data = JSON.parse(msg);
+            var contentHtml = "";
+            data.forEach(element => {
+                contentHtml += "<tr><td>" + element.Product.ProductName + "</td><td>$" + element
+                    .Price +
+                    "</td></tr>"
+            });
+            $("#table_content_inventory").html(contentHtml);
+        }, function(msg) {
+            var data = JSON.parse(msg);
+            if (data.Status == "TRANSACTION_DONE") {
+                if (amount == "$0.00") {
+                    window.location.href =
+                        "pages/message.html?msg=PURCHASE CANCELLED<br>YOU WILL NOT BE CHARGED";
+                } else {
+                    window.location.href =
+                        "pages/message.html?msg=YOU HAVE BEEN CHARGED: <span style='color: orange'>" +
+                        amount + "</span>";
+                }
+            }
+            if (data.Status == "STOPSALE" ||
+                data.Status == "MANUAL_STOPSALE" ||
+                data.Status == "UNSTABLE_TAGS_DIAGNOSTIC" ||
+                data.Status == "UNSTABLE_TAGS_DIAGNOSTIC_TRACING" ||
+                data.Status == "UNLOADING_PRODUCT") {
+                window.location.href = "pages/message-notimeout.html?msg=" + data.Message;
+            }
+            if (data.Status == "VALIDATE_CARD_FAILED") {
+                window.location.href =
+                    "pages/message.html?msg=" + data.Message;
+            }
+            if (data.Status == "TRANSACTION_WAITTING_FOR_PAYMENT") {
+                window.location.href =
+                    "pages/message.html?msg=PLEASE WAIT<br>WE ARE FINISHING...";
+            }
+            if (data.Status == "STOPSALE_DUE_TO_PAYMENT") {
+                window.location.href =
+                    "pages/message-notimeout.html?msg=" + data.Message;
+            }
+        }, function(msg) {
+            var data = JSON.parse(msg);
+            $("#temperature").text(Math.round(data.Temp) + "°C");
+        }, function(message) {
+            var data = JSON.parse(message);
+            $("#instruction-message").text(data);
+        }, function(message) {
+            var data = JSON.parse(message);
+            var dialogMessage = data.Message;
+            var dialogTimeout = data.Timeout;
+
+            showDialog(dialogMessage, dialogTimeout);
+        });
+    });
+
+    document.addEventListener("keydown", function(e) {
+        if (e.which === 123) {
+            require('remote').getCurrentWindow().toggleDevTools();
+        } else if (e.which === 116) {
+            location.reload();
+        }
+    });
+</script>
+
+</html>

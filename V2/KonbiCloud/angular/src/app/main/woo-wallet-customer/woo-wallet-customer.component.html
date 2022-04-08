@@ -1,0 +1,229 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Customers/KonbiWallet")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("Customers/KonbiWalletHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+                <button *ngIf="isGranted('Pages.Customers.Create')" (click)="createCustomer()"
+                    class="btn btn-primary blue">
+                    <i class="fa fa-plus"></i> {{l("CreateNewCustomer")}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getCustomers()" class="btn btn-primary" type="submit"><i
+                                                    class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="m-separator m-separator--dashed"></div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="CustomerFilter">{{l("Customer")}}</label>
+                                    <input type="text" class="form-control" id="CustomerFilter" name="customerFilter"
+                                        placeholder="" style="width:100%" [(ngModel)]="customerFilter"
+                                        (change)="getCustomers()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="UserNameFilter">{{l("UserName")}}</label>
+                                    <input type="text" class="form-control" id="UserNameFilter" name="userNameFilter"
+                                        placeholder="" style="width:100%" [(ngModel)]="userNameFilter"
+                                        (change)="getCustomers()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="EmailFilter">{{l("Email")}}</label>
+                                    <input type="text" class="form-control" id="EmailFilter" name="emailFilter"
+                                        placeholder="" style="width:100%" [(ngModel)]="emailFilter"
+                                        (change)="getCustomers()">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="getCustomers($event)" sortField="username"
+                            [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px">
+                                        {{l('Actions')}}
+                                    </th>
+
+                                    <th style="width: 200px" pSortableColumn="customer">
+                                        {{l('Customer')}}
+                                        <p-sortIcon field="customer"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="username">
+                                        {{l('UserName')}}
+                                        <p-sortIcon field="username"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="email">
+                                        {{l('Email')}}
+                                        <p-sortIcon field="email"></p-sortIcon>
+                                    </th>
+
+                                    <!-- <th style="width: 100px" pSortableColumn="orders_count">
+                                        {{l('Orders')}}
+                                        <p-sortIcon field="orders_count"></p-sortIcon>
+                                    </th> -->
+
+                                    <th style="width: 100px" pSortableColumn="total_spent">
+                                        {{l('Total Spend')}}
+                                        <p-sortIcon field="total_spent"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="total_topup">
+                                        {{l('Total Topup')}}
+                                        <p-sortIcon field="total_topup"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="wallet_balance">
+                                        {{l('Wallet Balance')}}
+                                        <p-sortIcon field="wallet_balance"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="sign_up">
+                                        {{l('Sign Up')}}
+                                        <p-sortIcon field="sign_up"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 100px" pSortableColumn="last_active">
+                                        {{l('Last Active')}}
+                                        <p-sortIcon field="last_active"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px">
+                                        <div class="btn-group dropdown" dropdown container="body">
+
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i>
+                                                <span class="caret"></span> {{l("Actions")}}
+                                            </button>
+
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                        (click)="transactionWalletModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:200px">
+                                        <span class="ui-column-title"> {{l('Customer')}}</span>
+                                        {{record.customer}}
+                                    </td>
+
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('UserName')}}</span>
+                                        {{record.username}}
+                                    </td>
+
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Email')}}</span>
+                                        {{record.email}}
+                                    </td>
+
+                                    <!-- <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Orders')}}</span>
+                                        {{record.orders_count}}
+                                    </td> -->
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Total Spend')}}</span>
+                                        {{record.total_topup - record.wallet_balance | currency}}
+                                    </td>
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Total Topup')}}</span>
+                                        {{record.total_topup | currency}}
+                                    </td>
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Wallet Balance')}}</span>
+                                        {{record.wallet_balance | currency}}
+                                    </td>
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Sign Up')}}</span>
+                                        {{record.sign_up | date:'short'}}
+                                    </td>
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Last Active')}}</span>
+                                        {{record.last_active | date:'short'}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}" #paginator
+                                (onPageChange)="getCustomers($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-transaction-wallet #transactionWalletModal></app-transaction-wallet>
+</div>

@@ -1,0 +1,34 @@
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="row align-items-center">
+            <div class="mr-auto col-sm-12 col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("VisualSettings")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("UiCustomizationHeaderInfo")}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <tabset type="pills" class="tab-container tabbable-line">
+                    <tab customClass="m-tabs__item" [active]="theme == 'default'">
+                        <ng-template tabHeading>
+                            <img src="/assets/common/images/metronic-themes/demo1.png" width="150" />
+                        </ng-template>
+                        <default-theme-ui-settings></default-theme-ui-settings>
+                    </tab>
+                    <tab customClass="m-tabs__item" [active]="theme == 'demo8'">
+                        <ng-template tabHeading>
+                            <img src="/assets/common/images/metronic-themes/demo8.png" width="150" />
+                        </ng-template>
+                        <demo8-theme-ui-settings></demo8-theme-ui-settings>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</div>

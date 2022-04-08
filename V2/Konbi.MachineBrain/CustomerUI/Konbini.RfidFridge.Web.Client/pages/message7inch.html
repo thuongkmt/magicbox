@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/css/message.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <script src="../js/device_control.js"></script>
+    <script src="../js/rabitmq.js"></script>
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../js/system_config.js"></script>
+</head>
+
+<body>
+    <span class="mid-text-7inch" id="msg_content">
+    </span>
+</body>
+<script>
+    window.jQuery = window.$ = module.exports
+
+    $(document).ready(function () {
+        var msg = getUrlParameter('msg');
+        $("#msg_content").html(msg);
+        setTimeout(function () {
+            window.location.href = "../index7inch.html";
+        }, 90000);
+
+        var stopSaleDueToPaymentMessage;
+        GetConfig('RfidFridgeSetting.System.Payment.Magic.StopSaleDueToPaymentMessage', function (data) {
+            stopSaleDueToPaymentMessage = data;
+        });
+        SubMachineStatusExchange(function (msg) {
+            var data = JSON.parse(msg);
+            if (data.Status == "IDLE") {
+                window.location.href = "../index.html";
+            }
+            if (data.Status == "STOPSALE_DUE_TO_PAYMENT") {
+                if (!stopSaleDueToPaymentMessage) {
+                    GetConfig('RfidFridgeSetting.System.Payment.Magic.StopSaleDueToPaymentMessage',
+                        function (data) {
+                            stopSaleDueToPaymentMessage = data;
+                        });
+                }
+                window.location.href = "../pages/message7inch.html?msg=" + stopSaleDueToPaymentMessage;
+            }
+        });
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+</script>
+
+</html>

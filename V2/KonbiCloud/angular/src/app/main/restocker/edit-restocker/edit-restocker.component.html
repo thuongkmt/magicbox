@@ -1,0 +1,94 @@
+<div bsModal #editRestockerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editRestockerModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <form *ngIf="active" #editRestockerForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+              <div class="modal-header">
+                  <h4 class="modal-title">
+                      <span>{{l("EditRestocker")}}</span>
+                  </h4>
+                  <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <label for="Name">{{l("Name")}} *</label>
+                    <input type="text" id="Name" class="form-control" [(ngModel)]="restocker.name" name="Name" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="Surname">{{l("Surname")}} *</label>
+                    <input type="text" id="Surname" class="form-control" [(ngModel)]="restocker.surname" name="Surname" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="Email_Address">{{l("EmailAddress")}} *</label>
+                    <input id="Email_Address" #emailAddressInput="ngModel" type="email" name="Email_Address" class="form-control" [(ngModel)]="restocker.emailAddress" required maxlength="256" email />
+                    <validation-messages [formCtrl]="emailAddressInput"></validation-messages>
+                </div>
+
+                <div class="form-group">
+                    <label for="User_Name">{{l("UserName")}} *</label>
+                    <input type="text" id="User_Name" class="form-control" [(ngModel)]="restocker.userName" name="UserName" required/>
+                </div>
+
+                <div class="form-group">
+                    <div class="right">
+                        <label for="Password">{{l("Password")}}</label>
+                        <input id="Password" type="password" name="Password" #Password="ngModel" id="Password" class="form-control" [(ngModel)]="restocker.password" [required]="!restocker.id" maxlength="32"
+                               [requireDigit]="passwordComplexitySetting.requireDigit" [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                               [requireUppercase]="passwordComplexitySetting.requireUppercase" [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                               validateEqual="PasswordRepeat" reverse="true">
+                    </div>
+                </div>
+                <div [hidden]="editRestockerForm.form.valid || editRestockerForm.form.pristine">
+                    <ul class="help-block text-danger" *ngIf="editRestockerForm.controls['Password'] && editRestockerForm.controls['Password'].errors">
+                        <li [hidden]="!editRestockerForm.controls['Password'].errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['Password'].errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['Password'].errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['Password'].errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['Password'].errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                    </ul>
+                </div>
+                <div class="form-group" *ngIf="!setRandomPassword">
+                    <div class="right">
+                        <label for="PasswordRepeat">{{l("PasswordRepeat")}}</label>
+                        <input id="PasswordRepeat" type="password" name="PasswordRepeat" #PasswordRepeat="ngModel" class="form-control" [(ngModel)]="restocker.passwordRepeat" [required]="!restocker.id" maxlength="32"
+                               [requireDigit]="passwordComplexitySetting.requireDigit" [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                               [requireUppercase]="passwordComplexitySetting.requireUppercase" [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                               validateEqual="Password" reverse="false">
+                    </div>
+                </div>
+                <div [hidden]="editRestockerForm.form.valid || editRestockerForm.form.pristine">
+                    <ul class="help-block text-danger" *ngIf="editRestockerForm.controls['PasswordRepeat'] && editRestockerForm.controls['PasswordRepeat'].errors">
+                        <li [hidden]="!editRestockerForm.controls['PasswordRepeat'].errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['PasswordRepeat'].errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['PasswordRepeat'].errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['PasswordRepeat'].errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                        <li [hidden]="!editRestockerForm.controls['PasswordRepeat'].errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                        <li [hidden]="editRestockerForm.controls['PasswordRepeat'].valid">{{l("PasswordsDontMatch")}}</li>
+                    </ul>
+                </div>
+      
+                <div class="form-group">
+                    <label for="PassCode">{{l("PassCode")}}</label>
+                    <input #passCodeInput="ngModel" type="text" placeholder="Please enter 6 numeric digits" id="PassCode" class="form-control" [(ngModel)]="restocker.passCode" 
+                    name="PassCode" pattern="\d{6}" required />
+                    <validation-messages [formCtrl]="passCodeInput"></validation-messages>
+                </div>
+
+                <div class="form-group">
+                    <label for="QrCode">{{l("QrCode")}}</label>
+                    <input type="text" id="QrCode" class="form-control" [(ngModel)]="restocker.qrCode" name="QrCode" />
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                  <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                  <button type="submit" class="btn btn-primary blue" [disabled]="!editRestockerForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+              </div>
+          </form>
+      </div>
+  </div>
+
+</div>

@@ -1,0 +1,103 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Inventories")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    Current Inventories
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <!-- Filter -->
+                <div class="m-form m-form--label-align-right">
+                        <div class="row m--margin-bottom-10">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="NameFilter">{{l("Name")}}</label>
+                                    <input type="text" class="form-control" placeholder="" style="width:auto" [(ngModel)]="filter" (change)="getInventories()">
+                                </div>
+                            </div>
+    
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>{{l("Tag Id")}}</label>
+                                    <input type="text" class="form-control" placeholder="" style="width:auto" [(ngModel)]="tagIdFilter" (change)="getInventories()">
+                                </div>
+                            </div>
+    
+                            <div class="col-md-6">
+                                <label for="PriceFilter">{{l("Machines")}}</label>
+                                <div class="form-group align-items-center">
+                                    <ng-multiselect-dropdown name="dropdownMachine"
+                                        [placeholder]="'Please choose a machine'"
+                                        [data]="dropdownList"
+                                        [(ngModel)]="selectedItems"
+                                        [settings]="dropdownSettings"
+                                        (onSelect)="onItemSelect($event)"
+                                        (onSelectAll)="onSelectAll($event)"
+                                        (onDeSelect)="onDeSelect($event)"
+                                        (onDeSelectAll)="onDeSelectAll($event)">
+                                      </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="row align-items-center">
+                    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="getInventories($event)" [value]="primengTableHelper.records" rows="25"
+                            [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="tagid">
+                                        {{l('TagId')}}
+                                        <p-sortIcon field="tagid"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="machinename">
+                                        {{l('Machine Name')}}
+                                        <p-sortIcon field="machinename"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td>
+                                        {{record.name}}
+                                    </td>
+                                    <td>
+                                        {{record.tagId}}
+                                    </td>
+                                    <td>
+                                        {{record.machineName}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}" #paginator
+                                (onPageChange)="getInventories($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

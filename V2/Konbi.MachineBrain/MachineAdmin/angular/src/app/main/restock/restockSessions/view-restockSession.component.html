@@ -1,0 +1,73 @@
+﻿<div [@routerTransition]>
+                <div class="m-subheader m-grid__item">
+                    <div class="m-subheader__main">
+                        <h3 class="m-subheader__title">
+            				<span>{{l("Entity_Name_Plural_Here")}} {{l("Details")}}</span>
+            			</h3>
+            			<span class="m-subheader__separator m-subheader__separator--v"></span>
+            			<div class="m-subheader__breadcrumbs">
+            				<a [routerLink]="['/app/main/restock/restockSessions']"
+            					class="m-subheader__breadcrumbs-home"><i
+            						class="flaticon2-shelter"></i>{{l("RestockSession")}}</a>
+            				<span class="m-subheader__breadcrumbs-separator"></span>
+            				<a 
+            					class="m-subheader__breadcrumbs-link m-subheader__breadcrumbs-link--active">
+            					<span>{{l("Details")}}</span>
+            				</a>
+            			</div>
+                    </div>
+                  
+                </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class="row align-items-center">
+                                     <div class="col-6 mb-3">
+                        <h6>{{l("StartDate")}} :</h6>
+                        {{ item.restockSession.startDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("EndDate")}} :</h6>
+                        {{ item.restockSession.endDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Total")}} :</h6>
+                        {{ item.restockSession.total }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("LeftOver")}} :</h6>
+                        {{ item.restockSession.leftOver }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Sold")}} :</h6>
+                        {{ item.restockSession.sold }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Error")}} :</h6>
+                        {{ item.restockSession.error }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("IsProcessing")}} :</h6>
+                        <div *ngIf="item.restockSession.isProcessing" class="text-left"><i class="fa fa-check-circle m--font-success"
+                                title="True"></i></div>
+                        <div *ngIf="!item.restockSession.isProcessing" class="text-left"><i class="fa fa-times-circle" title="False"></i></div>
+                    </div>                    <div class="col-6 mb-3">
+                        <h6>{{l("RestockerName")}} :</h6>
+                        {{ item.restockSession.restockerName }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Restocked")}} :</h6>
+                        {{ item.restockSession.restocked }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Unloaded")}} :</h6>
+                        {{ item.restockSession.unloaded }}
+                    </div>
+
+                 
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>

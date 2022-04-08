@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:KonbiCloud.ViewModels.Base;assembly=KonbiCloud.Mobile.Shared"
+             xmlns:controls="clr-namespace:KonbiCloud.Controls;assembly=KonbiCloud.Mobile.Shared"
+             xmlns:behaviors="clr-namespace:KonbiCloud.Behaviors;assembly=KonbiCloud.Mobile.Shared"
+             x:Class="KonbiCloud.Views.InventoryView"
+             base:ViewManager.AutoWireViewModel="true"
+             Title="Tags Management"
+             >
+    <ContentPage.ToolbarItems>
+
+        <controls:HideableToolbarItem             
+            Text="{Binding ConnectText}"               
+            Command="{Binding ConnectBluetoothCommand}"
+            />
+
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+    <DataTemplate x:Key="ItemListTemplate">
+        <ViewCell>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!--<Grid.Triggers>
+                        <DataTrigger TargetType="Grid"
+                                 Binding="{Binding IsConnected}"
+                                 Value="true">
+                            <Setter Property="BackgroundColor" Value="#1A00FF00"></Setter>
+                        </DataTrigger>
+                    </Grid.Triggers>-->
+                <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                        <Label Text="{Binding TagId}" TextColor="Red" />
+                        <Label Text="{Binding ProductName}" TextColor="Gray" />
+                    
+                </StackLayout>
+                <!--<Label Grid.Column="1"                         
+                           FontSize="Subtitle"
+                         Text="{Binding Price, StringFormat='{0:C}'}"
+                         VerticalTextAlignment="Center"></Label>-->
+            </Grid>
+        </ViewCell>
+    </DataTemplate>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+            <Grid ColumnSpacing="0"
+                  RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+            <StackLayout Spacing="{DynamicResource CardSpacing}"
+                             Grid.Row="1"
+                             Padding="{DynamicResource CardPadding}">
+                    <controls:CardView>
+                        <StackLayout Margin="10,0">
+                            <Label Text="Category"/>
+                            <Picker x:Name="categoryPicker" Title="Select a category"
+                                    ItemsSource="{Binding Categories}"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    SelectedItem="{Binding SelectedCategory}">
+                            </Picker>
+
+                            <Label Text="Product"/>
+                            <Picker x:Name="productPicker" Title="Select a product"
+                                    ItemsSource="{Binding Products}"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    SelectedItem="{Binding SelectedProduct}">
+
+                            </Picker>
+
+                            <!--<Label Text="Price"/>
+                            <Entry Text="{Binding SelectedProduct.Price, Mode=TwoWay}"/>-->
+
+                        </StackLayout>
+                    </controls:CardView>
+
+                    <controls:CardView>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="10,5">
+                            <!--<Label Text="{Binding Message}" FontSize="Medium" TextColor="Blue"/>-->
+                            <Label Text="Qty:" FontSize="Medium" HorizontalOptions="EndAndExpand"/>
+                            <Label Text="{Binding ItemsCount}" FontSize="Medium" />
+                            </StackLayout>
+                            <ListView HasUnevenRows="True"
+                                  Margin="10,0"
+                                      Grid.Row="1"
+                                  ItemsSource="{Binding Items, Mode=TwoWay}"
+                                  ItemTemplate="{StaticResource ItemListTemplate}"></ListView>
+                        </Grid>
+                    </controls:CardView>
+                <controls:CardView>
+                    <StackLayout Margin="10,0">
+                        <Label Text="Message" FontSize="Medium"/>
+                        <Label Text="{Binding Message}" TextColor="Red"/>
+                    </StackLayout>
+                </controls:CardView>
+                </StackLayout>
+            <StackLayout Grid.Row="2" Orientation="Horizontal" Margin="5,0">
+                <Button Text="Upload" Command="{Binding WriteCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EnableBtn}"></Button>
+                <!--<Button Text="Read" Command="{Binding ReadCommand}" HorizontalOptions="FillAndExpand" ></Button>-->
+                <!--<Button Text="{Binding InventoryText}" Command="{Binding ScanCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EnableBtn}"></Button>-->
+                <Button Text="Clear" Command="{Binding ClearCommand}" HorizontalOptions="FillAndExpand" ></Button>
+            </StackLayout>
+            </Grid>
+    </ContentPage.Content>
+
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:ActionCollection>
+                <behaviors:InvokeCommandAction Command="{Binding PageAppearingCommand}" />
+            </behaviors:ActionCollection>
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
+</ContentPage>

@@ -1,0 +1,11 @@
+.device-normal{
+    color: green;
+    font-weight: bold;
+}
+
+.device-abnormal
+{
+    color: red;
+    font-weight: bold;
+    font-size: larger;
+}

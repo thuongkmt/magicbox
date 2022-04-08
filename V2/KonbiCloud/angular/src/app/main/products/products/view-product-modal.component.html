@@ -1,0 +1,66 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Name")}} :</h6>
+                        {{item.name}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("SKU")}} :</h6>
+                        {{item.sku}}
+                    </div>
+                    <div class="col-6 mb-3">
+                            <h6>{{l("Price")}} :</h6>
+                            {{item.price}}
+                        </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Barcode")}} :</h6>
+                        {{item.barcode}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ShortDesc")}} :</h6>
+                        {{item.shortDesc}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Desc")}} :</h6>
+                        <span #productDescriptionContainer></span>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Tag")}} :</h6>
+                        {{item.tag}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>Tag Prefix :</h6>
+                        {{item.tagPrefix}}
+                    </div>
+                    <div class="col-6 mb-3">
+                            <h6>{{l("Product Categories")}} :</h6>
+                            <div *ngFor="let name of item.categoriesName">
+                                {{name}} 
+                            </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Image")}} :</h6>
+                        <div ng-if="item.imageUrl">
+                            <img height="120px" width="120px" src="{{productImgThumb}}" (error)="handleImageLoadFailed($event)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

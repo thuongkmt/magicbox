@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/css/message.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <script src="../js/device_control.js"></script>
+    <script src="../js/rabitmq.js"></script>
+    <script src="../lib/jquery.min.js"></script>
+</head>
+<body>
+    <span class="mid-text" id="msg_content">
+    </span>
+</body>
+<script>
+  window.jQuery = window.$ = module.exports
+
+    $(document).ready(function () {
+        var msg = getUrlParameter('msg');
+        $("#msg_content").html(msg);
+        SubMachineStatusExchange(function (msg) {
+            var data = JSON.parse(msg);
+            if (data.Status == "IDLE") {
+                // window.location.href = "welcome.html";
+                window.location.href = "../index.html";
+            }
+        });
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+</script>
+
+</html>

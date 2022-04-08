@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:KonbiCloud.ViewModels.Base;assembly=KonbiCloud.Mobile.Shared"
+             xmlns:extensions="clr-namespace:KonbiCloud.Extensions.MarkupExtensions;assembly=KonbiCloud.Mobile.Shared"
+             xmlns:behaviors="clr-namespace:KonbiCloud.Behaviors;assembly=KonbiCloud.Mobile.Shared"
+             x:Class="KonbiCloud.Views.ConfigView"
+             BackgroundColor="{StaticResource LoginBackgroundColor}"
+             base:ViewManager.AutoWireViewModel="true"
+             Title="Config">
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid 
+                  IsVisible="{Binding IsAutoLoggingIn, Converter={StaticResource InverseBooleanConverter}}"
+                  RowSpacing="0"
+                  ColumnSpacing="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.10*"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.20*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image  Grid.Row="1"   
+                    Grid.Column="1"
+                    Aspect="AspectFit"
+                    Source="{extensions:ImageSource 'KonbiCloud.UI.Assets.Images.KonbiniLogoWhite.png'}">
+                </Image>
+
+                <Frame  Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource RoundedFrame}">
+
+                    <StackLayout VerticalOptions="StartAndExpand" Spacing="0">
+                        <Label Text="Cloud Url" />
+                        <Entry Text="{Binding CloudUrl}"
+                               Placeholder="https://magicboxapi.konbi.cloud/"
+                               Keyboard="{StaticResource NoCapitalizationKeyboard}"
+                               x:Name="CloudUrlEntry" />
+                        
+                        <Label Text="Tenant Name"/>
+                        <Entry Text="{Binding TenancyName}"
+                               Keyboard="{StaticResource NoCapitalizationKeyboard}"
+                               x:Name="TenantNameEntry"/>
+
+                        <Label Text="User Name" />
+                        <Entry Text="{Binding UserName, Mode=TwoWay}"  
+                           Keyboard="{StaticResource NoCapitalizationKeyboard}"
+                           x:Name="UsernameEntry"/>
+
+                        <Label Text="Password" Margin="0,10,0,0"/>
+                        <Entry IsPassword="True" 
+                           Text="{Binding Password, Mode=TwoWay}" 
+                           Keyboard="{StaticResource NoCapitalizationKeyboard}"
+                           x:Name="PasswordEntry"/>
+
+                        <Button Text="LogIn"  
+                                Command="{Binding LoginUserCommand}" 
+                                Margin="0,10,0,0"
+                                Style="{StaticResource ActionButton}"
+                                IsEnabled="{Binding IsLoginEnabled}"
+                                x:Name="LoginButton"/>
+
+                    </StackLayout>
+                </Frame>
+
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:ActionCollection>
+                <behaviors:InvokeCommandAction Command="{Binding PageAppearingCommand}" />
+            </behaviors:ActionCollection>
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
+</ContentPage>

@@ -1,0 +1,52 @@
+<button type="button" class="btn btn-primary" (click)="show()">
+    <i class="far fa-image" style="font-size: 16px"></i>
+    <span>Add Image</span>
+</button>
+<div bsModal #resourceManagementModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="resourceManagementModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" (click)="close();" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <tabset class="tab-container tabbable-line">
+                    <tab heading="Media Library" customClass="m-tabs__item">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row" style="max-height: 400px; overflow: auto;">
+                                    <ng-template ngFor let-item [ngForOf]="resourceList" let-i="index"
+                                        [busyIf]="primengTableHelper.isLoading">
+                                        <div class="card img-container {{isSelected(item.id)? 'card-border-highlight':''}} bg-light text-dark"
+                                            (click)="selectItem(item.id)">
+                                            <div class="card-body">
+                                                <img src="{{baseRemoteUrl + '/images/'+ item.thumbnail}}"
+                                                    (error)="handleImageLoadFailed($event)" class="card-img-top"
+                                                    alt="...">
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <button [disabled]="selectedIds.length === 0" type="button" class="btn btn-primary"
+                                        (click)="add()">Add
+                                    </button>
+                                    <button [disabled]="selectedIds.length === 0" type="button" class="btn btn-primary"
+                                        (click)="close()">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                    <tab heading="Upload Files" customClass="m-tabs__item">
+                        <app-file-upload maxFiles="5" maxSize="10" fileExt="JPG, GIF, PNG"
+                            (uploadStatus)="uploadStatusChange($event)">
+                        </app-file-upload>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</div>

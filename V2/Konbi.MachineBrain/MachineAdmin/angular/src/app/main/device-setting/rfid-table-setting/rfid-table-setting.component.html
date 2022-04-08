@@ -1,0 +1,51 @@
+<div [@routerTransition]>
+  <div class="m-subheader">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto col-md-6">
+        <h3 class="m-subheader__title m-subheader__title--separator">
+          <span>{{l("Device Setting")}}</span>
+        </h3>
+        <span class="m-section__sub">
+          {{l("RFID table setting")}}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__body">
+
+          <div class="input-group">
+              <label style="padding-top: 9px; font-weight: bold;">{{l("Select Port")}}</label>
+
+              <select id="comPortList" name="comPortList" class="form-control" [(ngModel)]="selectedPort" style="max-width: 300px; margin-right: 10px; margin-left: 10px;">
+                  <option *ngFor="let port of comPortList" value="{{port}}">{{port}}</option>
+              </select>
+
+              <button ngDefaultControl *ngIf="!isServiceRunning" class="btn btn-primary" [(ngModel)]="isServiceRunning" type="button" (click)="startService();">{{l("Start Service")}}</button>
+              <button ngDefaultControl *ngIf="isServiceRunning" class="btn btn-danger" [(ngModel)]="isServiceRunning" type="button" (click)="stopService();">{{l("Stop Service")}} </button>
+              <button ngDefaultControl *ngIf="isServiceRunning" class="btn btn-primary" [(ngModel)]="isServiceRunning" type="button" (click)="readPlates();">{{l("Read Plates")}} </button>
+
+          </div>
+
+        <div class="input-group" style="margin-top:30px; font-weight: bold;">Detected plate(s)</div>
+
+        <table id="tabledishs">
+          <tr class="m--bg-brand">
+            <th>#</th>
+            <th>Plate Code</th>
+            <th>Plate UID</th>
+          </tr>
+
+          <tr  *ngFor="let plate of detectedPlates;  let i = index"> 
+            <td>{{i+1}}</td>
+            <td>{{plate.uType}}</td>
+            <td>{{plate.uid}}</td>
+          </tr>
+       
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div bsModal #replicateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="replicateModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #plateForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        {{l("Replicate Plate Menu")}}
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    {{l("Days")}}:
+                    <div>
+                      <select id="Days" name="Days" [(ngModel)]="days" (change)="reloadPage();"
+                                style="width:100px; margin-left: 20px;">
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!plateForm.form.valid" [buttonBusy]="saving" [disabled]="saving"
+                        [busyText]="l('Replicate')">
+                        <i class="fa fa-save"></i>
+                        {{l("Replicate")}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

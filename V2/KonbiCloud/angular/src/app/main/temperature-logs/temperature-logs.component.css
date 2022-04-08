@@ -1,0 +1,14 @@
+.char-line-temperaturelog {
+    width: 100%;
+    min-height: 580px;
+}
+
+.multiselect-dropdown-custom span {
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.ng-pristine {
+    font-style: italic;
+    opacity: 0.6;
+}

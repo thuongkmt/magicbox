@@ -1,0 +1,101 @@
+<div bsModal #detailTopupModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{l('Restock session')}}
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row m--margin-top-10">
+                    <h5>
+                        <label>Products</label>
+                    </h5>
+                </div>
+                <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                    <p-table [value]="primengTableHelper.records" [scrollable]="true" ScrollWidth="100%"
+                        [responsive]="primengTableHelper.isResponsive"
+                        [resizableColumns]="primengTableHelper.resizableColumns">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{l('Name')}}</th>
+                                <th>{{l('Quantity')}}</th>
+                                <!-- <th>{{l('Sold')}}</th>
+                                <th>{{l('Report.topup.detail.salesAmt')}}</th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{item.productName}}</td>
+                                <td>{{item.total}}</td>
+                                <!-- <td>{{item.sold}}</td>
+                                <td>{{item.salesAmount | currency}}</td> -->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                        {{l('NoData')}}
+                    </div>
+                </div>
+
+                <div class="row m--margin-top-10">
+                    <h5>
+                        <label>New Products</label>
+                    </h5>
+                </div>
+                <div class="primeng-datatable-container" [busyIf]="newProducts.isLoading">
+                    <p-table [value]="newProducts.records" [scrollable]="true" ScrollWidth="100%"
+                        [responsive]="newProducts.isResponsive" [resizableColumns]="newProducts.resizableColumns">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{l('Name')}}</th>
+                                <th>{{l('Quantity')}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{item.productName}}</td>
+                                <td>{{item.total}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div class="primeng-no-data" *ngIf="newProducts.totalRecordsCount == 0">
+                        {{l('NoData')}}
+                    </div>
+                </div>
+
+                <div class="row m--margin-top-10">
+                    <h5>
+                        <label>Taken out Products</label>
+                    </h5>
+                </div>
+                <div class="primeng-datatable-container" [busyIf]="throwOutProducts.isLoading">
+                    <p-table [value]="throwOutProducts.records" [scrollable]="true" ScrollWidth="100%"
+                        [responsive]="throwOutProducts.isResponsive"
+                        [resizableColumns]="throwOutProducts.resizableColumns">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{l('Name')}}</th>
+                                <th>{{l('Quantity')}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{item.productName}}</td>
+                                <td>{{item.total}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div class="primeng-no-data" *ngIf="throwOutProducts.totalRecordsCount == 0">
+                        {{l('NoData')}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

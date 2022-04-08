@@ -1,0 +1,45 @@
+<div bsModal #plateMenuDay="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="plateMenuDay" aria-hidden="true"
+  [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg" [busyIf]="isLoading">
+    <div class="modal-content">
+      <form novalidate autocomplete="off">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            <span>Plate Menu Day: {{seletedDateFriendly}}</span>
+          </h4>
+          <button type="button" class="close" (click)="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div style="text-align: center" *ngIf="lstPlateMenuDetail.length == 0">
+            <div style="font-weight: bold; color: red; font-size: 18px;">No menu availabe</div>
+          </div>
+
+          <div *ngIf="lstPlateMenuDetail.length > 0">
+            <div *ngFor="let item of lstPlateMenuDetail" class="row" style="padding: 10px 0px; margin-top:1px; background-color: #eee">
+              <div class="col-sm-8">
+                <div style="font-weight: bold">Session: {{item.sessionName}}</div>
+                <div style="padding-left: 10px; color:#5867dd ">Set Price: {{item.totalSetPrice}} meal(s)</div>
+                <div style="padding-left: 10px; color: red">No Price: {{item.totalNoPrice}} meal(s)</div>
+              </div>
+
+              <div class="col-sm-4">
+                <button (click)="onViewMenuClick(item)" class="btn btn-primary pull-right" style="margin-top: 10px;">
+                  <span>{{l("View Menu")}}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default">{{l("Close")}}</button>
+          <button (click)="btnSetMenuClick()" *ngIf="lstPlateMenuDetail.length == 0" type="button" class="btn btn-primary">{{l("Set menu")}}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

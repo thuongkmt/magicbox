@@ -1,0 +1,42 @@
+.list-machines li:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #5867dd;
+}
+
+.list-machines li {
+    font-size: 14px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.list-item-machines {
+    max-height: 680px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.list-machines {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+.content-products-price {
+    padding-right: 1px;
+    /* padding-left: 15px; */
+}
+
+.m-portlet-custom {
+    padding-top: 15px;
+    padding-bottom: 0px;
+}
+
+.m-portlet-body-machines {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.m-portlet-custom .col-md-9 {
+    padding-left: 0px;
+}

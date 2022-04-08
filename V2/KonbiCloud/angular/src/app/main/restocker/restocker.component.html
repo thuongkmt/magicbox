@@ -1,0 +1,120 @@
+<div [@routerTransition]>
+  <div class="m-subheader">
+      <div class="d-flex align-items-center">
+          <div class="mr-auto col-md-6">
+              <h3 class="m-subheader__title m-subheader__title--separator">
+                  <span>{{l("Restocker")}}</span>
+              </h3>
+          </div>
+          <div class="col-xs-6 text-right">
+            <button (click)="createRestocker()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{l("CreateNewUser")}}</button>
+        </div>
+      </div>
+  </div>
+  <div class="m-content">
+      <div class="m-portlet m-portlet--mobile">
+          <div class="m-portlet__body">
+              <form class="horizontal-form" autocomplete="off">
+                  <div class="m-form m-form--label-align-right">
+                      <div class="row align-items-center m--margin-bottom-10">
+                          <div class="col-xl-12">
+                              <div class="form-group m-form__group align-items-center">
+                                  <div class="input-group">
+                                      <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                      <span class="input-group-btn">
+                                          <button (click)="getRestockers()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+
+              <div class="row align-items-center">
+                  <!--<Primeng-Datatable-Start>-->
+                  <div class="primeng-datatable-container"
+                       [busyIf]="primengTableHelper.isLoading">
+                      <p-table #dataTable
+                                   (onLazyLoad)="getRestockers($event)"
+                                   sortField="name"
+                                   [value]="primengTableHelper.records"
+                                   rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                   [paginator]="false"
+                                   [lazy]="true"
+                                   [scrollable]="true"
+                                   ScrollWidth="100%"
+                                   [responsive]="primengTableHelper.isResponsive"
+                                   [resizableColumns]="primengTableHelper.resizableColumns">
+                          <ng-template pTemplate="header">
+                              <tr>
+                                  <th style="width: 130px">{{l('Actions')}}</th>
+                                  <th style="width: 150px" pSortableColumn="name">
+                                      {{l('Name')}}
+                                      <p-sortIcon field="name"></p-sortIcon>
+                                  </th>
+
+                                  <th style="width: 150px" pSortableColumn="passCode">
+                                      {{l('PassCode')}}
+                                      <p-sortIcon field="passCode"></p-sortIcon>
+                                  </th>
+
+                                  <th style="width: 150px" pSortableColumn="qrCode">
+                                      {{l('QrCode')}}
+                                      <p-sortIcon field="qrCode"></p-sortIcon>
+                                  </th>
+                              </tr>
+                          </ng-template>                           
+                          <ng-template pTemplate="body" let-record="$implicit">
+                              <tr>
+                                  <td style="width: 130px">
+                                      <div class="btn-group dropdown" dropdown container="body">
+                                          <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                              <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                          </button>
+                                              <ul class="dropdown-menu"  *dropdownMenu>
+                                                  <li>
+                                                    <a href="javascript:;" (click)="editRestockerModal.show(record.id)">{{l('Edit')}}</a>
+                                                    <a href="javascript:;" (click)="deleteRestocker(record.id,record.userName)">{{l('Delete')}}</a>
+                                                  </li>
+                                              </ul>
+                                      </div>
+                                  </td>
+                                  <td style="width:150px">
+                                    <span class="ui-column-title"> {{l('Name')}}</span>
+                                    {{record.userName}}
+                                  </td>
+                                  <td style="width:150px">
+                                    <span class="ui-column-title"> {{l('PassCode')}}</span>
+                                    {{record.passCode}}
+                                  </td>
+                                  <td style="width:150px">
+                                    <span class="ui-column-title"> {{l('Desc')}}</span>
+                                    {{record.qrCode}}
+                                  </td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                      <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                          {{l('NoData')}}
+                      </div>
+                      <div class="primeng-paging-container">
+                          <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                      #paginator
+                                      (onPageChange)="getRestockers($event)"
+                                      [totalRecords]="primengTableHelper.totalRecordsCount"
+                                      [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                          </p-paginator>
+                          <span class="total-records-count">
+                              {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                          </span>
+                      </div>
+                  </div>
+                  <!--<Primeng-Datatable-End>-->
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <app-edit-restocker #editRestockerModal (modalSave)="getRestockers()"></app-edit-restocker>
+</div>

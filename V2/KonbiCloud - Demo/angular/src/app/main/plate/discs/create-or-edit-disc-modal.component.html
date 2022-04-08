@@ -1,0 +1,81 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #discForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("Plate Inventory Manager")}}</span>
+                        <span *ngIf="!isCreateForPlate">{{l("Plate Inventory Manager")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group m-form__group">
+                        <div class="input-group">
+                            <input class="form-control" id="PlateName" name="plateName" [(ngModel)]="plateName" type="text" disabled>
+                            <div class="input-group-append" *ngIf="!isCreateForPlate">
+                                <button class="btn btn-primary blue" (click)="openSelectPlateModal()" type="button">
+                                    <i class="fa fa-search"></i> {{l("Select")}}</button>
+                            </div>
+                            <div class="input-group-prepend" *ngIf="!isCreateForPlate">
+                                <button class="btn btn-danger" type="button" (click)="setPlateIdNull()">
+                                    <i class="fa fa-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="font-weight: bold; margin-top: 15px; text-align: center; font-size: 18px;">
+                        <div *ngIf="plateId">
+                            <div>Plate Code: {{plateCode}}</div>
+                        </div>
+                        <div *ngIf="!plateId">
+                            <div style="color:red">Please select plate first to start counting</div>
+                        </div>
+                    </div>
+                    <!-- <input class="form-control" name="disc.plateId" [(ngModel)]="disc.plateId" type="text" required hidden> -->
+                    <div style="text-align: center; margin-top: 15px;">
+                        <h3>
+                            Please put your plate into the RFID table one by one to start counting.
+                        </h3>
+                    </div>
+
+                    <div style="font-weight: bold">Total plates: {{lstCreateDish.length}}</div>
+
+                    <table id="tabledishs">
+                        <tr class="m--bg-brand">
+                            <th>#</th>
+                            <!-- <th>Code</th> -->
+                            <th>ID</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr *ngFor="let dish of lstCreateDish; let i = index">
+                            <td>{{i + 1}}</td>
+                            <!-- <td>{{dish.code}}</td> -->
+                            <td>{{dish.uid}}</td>
+                            <td style="width: 100px;">
+                                <button class="btn btn-danger" (click)="deleteDisc(dish)" type="button">
+                                    <i class="fa fa-trash"></i> {{l("Remove")}}</button>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <plateLookupTableModal #plateLookupTableModal (modalSave)="getNewPlateId()"></plateLookupTableModal>
+
+</div>

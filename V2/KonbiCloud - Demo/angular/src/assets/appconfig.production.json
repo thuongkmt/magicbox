@@ -1,0 +1,18 @@
+{
+  "remoteServiceBaseUrl": "http://cloudv3demo.azurewebsites.net",
+  "appBaseUrl": "https://demo.konbi.cloud",
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+	{
+		"from": "he-IL",
+		"to": "he"
+	}
+  ]
+}

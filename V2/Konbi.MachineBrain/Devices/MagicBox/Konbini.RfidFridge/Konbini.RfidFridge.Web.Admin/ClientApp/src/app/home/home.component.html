@@ -1,0 +1,99 @@
+<style>
+  .card-img-top {
+    /*margin-top: 5px;
+    margin-bottom: 5px;*/
+    max-width: 200px;
+  }
+
+  .custom {
+    margin-bottom: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .card-text {
+    font-size: 10pt;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .col-xs-4 {
+      flex: 0 0 33.333333333%;
+      max-width: 33.333333333%;
+    }
+    .alert {
+      font-size: 10pt;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
+
+  .alert {
+    position: relative;
+    /*padding: .75rem 1.25rem;*/
+    margin-bottom: 0px;
+    border: 0px solid transparent;
+    border-radius: 0px;
+    font-weight: bold;
+    /*font-size: 12pt;*/
+  }
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-4 col-md-3 col-lg-2 custom">
+      <a  [routerLink]='["/"]'>
+        <div class="card text-center">
+          <img class="card-img-top rounded mx-auto d-block" src="assets/images/history.png">
+          <div class="alert alert-info text-center" role="alert">
+            <span>TRANSACTION</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-xs-4 col-md-3 col-lg-2 custom">
+      <a  [routerLink]='["/topup"]'>
+        <div class="card">
+          <img class="card-img-top rounded mx-auto d-block" src="assets/images/cart.png">
+          <div class="alert alert-info text-center" role="alert">
+            <span>TOPUP</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-xs-4 col-md-3 col-lg-2 custom">
+      <a [routerLink]='["/inventory"]'>
+        <div class="card">
+          <img class="card-img-top rounded mx-auto d-block" src="assets/images/storage.png">
+          <div class="alert alert-info text-center" role="alert">
+            <span>INVENTORY</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-xs-4 col-md-3 col-lg-2 custom">
+      <a  [routerLink]='["/product"]'>
+        <div class="card">
+          <img class="card-img-top rounded mx-auto d-block" src="assets/images/sauces.png">
+          <div class="alert alert-info text-center" role="alert">
+            <span>PRODUCT</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-xs-4 col-md-3 col-lg-2 custom">
+      <a  [routerLink]='["/diagnostic"]'>
+        <div class="card">
+          <img class="card-img-top rounded mx-auto d-block" src="assets/images/execution.png">
+          <div class="alert alert-info text-center" role="alert">
+            <span>DIAGNOSTIC</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+</div>

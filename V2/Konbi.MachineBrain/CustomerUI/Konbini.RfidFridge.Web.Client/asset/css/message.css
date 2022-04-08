@@ -1,0 +1,30 @@
+.mid-text {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    font-size: 100px;
+    letter-spacing: 1px;
+    color: yellow;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+}
+
+.mid-text-7inch {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    font-size: 80px;
+    letter-spacing: 1px;
+    color: yellow;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-color: rgba(45, 45, 45, 0.98);
+}

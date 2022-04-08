@@ -1,0 +1,170 @@
+<div [@routerTransition]>
+  <div class="m-subheader">
+      <div class="d-flex align-items-center">
+          <div class="mr-auto col-md-6">
+              <h3 class="m-subheader__title m-subheader__title--separator">
+                  <span>Restock</span>
+              </h3>
+              <span class="m-section__sub">
+                  Restock Inventory 
+              </span>
+          </div>
+      </div>
+  </div>
+  <div class="m-content">
+      <div class="m-portlet m-portlet--mobile">
+          <div class="m-portlet__body">
+              <div>
+                  <!-- <div class="row">
+                      <div class="alert" role="alert">
+                          <div class="card">
+                              <div class="card-body">
+                                  <div>
+                                      <h3>Current Topup</h3>
+                                  </div>
+                                  <div class="content-line">
+                                      <span class="topup">Start time: </span>
+                                      <span>{{currentTopupInfo.startTime| date:'dd/MM/yyyy HH: mm'}} </span>
+                                  </div>
+                                  <div class="content-line">
+                                      <span class="topup">Total: </span>
+                                      <span>{{currentTopupInfo.total}}</span>
+                                  </div>
+                                  <div class="content-line">
+                                      <span class="topup">Sold: </span>
+                                      <span>{{currentTopupInfo.sold}}</span>
+                                  </div>
+                                  <div class="content-line">
+                                      <span class="topup">Left Over: </span>
+                                      <span>{{currentTopupInfo.leftOver}}</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div> -->
+                  <div class="col-sm">
+                    <div class="alert alert-info" role="alert">
+                        <span style="font-weight: bold">1. Open the door and put items inside</span>
+                    </div>
+                    <span style="font-size: 15pt">Total items:
+                        <span style="color: orange; font-weight: bold"> {{totalTag}} </span>
+                    </span>
+                    <button type="button" class="btn btn-success float-right" (click)="OpenLock()">Open Door</button>
+                </div>
+                <br/>
+                <div class="col-sm">
+                    <div class="alert alert-info" role="alert">
+                        <span style="font-weight: bold">2. Products to register</span>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="button" [disabled]="productTableHelper.records.length <= 0 || !allowRestock" (click)="insertInventory()"
+                                    class="btn btn-primary float-right m--margin-left-10">Restock</button>
+                            <button [disabled]='newItemTableHelper.records.length <= 0' (click)="getProductForTags()"
+                                type="button" class="btn btn-primary float-right m--margin-left-10" >Get Product</button>
+                        </div>
+                    </div>
+
+                    <!-- Product table -->
+                    <div class="primeng-datatable-container" [busyIf]="productTableHelper.isLoading">
+                        <p-table #productTable [value]="productTableHelper.records"
+                            rows="{{productTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="productTableHelper.isResponsive"
+                            [resizableColumns]="productTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>
+                                        {{l('Product')}}
+                                    </th>
+                                    <th>
+                                        {{l('Quantity')}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td>
+                                        <span class="ui-column-title"> {{l('Product')}}</span>
+                                        {{record.ProductName}}
+                                    </td>
+                                    <td>
+                                        <span class="ui-column-title"> {{l('Quantity')}}</span>
+                                        {{record.Tags}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="productTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{productTableHelper.defaultRecordsCountPerPage}}" #productPaginator
+                                (onPageChange)="productTablePageChanged($event)"
+                                [totalRecords]="productTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="productTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{totalProductCount}}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm" style="margin-top: 20px">
+                    <div class="alert alert-info" role="alert">
+                        <span style="font-weight: bold">Unregistered items</span>
+                    </div>
+                    <div class="primeng-datatable-container" [busyIf]="newItemTableHelper.isLoading">
+                        <p-table #newItemsTable [value]="newItemTableHelper.records"
+                            rows="{{newItemTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="newItemTableHelper.isResponsive"
+                            [resizableColumns]="newItemTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>
+                                        {{l('No.')}}
+                                    </th>
+                                    <th>
+                                        {{l('Tag Id')}}
+                                    </th>
+                                    <th>
+                                        {{l('Mapped')}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit" let-rowIndex="rowIndex">
+                                <tr>
+                                    <td>
+                                        {{rowIndex + 1}}
+                                    </td>
+                                    <td>
+                                        <span class="ui-column-title"> {{l('Tag Id')}}</span>
+                                        {{record.tag}}
+                                    </td>
+                                    <td>
+                                        <i class="far {{record.mapped?'fa-check-circle':'fa-circle'}}" style="font-size: 18px"></i>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="newItemTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{newItemTableHelper.defaultRecordsCountPerPage}}" #newItemsPaginator
+                                (onPageChange)="newItemTablePageChanged($event)"
+                                [totalRecords]="newItemTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="newItemTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', newItemTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

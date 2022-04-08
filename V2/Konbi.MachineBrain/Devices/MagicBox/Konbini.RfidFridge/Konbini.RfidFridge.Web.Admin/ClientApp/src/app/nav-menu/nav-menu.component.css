@@ -1,0 +1,39 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media (max-width: 768px) {
+  .nav-icon {
+    display: none;
+  }
+}
+@media (max-width: 576px) {
+  .nav-icon {
+    display: inline;
+  }
+}
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+/*.nav-custom {
+  background: rgba(45,45,45,0.98);
+}*/
+/*.navbar-light .navbar-brand {
+  color: #fff;
+}
+
+.navbar-light .navbar-toggler {
+  color: #fff;
+}*/
+

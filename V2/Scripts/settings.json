@@ -1,0 +1,13 @@
+{
+    "LocalAdminConfig": {
+        "AngularFolder":"..\\KonbiCloud\\angular",
+        "NetCoreApiFolder":"..\\KonbiCloud\\aspnet-core",
+        "CustomerUIFolder":"..\\Konbi.MachineBrain\\CustomerUI\\RFIDTable"
+    },
+    "publishFolder": {
+        "root":"c:\\rfidfridge-publish",
+        "adminAngular":"\\angular",
+        "adminApi":"\\api",
+        "customerUI":"\\ui"
+    }
+}

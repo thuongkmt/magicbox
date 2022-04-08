@@ -1,0 +1,42 @@
+<mat-card class="user-card">
+  <mat-card-header>
+    <div mat-card-avatar class="user-header-image"></div>
+    <mat-card-title>Ha Doan</mat-card-title>
+    <mat-card-subtitle style="margin-bottom:-5px;">ha@konbi.ninja</mat-card-subtitle>
+  </mat-card-header>
+ 
+</mat-card>
+
+
+<mat-card class="qrcode-card" >
+  <mat-card-content >
+
+      <h3 class="align-center">
+          Balance</h3>
+      
+          <span class="align-center credit">{{currentCredit | currency }}</span>
+          <mat-divider></mat-divider>
+        <br/>
+      <h3 class="align-center">
+        Your Code</h3>
+      <p class="align-center">
+        <img  mat-card-image src="../../assets/images/qrcode.png" style="width:80%;" alt="qrcode">
+      </p>
+  </mat-card-content>
+  
+</mat-card>
+
+
+<mat-card class="other" style="height:100%;">
+  
+  <mat-card-content>
+    
+  &nbsp;
+
+  </mat-card-content>
+  
+</mat-card>
+
+<!-- <button mat-raised-button color="primary" (click)="openButtonClick()" >  Open</button> -->
+
+<!-- <app-messages></app-messages> -->

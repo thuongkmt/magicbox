@@ -1,0 +1,663 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("MachineSettings")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("MachineSettingsHeaderInfo")}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class="row m--margin-bottom-10">
+                    <h3>
+                        <label>Cloud</label>
+                    </h3>
+                </div>
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="UseCloud">{{l("UseCloud")}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="checkbox" name="useCloud" [checked]="useCloud.value == 'true'"
+                                (change)="updateBooleanSettingsValue(useCloud)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="CloudApiUrl">Cloud API Url</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="cloudUrl" [(ngModel)]="cloudUrl.value"
+                                (change)="updateSettingsValue(cloudUrl)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="TenantId">Tenant ID</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="tenantId" [(ngModel)]="tenantId.value"
+                                (change)="updateSettingsValue(tenantId)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <h3>
+                        <label>{{l("Machine")}}</label>
+                    </h3>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="MachineName">{{l("MachineName")}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="machineName" [(ngModel)]="machineName.value"
+                                (change)="updateSettingsValue(machineName)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="MachineId">{{l("MachineId")}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="machineId" [(ngModel)]="machineId.value"
+                                (change)="updateSettingsValue(machineId)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="BottomText">Bottom Text</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="bottomText" [(ngModel)]="bottomText.value"
+                                (change)="updateSettingsValue(bottomText)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="AdvsImage">Advertising Image</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="advsImage" [(ngModel)]="advsImage.value"
+                                (change)="updateSettingsValue(advsImage)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <h3>
+                        <label>{{l("Payment")}}</label>
+                    </h3>
+                </div>
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="Type">{{l("Type")}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select class="form-control" name="paymentType" [(ngModel)]="paymentType.value"
+                                (ngModelChange)="updateSettingsValue(paymentType)">
+                                <option *ngFor="let value of paymentOptions" value="{{value}}">
+                                    {{value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row m--margin-bottom-10">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="Terminal Type">{{l("Terminal Type")}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select class="form-control" name="terminalType" [(ngModel)]="terminalType.value"
+                                (ngModelChange)="updateSettingsValue(terminalType)">
+                                <option *ngFor="let value of terminalTypeOptions" value="{{value}}">
+                                    {{value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m--margin-bottom-10"
+                    *ngIf="paymentType.value == 'QR' || paymentType.value == 'QR_MAGIC' || paymentType.value == 'QR_NAYAX'">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="Type">{{l("QR Type")}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select class="form-control" name="qrPaymentType" [(ngModel)]="qrPaymentType.value"
+                                (ngModelChange)="updateSettingsValue(qrPaymentType)">
+                                <option *ngFor="let value of qrPaymentOptions" value="{{value}}">
+                                    {{value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    *ngIf="qrPaymentType.value == 'GRABPAY' && (paymentType.value == 'QR' || paymentType.value == 'QR_NAYAX' || paymentType.value == 'QR_MAGIC')">
+                    <!-- Reserve Amount for GrabPay -->
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Reserve Amount</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="grabPayReserveAmount"
+                                    [(ngModel)]="grabPayReserveAmount.value"
+                                    (change)="updateSettingsValue(grabPayReserveAmount)" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Host for GrabPay -->
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Host</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="host" [(ngModel)]="host.value"
+                                    (change)="updateSettingsValue(host)" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Host for PartnerId -->
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Partner ID</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="partnerId" [(ngModel)]="partnerId.value"
+                                    (change)="updateSettingsValue(partnerId)" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Host for Partner Secret -->
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Partner Secret</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="partnerSecret"
+                                    [(ngModel)]="partnerSecret.value" (change)="updateSettingsValue(partnerSecret)" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Host for ClientId -->
+                    <!-- <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Client ID</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="clientId" [(ngModel)]="clientId.value" (change)="updateSettingsValue(clientId)" />
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Host for ClientSecret -->
+                    <!-- <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Client Secret</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="clientSecret" [(ngModel)]="clientSecret.value" (change)="updateSettingsValue(clientSecret)" />
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Host for GrabId -->
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Merchant ID</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="grabId" [(ngModel)]="grabId.value"
+                                    (change)="updateSettingsValue(grabId)" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Host for TerminalId -->
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Terminal ID</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="terminalId" [(ngModel)]="terminalId.value"
+                                    (change)="updateSettingsValue(terminalId)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Reserve Amount for GrabPay -->
+                    <div *ngIf="paymentType.value == 'PAYTER'" class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Host">Payter Reserve Amount</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="payterPreauthAmount"
+                                    [(ngModel)]="payterPreauthAmount.value"
+                                    (change)="updateSettingsValue(payterPreauthAmount)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        *ngIf="qrPaymentType.value == 'WALLET' && (paymentType.value == 'QR' || paymentType.value == 'QR_NAYAX' || paymentType.value == 'QR_MAGIC')">
+                        <div class="row m--margin-bottom-10">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="Host">Reserve Amount</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="teraReserveAmount"
+                                        [(ngModel)]="teraReserveAmount.value"
+                                        (change)="updateSettingsValue(teraReserveAmount)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m--margin-bottom-10">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="Host">Host</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="teraHost" [(ngModel)]="teraHost.value"
+                                        (change)="updateSettingsValue(teraHost)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="(paymentType.value == 'MAGIC' || paymentType.value == 'QR_MAGIC')"
+                        class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="EzLinkMin">Minimum Balance Require</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="ezLinkMin" [(ngModel)]="ezLinkMin.value"
+                                    (change)="updateSettingsValue(ezLinkMin)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="(paymentType.value == 'MAGIC' || paymentType.value == 'QR_MAGIC') && terminalType.value == 'IUC'"
+                        class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="EnableCpas">Enable CPAS</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="checkbox" name="enableCpas" [checked]="enableCpas.value == 'true'"
+                                    (change)="updateBooleanSettingsValue(enableCpas)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="(paymentType.value == 'MAGIC' || paymentType.value == 'QR_MAGIC') && terminalType.value == 'IUC'"
+                        class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="EnableCreditCard">Enable Credit Card</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="checkbox" name="enableCreditCard"
+                                    [checked]="enableCreditCard.value == 'true'"
+                                    (change)="updateBooleanSettingsValue(enableCreditCard)" />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div *ngIf="(paymentType.value == 'MAGIC' || paymentType.value == 'QR_MAGIC') && terminalType.value == 'IUC'"
+                        class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="CardInsertType">Card Insert Type</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control" name="cardInsertType" [(ngModel)]="cardInsertType.value"
+                                    (ngModelChange)="updateSettingsValue(cardInsertType)">
+                                    <option *ngFor="let value of cardInsertOptions" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="(paymentType.value == 'MAGIC' || paymentType.value == 'QR_MAGIC') && cardInsertType.value =='SLIM'  && terminalType.value == 'IUC'"
+                        class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="cardInsertComport">Card Insert Comport</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control" name="cardInsertComport"
+                                    [(ngModel)]="cardInsertComport.value"
+                                    (ngModelChange)="updateSettingsValue(cardInsertComport)">
+                                    <option *ngFor="let value of options" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row m--margin-bottom-10">
+                        <h3>
+                            <label>{{l("Hardware")}}</label>
+                        </h3>
+                    </div>
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Lock">{{l("Lock")}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control" name="lock" [(ngModel)]="lock.value"
+                                    (ngModelChange)="updateSettingsValue(lock)">
+                                    <option *ngFor="let value of options" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Inventory">{{l("Inventory")}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <select class="form-control" name="inventory" [(ngModel)]="inventory.value"
+                                    (ngModelChange)="updateSettingsValue(inventory)">
+                                    <option *ngFor="let value of options" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                                <p class="text-center">Comport</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <select class="form-control" name="readerBaurate" [(ngModel)]="readerBaurate.value"
+                                    (ngModelChange)="updateSettingsValue(readerBaurate)">
+                                    <option *ngFor="let value of readerBaurateOptions" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                                <p class="text-center">Baurate</p>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <select class="form-control" name="readerFrame" [(ngModel)]="readerFrame.value"
+                                    (ngModelChange)="updateSettingsValue(readerFrame)">
+                                    <option *ngFor="let value of readerFrameOptions" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                                <p class="text-center">Frame</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="CashlessTerminal">{{l("CashlessTerminal")}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control" name="cashlessTerminal"
+                                    [(ngModel)]="cashlessTerminal.value"
+                                    (ngModelChange)="updateSettingsValue(cashlessTerminal)">
+                                    <option *ngFor="let value of options" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="QrScannerTtl">{{l("Qr Scanner")}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control" name="qrCode"
+                                    [(ngModel)]="qrCode.value"
+                                    (ngModelChange)="updateSettingsValue(qrCode)">
+                                    <option *ngFor="let value of optionsQr" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Temperature">{{l("Temperature")}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="checkbox" name="enableTemperature"
+                                [checked]="enableTemperature.value == 'true'"
+                                (change)="updateBooleanSettingsValue(enableTemperature)" />
+                            <label>&nbsp; Enable</label>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select class="form-control" name="temperature" [(ngModel)]="temperatureComport.value"
+                                    (ngModelChange)="updateSettingsValue(temperatureComport)">
+                                    <option *ngFor="let value of optionsHID" value="{{value}}">
+                                        {{value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m--margin-bottom-10">
+                        <h3>
+                            <label>Slack</label>
+                        </h3>
+                    </div>
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="URL">URL</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="slackUrl" [(ngModel)]="slackUrl.value"
+                                    (change)="updateSettingsValue(slackUrl)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="UserName">Username</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="slackUsername"
+                                    [(ngModel)]="slackUsername.value" (change)="updateSettingsValue(slackUsername)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="AlertChannel">Alert Channel</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="slackAlertChannel"
+                                    [(ngModel)]="slackAlertChannel.value"
+                                    (change)="updateSettingsValue(slackAlertChannel)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="InfoChannel">Info Channel</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="slackInfoChannel"
+                                    [(ngModel)]="slackInfoChannel.value"
+                                    (change)="updateSettingsValue(slackInfoChannel)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="UnstableChannel">Unstable Tag Channel</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="unstableTagChannel"
+                                    [(ngModel)]="unstableTagChannel.value"
+                                    (change)="updateSettingsValue(unstableTagChannel)" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,116 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>Topup</span>
+                </h3>
+                <span class="m-section__sub">
+                    Inventory Topup
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div>
+                    <div class="row">
+                        <div class="alert" role="alert">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div>
+                                        <h3>Current Topup</h3>
+                                    </div>
+                                    <div class="content-line">
+                                        <span class="topup">Start time: </span>
+                                        <span>{{currentTopupInfo.startTime| date:'dd/MM/yyyy HH: mm'}} </span>
+                                    </div>
+                                    <div class="content-line">
+                                        <span class="topup">Total: </span>
+                                        <span>{{currentTopupInfo.total}}</span>
+                                    </div>
+                                    <div class="content-line">
+                                        <span class="topup">Sold: </span>
+                                        <span>{{currentTopupInfo.sold}}</span>
+                                    </div>
+                                    <div class="content-line">
+                                        <span class="topup">Left Over: </span>
+                                        <span>{{currentTopupInfo.leftOver}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="col-sm">
+                        <div class="alert alert-info" role="alert">
+                            <span style="font-weight: bold">1. Open the door and put items inside.</span>
+                        </div>
+                        <span style="font-size: 15pt">Total items:
+                            <span style="color: orange; font-weight: bold"> {{totalTag}} </span>
+                        </span>
+                        <button type="button" class="btn btn-success float-right" (click)="OpenLock()">Open
+                            Door</button>
+
+                    </div>
+                    <br />
+                    <div class="col-sm">
+                        <div class="alert alert-info" role="alert">
+                            <span style="font-weight: bold">2. Select product to register.</span>
+                        </div>
+                        <div class="form-group row">
+                            <label for="productName" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <!-- [disabled]="!(totalTag > 0)" -->
+                                <select [(ngModel)]="selectedProduct" class="form-control" (change)="selected()"
+                                    id="UserSelector" style="width: 100%;">
+                                    <option *ngFor="let product of products" [ngValue]="product">{{product.name}}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-2 col-form-label">Price</label>
+                            <div class="col-sm-3">
+                                <input *ngIf="selectedProduct" [(ngModel)]="selectedPrice" [disabled]="!(totalTag > 0)"
+                                    type="text" class="form-control" id="price" value="{{selectedProduct.price}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button type="button"
+                                    [disabled]="!selectedProduct || processing || (totalTag <= 0) || !(selectedProduct.id != '0') || !(isTopupProcessing)"
+                                    class="btn btn-primary float-right" (click)="insertInventory()">Register</button>
+                                <button type="button" [disabled]="(isTopupProcessing)"
+                                    class="btn btn-primary float-left" (click)="newTopup()">New Topup</button>
+                                <button type="button" [disabled]="!(isTopupProcessing)"
+                                    class="btn btn-primary float-left" (click)="endTopup()">End Topup</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm" style="margin-top: 50px">
+                        <div class="alert alert-info" role="alert">
+                            <span style="font-weight: bold">Unregistered items.</span>
+                        </div>
+                        <table class='table table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Tag Id</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tag of tags">
+                                    <td>{{ tag.Id }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="modal fade" bsModal #editLoadoutModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form  #editLoadoutForm="ngForm" id="frm_edit_loadout" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">{{l("Assign Product")}}</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editLoadoutModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="editInventory">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="m-checkbox-list col col-sm-3">
+                            <label for="price" class="m-checkbox">
+                                <input id="price" type="checkbox" name="price" [(ngModel)]="editPrice">
+                                Edit Price
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="input-group  col col-sm-6" style="height: 30px; margin-top: -7px;">
+                            <input name="price" type="number" [(ngModel)]="price" required maxlength="10" minlength="1" min="0" class="form-control"
+                            style="height: 100%;">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="m-checkbox-list col col-sm-3">
+                            <label for="quantity" class="m-checkbox">
+                                <input id="quantity" type="checkbox" name="quantity" [(ngModel)]="editQuantity">
+                                Edit Quantity
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="input-group  col col-sm-6" style="height: 30px; margin-top: -7px;">
+                            <input name="quantity" type="number" [(ngModel)]="quantity" required maxlength="10" minlength="1" min="0" class="form-control"
+                            style="height: 100%;">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 30px;">
+                        <div class="m-checkbox-list col col-sm-3">
+                            <label for="capacity" class="m-checkbox">
+                                <input id="capacity" type="checkbox" name="capacity" [(ngModel)]="editCapacity">
+                                Edit Capacity
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="input-group  col col-sm-6" style="height: 30px; margin-top: -7px;">
+                            <input name="capacity" type="number" [(ngModel)]="capacity" required maxlength="10" minlength="1" min="0" class="form-control"
+                            style="height: 100%;">
+                        </div>
+                    </div>
+
+                    <div class="row" *ngFor="let listItem of loadout.loadoutList" style="display: block;
+                                                                                        position: relative;
+                                                                                        margin-top: 20px;
+                                                                                        margin-bottom: 30px;">
+                        <div class="m-checkbox-list"
+                         style="position: absolute;
+                                top: -10px;
+                                left: 10px;
+                                background: white;
+                                padding-left: 5px;
+                                padding-right: 5px;">
+                            <label for="{{listItem.index}}" class="m-checkbox">
+                                <input id="{{listItem.index}}" type="checkbox" name="{{listItem.index}}" [(ngModel)]="listItem.checkAll" (change)="checkAllChange(listItem)">
+                                Check All
+                                <span></span>
+                            </label>
+                        </div>
+                        <div style="border: 1px;
+                                    border-color: gray;
+                                    border-style: solid;
+                                    border-radius: 3px;
+                                    padding: 20px;
+                                    padding-top: 20px;
+                                    padding-bottom: 10px;">
+
+                            <div style="border: 1px; border-color: black; display: -webkit-box;">
+                                <div class="m-checkbox-list" *ngFor='let item of listItem.loadouts' style="margin-right: 20px;">
+                                    <label for="{{item.id}}" class="m-checkbox">
+                                        <input id="{{item.id}}" type="checkbox" name="{{item.id}}" [(ngModel)]="item.isChecked">
+                                        {{item.itemLocation}}
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="padding: 0px; padding-top: 15px;">
+                        <button [disabled]="saving" type="button" class="btn btn-default" data-dismiss="modal" (click)="editLoadoutModal.hide()">{{l("Cancel")}}</button>
+                        <button [disabled]="saving" type="submit" class="btn btn-primary">{{l("Save")}}</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

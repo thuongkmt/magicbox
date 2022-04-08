@@ -1,0 +1,86 @@
+html {
+    position: relative;
+    min-height: 100%;
+
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: rgba(45, 45, 45, 0.98);
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    /* height: 60px; */
+    /* line-height: 60px;  */
+    /* background-color: #f5f5f5; */
+}
+
+
+/* Custom page CSS
+                -------------------------------------------------- */
+
+/* Not required for template or sticky footer method. */
+
+.container {
+    padding: 30px 15px 0;
+    max-width: 1850px;
+
+}
+
+code {
+    font-size: 80%;
+}
+
+.table_font {
+    font-size: 20pt;
+}
+
+.table_font td {
+    font-size: 45pt;
+}
+
+.table_font td:nth-child(2) {
+    color: orange;
+}
+
+.table_font td:nth-child(1) {
+    color: white;
+}
+
+.total {
+    font-size: 3.5rem;
+}
+
+.instruction-message {
+    font-size: 2.5rem;
+}
+
+.price {
+    font-size: 3.5rem;
+    right: 20px;
+    position: absolute;
+    color: orange;
+    font-weight: bold;
+}
+
+.temperature {
+    font-size: 2rem;
+    right: 20px;
+    position: absolute;
+    color: orange;
+    font-weight: bold;
+    top: -1px;
+}
+
+table#table_inventory td {
+    font-size: 30pt;
+}
+
+.header {
+    font-size: 55pt;
+}

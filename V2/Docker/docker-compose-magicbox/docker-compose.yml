@@ -1,0 +1,50 @@
+version: "3"
+# NETWORK
+networks:
+  magicbox-network:
+    driver: bridge
+# SERVICES
+services: 
+  # container NETCORE
+  my_netcore:
+    container_name: magicbox_netcore
+    image: "nnthuong/magicbox_netcore:v1.0.0" 
+    hostname: magicbox_netcore
+    restart: always
+    networks: 
+      - magicbox-network
+    volumes: 
+      - ./netcore/:/app/App_Data/
+      - ./netcore/appsettings.production.json:/app/appsettings.production.json
+      - ./netcore/appsettings.json:/app/appsettings.json
+    ports: 
+      - "22743:80"
+    links:
+      - my-mysql
+  # container ANGULAR
+  my-angular: 
+    container_name: magicbox_angular
+    image: "nnthuong/magicbox_angular:v1.0.0"
+    hostname: magicbox_angular
+    networks: 
+      - magicbox-network
+    volumes: 
+      - ./angular/appconfig.production.json:/usr/share/nginx/html/assets/appconfig.production.json
+    ports: 
+      - "4300:80"
+  # container MYSQL
+  my-mysql:
+    container_name: mysql
+    image: "mysql:5.7"
+    hostname: mysql
+    restart: always
+    networks: 
+      - magicbox-network
+    volumes: 
+      - ./db/data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/my.cnf
+    environment: 
+      - MYSQL_ROOT_PASSWORD=K0nbini62
+      - MYSQL_DATABASE=rfidfridgecloud
+    ports: 
+      - "3306:3306"

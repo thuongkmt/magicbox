@@ -1,0 +1,115 @@
+<div [@routerTransition]>
+  <div class="m-subheader">
+      <div class="d-flex align-items-center">
+          <div class="mr-auto col-md-6">
+              <h3 class="m-subheader__title m-subheader__title--separator">
+                  <span>{{l("AlertSettings")}}</span>
+              </h3>
+              <span class="m-section__sub">
+                  {{l("AlertSettingsHeaderInfo")}}
+              </span>
+          </div>
+        </div>
+    </div>
+    <div class="m-content">
+      <div class="m-portlet m-portlet--mobile">
+          <div class="m-portlet__body">
+              <form novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="m-form m-form--label-align-right">
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ToEmail">{{l("ToEmail")}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="ToEmail" name="toEmail" [(ngModel)]="alertConfiguration.toEmail">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="WhenStockBelow">{{l("WhenStockBelow")}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                              <div class="form-group">
+                                  <input type="number" class="form-control" id="WhenStockBelow" name="whenStockBelow" [(ngModel)]="alertConfiguration.whenStockBellow"> 
+                              </div>
+                          </div>
+                    </div>
+                        
+                    <div class="row m--margin-bottom-10">  
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="WhenHotMachineTemperatureBelow">{{l("WhenHotMachineTemperatureBelow")}}</label>
+                            </div>
+                        </div>  
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="WhenHotMachineTemperatureBelow" name="whenHotMachineTemperatureBelow" [(ngModel)]="alertConfiguration.whenHotMachineTemperatureBelow"> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label for="WhenChilledMachineTemperatureAbove">{{l("WhenChilledMachineTemperatureAbove")}}</label>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <input type="number" class="form-control" id="WhenChilledMachineTemperatureAbove" name="whenChilledMachineTemperatureAbove" [(ngModel)]="alertConfiguration.whenChilledMachineTemperatureAbove"> 
+                          </div>
+                        </div>
+                    </div>
+                      
+                    <div class="row m--margin-bottom-10">    
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label for="WhenFrozenMachineTemperatureAbove">{{l("WhenFrozenMachineTemperatureAbove")}}</label>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <input type="number" class="form-control" id="WhenFrozenMachineTemperatureAbove" name="whenFrozenMachineTemperatureAbove" [(ngModel)]="alertConfiguration.whenFrozenMachineTemperatureAbove"> 
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row m--margin-bottom-10"> 
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="SendMailWhenProductExpireIn">{{l("SendMailWhenProductExpireIn")}}</label>
+                            </div>
+                        </div>   
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <input type="number" class="form-control" id="SendMailWhenProductExpireIn" name="sendMailWhenProductExpireIn" [(ngModel)]="alertConfiguration.sendEmailWhenProductExpiredDate"> 
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row m--margin-bottom-10"> 
+                        <div class="col-md-3">
+                        </div>   
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary blue" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                              <span>{{l("Save")}}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+              </form>
+          </div>
+        </div>
+    </div>
+</div>
+    
+          

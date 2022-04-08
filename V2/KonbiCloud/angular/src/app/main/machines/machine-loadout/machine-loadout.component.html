@@ -1,0 +1,103 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-4">
+                <h4 class="m-subheader__title" style="padding: 0px;">
+                    <span>{{loadout.machineName}} </span>
+                </h4>
+                
+                <img *ngIf ="loadout.isOnline" src="/assets/images/online.png" style="height:25px;width:25px;">
+                <img *ngIf ="!loadout.isOnline" src="/assets/images/offline.png" style="height:25px;width:25px;">
+            </div>
+            <div class="col-md-8 text-right">
+                <button (click)="onAssignProducts(null)" class="btn btn-primary blue" [disabled]="!loadout.isOnline"
+                        style="margin-top: 5px; margin-bottom: 5px;">
+                    {{l("Assign Product")}}
+                </button>
+                <button (click)="onEditLoadout()" class="btn btn-primary blue" [disabled]="!loadout.isOnline"
+                         style="margin-top: 5px; margin-bottom: 5px;">
+                    {{l("Edit Loadout")}}
+                </button>
+                <button (click)="startRestock();" class="btn btn-primary blue" *ngIf="!isRestocking" [disabled]="!loadout.isOnline"
+                        style="margin-top: 5px; margin-bottom: 5px;">
+                    {{l("Start Restock")}}
+                </button>
+                <button (click)="endRestock();" class="btn btn-primary blue" *ngIf="isRestocking" [disabled]="!loadout.isOnline"
+                        style="margin-top: 5px; margin-bottom: 5px;">
+                    {{l("End Restock")}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body" id="boundMachineConfigurationDetail">
+                    <div class="row" #mainScreen id="mainScreen">
+                        <div *ngFor="let listItem of loadout.loadoutList" style="display: block;">
+                            <div class="invItemBount" *ngFor="let item of listItem.loadouts">
+                                <div class="inv-content" [style.opacity]="item.isDisable ? '0.5' : '1'"
+                                     [style.min-width]="item.isDisable ? '112.7px' : '0px'"
+                                     [style.background]="item.isDisable ? 'lightgrey' : 'white'">
+                                    <div style="line-height: 1.1;text-align:center;">
+                                        <span style="font-weight:bold;
+                                                        font-size:30px;
+                                                        color:#656565;
+                                                        margin-bottom: 5px;">{{item.itemLocation}}</span>
+                                    </div>
+                                    <div class="producInvBound" *ngIf="!item.isDisable">
+                                        <div *ngIf="hasProduct(item)">
+                                            <div style="height:75px;text-align:center;">
+                                                    <img src="{{item.imageUrl != null && item.imageUrl != ''? baseRemoteUrl + '/images/thumb_' +item.imageUrl : '/assets/images/no-image.png'}}"
+                                                            style="height:75px;max-width:104px;">
+                                            </div>
+                                            <div style="margin-left:5px;
+                                                        margin-right:5px;
+                                                        margin-top:10px;
+                                                        color:darkturquoise;
+                                                        min-height:40px;
+                                                        overflow:hidden;
+                                                        text-align:center;">
+                                                {{getProductNameDisplay(item.productName)}}
+                                            </div>
+                    
+                                            <div style="font-weight:bold;font-size:16px;color:green;text-align:center;">{{currencySymbol}}{{item.price}}</div>
+                    
+                                            <span style="font-size:12px;margin-left:5px">Quantity:&nbsp; </span>
+                                            <span class="text-success" style="font-size:12px;">{{item.quantity}}/{{item.capacity}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="invOperations" *ngIf="!item.isDisable">
+                                        <div class="row " style="margin-right:0px;margin-left: 0px;">
+                                            <span class="row" style="margin-right:0px;margin-left: 0px;">
+                                                <button *ngIf="!hasProduct(item)" type="button" class="btn btn-success btn-sm btn-add-inventory" (click)="onEditLoadoutItem(item);"
+                                                        [disabled]="!loadout.isOnline || item.isDisable">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>{{"Add Product"}}
+                                                </button>
+                    
+                                                <button *ngIf="hasProduct(item)" type="button" class="btn btn-success btn-sm btn-edit-inventory" (click)="onEditLoadoutItem(item);"
+                                                        [disabled]="!loadout.isOnline || item.isDisable">
+                                                    <i class="fa fa-edit" aria-hidden="true"></i>{{"Edit"}}
+                                                </button>
+                    
+                                                <button *ngIf="hasProduct(item)" type="button" style="float:right;" class="btn btn-danger btn-sm" (click)="delete(item);"
+                                                        [disabled]="!loadout.isOnline || item.isDisable">
+                                                    <i class="fa fa-trash icon" style="margin: 0px; padding: 0px; margin-left: 4px;margin-right: 4px;"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <changeProductModalSelector #changeProductModal (modalSave)="getMachineLoadout()"></changeProductModalSelector>
+    <editLoadoutModalSelector #editLoadoutModal (modalSave)="getMachineLoadout()"></editLoadoutModalSelector>
+    <editLoadoutItemModalSelector #editLoadoutItemModal (modalSave)="getMachineLoadout()"></editLoadoutItemModalSelector>
+</div>
+
+
+    

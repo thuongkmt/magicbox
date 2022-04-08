@@ -1,0 +1,21 @@
+#tabledishs {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #tabledishs td, #tabledishs th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #tabledishs tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #tabledishs tr:hover {background-color: #ddd;}
+  
+  #tabledishs th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: white;
+  }

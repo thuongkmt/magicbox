@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Please select your action</h1>
+<mat-dialog-content class="mat-typography" style="font-size:large;height:100px;">
+  You are at magicbox <span style="color:red">Konbini01</span><br/> <br/>
+  Press <b>Open Door</b> button to open the door.<br/><br/>
+  Press <b>Topup</b> button to topup your credit.
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button  mat-dialog-close> Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="1" color="warn" cdkFocusInitial>Topup</button>
+  <button mat-raised-button [mat-dialog-close]="2" color="primary" cdkFocusInitial>Open Door</button>
+</mat-dialog-actions>

@@ -1,0 +1,41 @@
+<div [@routerTransition]>
+  <div class="m-subheader">
+      <div class="d-flex align-items-center">
+          <div class="mr-auto col-md-6">
+              <h3 class="m-subheader__title m-subheader__title--separator">
+                  <span>{{l("Sync Setting")}}</span>
+              </h3>
+          </div>
+      </div>
+  </div>
+  <div class="m-content">
+      <div class="m-portlet m-portlet--mobile">
+          <div class="m-portlet__body">
+            <div class="row">
+              <div class="col-md-3 m--margin-bottom-10 m--margin-right-10">
+                <button (click)="syncSession()" class="btn btn-primary blue">{{l("Sync Sessions")}}</button>
+              </div>
+              <div class="col-md-3 align-items-right m--margin-bottom-10">
+                <button (click)="syncTray()" class="btn btn-primary blue">{{l("Sync Trays")}}</button>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 m--margin-bottom-10 m--margin-right-10">
+              <button (click)="syncPlate()" class="btn btn-primary blue">{{l("Sync Plates")}}</button>
+            </div>
+            <div class="col-md-3 align-items-right m--margin-bottom-10">
+              <button (click)="syncPlateCategory()" class="btn btn-primary blue">{{l("Sync Plate Category")}}</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 m--margin-bottom-10 m--margin-right-10">
+                <button (click)="syncMenuScheduler()" class="btn btn-primary blue">{{l("Sync Menu Scheduler")}}</button>
+            </div>
+            <div class="col-md-3 align-items-right m--margin-bottom-10">
+                <button (click)="syncInventory()" class="btn btn-primary blue">{{l("Sync Inventory")}}</button>
+            </div>
+      </div>
+        </div>
+      </div>
+  </div>
+</div>

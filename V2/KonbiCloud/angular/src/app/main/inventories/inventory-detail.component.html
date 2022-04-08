@@ -1,0 +1,57 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title">
+                    <span>{{inventoryDetail.machineName}}</span>
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class="row">
+                    <span class="topup-date">Topup: </span>
+                    <span
+                        style="margin-left: 8px; font-weight:500">{{inventoryDetail.topupDate| date:'dd/MM/yyyy HH: mm'}}</span>
+                </div>
+                <div class="row">
+                    <span>Total: <span class="total">{{inventoryDetail.total}}</span></span>
+                    <span>Left Over: <span class="left-over">{{inventoryDetail.leftOver}}</span> </span>
+                    <span>Sold: <span class="sold">{{inventoryDetail.sold}}</span></span>
+                    <span>Error: <span class="error">{{inventoryDetail.error}}</span></span>
+                </div>
+                <div class="row align-items-center">
+                    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                        <p-table [value]="inventoryDetail.inventoryDetailList" [scrollable]="true" ScrollWidth="100%"
+                            [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Last Sold</th>
+                                    <th>Product</th>
+                                    <th>Total</th>
+                                    <th>Left Over</th>
+                                    <th>Sold</th>
+                                    <th>Error</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-inventory>
+                                <tr>
+                                    <td>{{inventory.lastSoldDate| date:'dd/MM/yyyy HH: mm'}}</td>
+                                    <td>{{inventory.productName}}</td>
+                                    <td>{{inventory.total}}</td>
+                                    <td>{{inventory.leftOver}}</td>
+                                    <td>{{inventory.sold}}</td>
+                                    <td>{{inventory.error}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

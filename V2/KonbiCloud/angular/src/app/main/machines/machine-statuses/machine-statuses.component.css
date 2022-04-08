@@ -1,0 +1,104 @@
+.machinePanel
+{    
+    padding:10px;
+}
+
+.machinePanel .insidePanel
+{
+    background-color:white;
+    border-radius:4px;
+    padding:10px 0px 10px 10px;
+}
+
+   
+    .insidePanel .labelVal {
+        display: inline-block;
+        width: 50px;
+    }
+
+.insidePanel .lastVal {
+    display: inline-block;
+    width: 6px;
+}
+
+.insidePanel .previousVal {
+    display: inline-block;
+    width: 50px;
+}
+
+
+.insidePanel .extLineVal {
+    display: inline-block;
+    width: 30px;
+}
+
+.machinePanel .insidePanel tr td:first-child
+{
+    padding-right:5px;
+    font-weight:500;
+}
+
+.machinePanel .insidePanel tr td:nth-child(2) {
+    text-align:center;
+}
+
+
+.machinePanel .insidePanel tr td:nth-child(3) {
+    text-align: center;
+}
+
+
+
+.machinePanel .insidePanel tr th:nth-child(2) {
+    text-align: center;
+    
+}
+
+.machinePanel .insidePanel tr th:nth-child(2) em {
+    background-color:red;
+}
+
+
+.machinePanel .insidePanel tr th:nth-child(3) {
+    text-align: center;
+}
+
+.machinePanel .insidePanel table{
+    width:100%;
+}
+.machinePanel .insidePanel  tr {
+    height: 35px;
+    vertical-align: middle;
+    border-bottom: 1px solid #d2caca;
+}
+
+.machine-Offline, .machine-Offline .device-OK, .machine-Offline .device-Error {
+    background-color: grey;
+}
+
+.machine-Online {
+    background-color: forestgreen;
+    height:5px;
+    margin-right:10px;
+    border-radius:5px;
+}
+
+.machine-Online {
+    background-color: indianred;
+    height:5px;
+    margin-right:10px;
+    border-radius:5px;
+}
+
+.machine-Error{
+    background-color: indianred;
+}
+
+.machine-Error.device-OK {
+    background-color: lawngreen;
+}
+
+#msTable td
+{
+    color:#333333;
+}

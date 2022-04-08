@@ -1,0 +1,70 @@
+<div [@routerTransition]>
+  <div class="m-subheader ">
+      <div class="d-flex align-items-center">
+          <div class="mr-auto col-sm-6">
+              <h3 class="m-subheader__title m-subheader__title--separator">
+                  <!-- <span>{{ l("TemperatureLogs") }}</span> -->
+                  TemperatureLogs
+              </h3>
+          </div>
+      </div>
+  </div>
+  <div class="m-content">
+      <div class="m-portlet m-portlet--mobile">
+          <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+            <div class="m-portlet__body">
+              <!-- Filter -->
+              <form class="horizontal-form" autocomplete="off">
+                <div class="m-form m-form--label-align-right">
+                  <div class="row align-items-center m--margin-bottom-10">
+                      <div class="col-lg-3">
+                          <div class="form-group m-form__group">
+                              <label for="DateFilter">{{l("SelectDate")}}</label>
+                              <input type="date" class="form-control" id="DateFilter" name="DateFilter" [(ngModel)]="dateFilter"
+                              (change)="getTemperatureLogs();" style="min-width: 130px; padding-right: 0px;">
+                          </div>
+                      </div>
+
+                      <!-- <label>{{l("Machines")}}</label> -->
+                      <div class="col-lg-5">
+                        <div class="form-group m-form__group multiselect-dropdown-custom">                              
+                        </div>
+                      </div>
+
+                  </div>
+                </div>
+              </form>
+              <!-- End Filter -->
+              <div class="row align-items-center">
+                <div class="char-line-temperaturelog" *ngIf="haveData">
+                  <ngx-charts-line-chart
+                      [results]="temperatureLogs" 
+                      [gradient]="false"
+                      [xAxis]="true" 
+                      [yAxis]="true" 
+                      [legend]="false" 
+                      [legendTitle]="legendTitle" 
+                      [showXAxisLabel]="true"
+                      [showYAxisLabel]="true" 
+                      [xAxisLabel]="xAxisLabel" 
+                      [yAxisLabel]="yAxisLabel"
+                      [yScaleMin]="-30"
+                      [yScaleMax]="40"
+                      [roundDomains]="true">
+                      <ng-template #tooltipTemplate let-model="model">
+                        {{model.series}}: {{model.name | date:'short'}} - {{l("Temperature")}} : {{model.value}}°C
+                      </ng-template>
+                  </ngx-charts-line-chart>
+                </div>
+                <div class="char-line-temperaturelog" *ngIf="!haveData">
+                  <div class="alert alert-warning font-weight-bold" role="alert">
+                    <i class="flaticon-warning"></i>&nbsp;&nbsp;
+                    {{l("EmptyData")}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

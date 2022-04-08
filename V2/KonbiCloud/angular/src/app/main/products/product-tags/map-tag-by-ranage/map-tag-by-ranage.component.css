@@ -1,0 +1,7 @@
+.tag-list {
+    background-color: green;
+    font-weight: bold;
+    height: 60px;    
+    color: white;
+    word-wrap: break-word
+}

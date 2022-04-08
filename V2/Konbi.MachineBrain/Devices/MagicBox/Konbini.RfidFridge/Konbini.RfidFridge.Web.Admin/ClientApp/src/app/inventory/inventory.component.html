@@ -1,0 +1,52 @@
+
+<style>
+  .btn {
+    margin-left: 10px;
+  }
+
+  .btn-link {
+    /*margin-left: 10px;*/
+    margin-left: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  
+</style>
+<!--<div style="float: right; margin-bottom: 30px">
+  <button class="btn btn-outline-success" (click)="open(import, 'Import')">Import</button>
+  <button class="btn btn-primary" (click)="open(add , 'Add')">Add Product</button>
+</div>-->
+
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Tag Id</th>
+      <!--<th>Price</th>-->
+      <th width="110px">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="!inventories">
+      <td colspan="4">
+        <div class="d-flex justify-content-center">
+          <fa name="spinner" animation="spin" size="3x" style="color: #007bff"></fa>
+        </div>
+      </td>
+
+    </tr>
+  <tr *ngFor="let item of inventories" id="{{ item.tagId }}" class="table-danger">
+      <td><div class="font-weight-bold">{{ item.product.productName }}</div><div class="font-weight-light" style="font-size: 10pt">{{ item.tagId }}</div></td>
+      <!--<td></td>-->
+      <td>{{ item.price }}</td>
+      <td>
+        <div style="float: right;">
+         <!--<button class="btn btn-link" (click)="edit(item.product.id, add)"><fa name="edit" size="2x" class="text-primary"></fa></button>-->
+          <button class="btn btn-link" (click)="delete(item.id)"><fa name="trash" size="2x" class="text-danger"></fa></button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

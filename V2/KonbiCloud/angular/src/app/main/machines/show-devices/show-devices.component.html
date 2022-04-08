@@ -1,0 +1,36 @@
+<div [@routerTransition] class="m-show-devices">
+  <div class="m-subheader">
+    <div class="d-flex align-items-center">
+      <div class="mr-auto col-md-6">
+        <h3 class="m-subheader__title m-subheader__title--separator">
+          <span> Device List</span>
+        </h3>
+        <span class="m-section__sub"> Machine: {{machine.Name}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__body">
+        <div class="row align-items-center">
+          <div class="m-portlet m-portlet--mobile col-xs-12 col-sm-12">
+            <!-- <div class="m-portlet__head">
+              <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                  <h3 class="m-portlet__head-text"> Devices: </h3>
+                </div>
+              </div>
+            </div> -->
+            <div class="m-portlet__body" *ngFor="let device of devices">
+                <app-device-detail [device]="device"></app-device-detail>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

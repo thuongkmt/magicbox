@@ -1,0 +1,116 @@
+
+<style>
+  .btn {
+    margin-left: 10px;
+  }
+  .btn-link {
+    /*margin-left: 10px;*/
+    margin-left: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+</style>
+<div style="float: right; margin-bottom: 30px">
+  <button class="btn btn-outline-success" (click)="open(import, 'Import')">Import</button>
+  <button class="btn btn-primary" (click)="open(add , 'Add')">Add Product</button>
+</div>
+
+<table class='table table-striped'>
+  <thead>
+  <tr>
+    <th>Product Name</th>
+    <th>SKU</th>
+    <th>Price</th>
+    <th width="110px">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngIf="!products">
+    <td colspan="4">
+      <div  class="d-flex justify-content-center">
+        <fa name="spinner" animation="spin" size="3x" style="color: #007bff"></fa>
+      </div>
+    </td>
+    
+  </tr>
+  <tr *ngFor="let product of products">
+    <td>{{ product.productName }}</td>
+    <td>{{ product.sku }}</td>
+    <td>{{ product.price }}</td>
+    <td>
+      <div style="float: right;">
+        <button class="btn btn-link" (click)="edit(product.id, add)" ><fa name="edit" size="2x" class="text-primary"></fa></button>
+        <button class="btn btn-link" (click)="delete(product.id)"><fa name="trash" size="2x" class="text-danger"></fa></button>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #import let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Select CSV file.</label>
+        <div class="input-group">
+          <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
+          <!--<input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>-->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="modal.close('Save click')" [disabled]="!importProducts">{{modalButtonText}}</button>
+  </div>
+</ng-template>
+
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="col-lg">
+        <div class="form-group row">
+          <label for="price" class="col-sm-2 col-form-label">Name</label>
+          <div class="col-lg-12">
+            <input [(ngModel)]="selectedProduct.productName" type="text" class="form-control" id="name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="price" class="col-sm-2 col-form-label">SKU</label>
+          <div class="col-lg-12">
+            <input [(ngModel)]="selectedProduct.sku" type="text" class="form-control" id="sku">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="price" class="col-sm-2 col-form-label">Price</label>
+          <div class="col-lg-12">
+            <input  [(ngModel)]="selectedProduct.price"  type="text" class="form-control" id="price">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="!selectedProduct" (click)="modal.close('Save click')">{{modalButtonText}}</button>
+  </div>
+</ng-template>
+
+
+
+<!--<pre>{{closeResult}}</pre>-->

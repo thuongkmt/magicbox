@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .btn {
+            margin-top: 5px;
+        }
+        
+        .alert {
+            margin-top: 10px;
+        }
+        
+        .custom {
+            width: 120px !important;
+        }
+        
+        .highlight {
+            background-color: coral !important;
+        }
+    </style>
+</head>
+
+<body lang="en">
+    <div>
+        <div class="m-subheader">
+            <div class="d-flex align-items-center">
+                <div class="mr-auto col-md-4">
+                    <h3 class="m-subheader__title m-subheader__title--separator">
+                        <span>{{l("Inventory")}}</span>
+                    </h3>
+                    <span class="m-section__sub">
+                        {{l("Unload Products")}}
+                    </span>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button type="button" class="btn btn-warning custom" (click)="openDoor()">
+                        <i class="flaticon-lock"></i>
+                        Open Door</button>
+                </div>
+            </div>
+        </div>
+        <div class="m-content">
+            <div class="m-portlet m-portlet--mobile">
+                <div class="m-portlet__body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>Unload a product</h4>
+                            <div class="form-group row">
+
+                                <div class="col-sm-12">
+                                    <label for="productName" class="col-form-label">Select a Product</label>
+                                    <!-- [disabled]="!(totalTag > 0)" -->
+                                    <select [(ngModel)]="selectedProduct" class="form-control" (change)="onProductChange()" id="UserSelector" style="width: 100%;">
+                                        <option *ngFor="let obj of products" [ngValue]="obj">{{obj.product.name}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-warning custom float-left" [disabled]="!enEnd" (click)="unloadProduct()"><i class="flaticon-close"></i>Unload</button>
+                                    <button type="button" class="btn btn-danger custom float-left" [disabled]="!enEnd" (click)="unloadAll()"><i class="flaticon-close"></i>Unload All</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>Unload Specific Item</h4>
+                            <button type="button" class="btn btn-info custom" [disabled]="!enStart" (click)="startUnloadItem()">
+                                <i class="flaticon-refresh"></i>
+                                Start</button>
+                            <button type="button" class="btn btn-success custom" [disabled]="!enEnd" (click)="endUnloadItem()">
+                                <i class="flaticon-like"></i>
+                                End</button>
+                        </div>
+                    </div>
+                    <br>
+                    <h5>Taken Out Items</h5>
+                    <span>Total: {{missedInventories.length}}</span>
+                    <table id="takenout_table" class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Tag Id</th>
+                                <th>Antenna</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of missedInventories" [className]="item.Found ? 'ng-star-inserted highlight' : 'ng-star-inserted'">
+                                <td>{{ item.Product.ProductName }}</td>
+                                <td>{{ item.TrayLevel }}</td>
+                                <td class="tagId">{{ item.TagId }}</td>
+                                <td>{{ item.Product.Price }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

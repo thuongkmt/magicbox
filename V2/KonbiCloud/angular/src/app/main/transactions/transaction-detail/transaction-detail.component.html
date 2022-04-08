@@ -1,0 +1,97 @@
+<div bsModal #transactionDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="transactionDetailModal"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #plateForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("TransactionDetail")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close();" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span>{{l("TransactionID")}}:</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span>{{transaction.transactionId}}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span>{{l("TransactionCode")}}:</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span>{{transaction.tranCode}}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group m-form__group">
+                                <span>{{l("BeginTranImage")}}:</span>
+                                <img [src]="transaction.beginTranImage" style="width: 80px; height: 80px;" (click)="showFullImage(transaction.beginTranImage);">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group m-form__group">
+                                <span>{{l("EndTranImage")}}:</span>
+                                <img [src]="transaction.endTranImage" style="width: 80px; height: 80px;" (click)="showFullImage(transaction.endTranImage);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 modal-title" style=" margin: 10px 0px 0px 0px;">
+                            <span>{{l("Plates")}}:</span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <!--<Primeng-Datatable-Start>-->
+                        <div class="primeng-datatable-container">
+                            <p-table [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                            [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width: 150px">
+                                                {{l('PlateCode')}}
+                                        </th>
+                                        <th style="width: 150px">
+                                                {{l('PlateUID')}}
+                                        </th>
+                                        <th style="width: 150px">
+                                                {{l('Price')}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit" let-mlIndex="index">
+                                    <tr>
+                                        <td style="width:150px">
+                                            {{record.disc.code}}
+                                        </td>
+                                        <td style="width:150px">
+                                            {{record.disc.uid}}
+                                        </td>
+                                        <td style="width:150px">
+                                            {{currencySymbol}}{{record.amount | currency}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <!--<Primeng-Datatable-End>-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div bsModal #imageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imageModal"
+         aria-hidden="true" [config]="{backdrop: 'static'}" (click)="closeImageModal()">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <img style="width:800px;height:600px;" src="{{imgUrl}}">
+            </div>
+        </div>
+    </div>
+</div>

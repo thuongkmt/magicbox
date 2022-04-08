@@ -1,0 +1,138 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form *ngIf="active" #productForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span *ngIf="product.id">{{l("EditProduct")}}</span>
+						<span *ngIf="!product.id">{{l("CreateNewProduct")}}</span>
+					</h4>
+					<button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="Product_Name">{{l("Name")}} *</label>
+								<input type="text" id="Product_Name" class="form-control" [(ngModel)]="product.name" name="Name"
+									required />
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Product_SKU">{{l("SKU")}} *</label>
+								<input type="text" id="Product_SKU" class="form-control" [(ngModel)]="product.sku" name="SKU"
+									required />
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Product_Price">{{l("Price")}} *</label>
+								<input type="number" step="0.01" pattern="[0-9]*.?[0-9]{0,2}" id="Product_Price" class="form-control" [(ngModel)]="product.price" (change) = "validateProductPrice()"
+									name="Price" oninput="this.reportValidity()" required />
+								<label [hidden]="isValidProductPrice" style="color:red">The minimum value for product price is 0.01</label>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Product_Barcode">{{l("Barcode")}}</label>
+								<input type="text" id="Product_Barcode" class="form-control" [(ngModel)]="product.barcode" name="Barcode"/>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Product_Tag">{{l("Tag")}}</label>
+								<input type="text" id="Product_Tag" class="form-control" [(ngModel)]="product.tag"
+									name="Tag" />
+							</div>
+						</div>
+
+							
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Product_TagPrefix">RFID Tag Prefix</label>
+								<input type="text" id="Product_TagPrefix" class="form-control" [(ngModel)]="product.tagPrefix" name="RFID Tag Prefix" />
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="Product_ShortDesc">{{l("ShortDesc")}}</label>
+								<input type="text" id="Product_ShortDesc" class="form-control" [(ngModel)]="product.shortDesc"
+									name="ShortDesc" />
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+									<label for="Product_Desc">{{l("Desc")}}</label>
+									<p-editor id="Product_Desc" name="Desc" [(ngModel)]="product.desc" [style]="{'height':'200px'}"></p-editor>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="Product_ImageUrl"><app-resource-management maxItems="1" (selectImageUrl)="handleSelectImageUrl($event)">
+									</app-resource-management>
+								</label>
+								<div *ngIf="product.imageUrl">
+									<img src="{{productImgThumb}}" (error)="handleImageLoadFailed($event)" />
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<div class="form-group my-form">
+									<label for="Categories">Categories</label>
+									<ul class="list-group">
+										<li class="list-group-item" *ngFor="let category of categories">
+											{{category.name}} 
+											<span class="pull-right">
+												<div class="switch">
+													<label>
+														<input type="checkbox" name="{{category.id}}" value="{{category.id}}" [(ngModel)]="category.checked">
+														<span class="lever switch-col-blue"></span>
+													</label>
+												</div>
+											</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button [disabled]="saving" type="button" class="btn btn-default"
+						(click)="close()">{{l("Cancel")}}</button>
+					<button type="submit" class="btn btn-primary blue" [disabled]="!productForm.form.valid || !isValidProductPrice"
+						[buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+						<span>{{l("Save")}}</span></button>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+</div>

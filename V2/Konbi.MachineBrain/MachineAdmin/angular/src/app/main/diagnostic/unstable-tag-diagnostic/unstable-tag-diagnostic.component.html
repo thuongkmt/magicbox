@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .btn {
+            margin-top: 5px;
+        }
+        
+        .alert {
+            margin-top: 10px;
+        }
+        
+        .custom {
+            width: 120px !important;
+        }
+        
+        .highlight {
+            background-color: coral !important;
+        }
+    </style>
+</head>
+
+<body lang="en">
+    <div>
+        <div class="m-subheader">
+            <div class="d-flex align-items-center">
+                <div class="mr-auto col-md-6">
+                    <h3 class="m-subheader__title m-subheader__title--separator">
+                        <span>{{l("Diagnostic")}}</span>
+                    </h3>
+                    <span class="m-section__sub">
+                        {{l("Unstable Tags")}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="m-content">
+            <div class="m-portlet m-portlet--mobile">
+                <div class="m-portlet__body">
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>1. Record Unstable Tags</h4>
+                            <button type="button" class="btn btn-info custom" [disabled]="!enRecord" (click)="RecordUnstableTags()">
+                                <i class="flaticon-refresh"></i>
+                                Record</button>
+                            <button type="button" class="btn btn-danger custom" [disabled]="!enClear" (click)="ClearRecord()">
+                                <i class="flaticon-close"></i>
+                                Clear</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>2. Tracing Tag</h4>
+                            <button type="button" class="btn btn-warning custom" [disabled]="!enTrace" (click)="TracingTag()">
+                                <i class="flaticon-graph"></i>
+                                Trace</button>
+                            <button type="button" class="btn btn-warning custom" [disabled]="!enTrace" (click)="OpenDoor()">
+                                <i class="flaticon-lock"></i>
+                                Open Door</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>3. End Diagnostic</h4>
+                            <button type="button" class="btn btn-success custom" (click)="End()">
+                                <i class="flaticon-like"></i>
+                                End</button>
+                        </div>
+                    </div>
+                    <br>
+                    <h4>Unstable Inventories</h4>
+                    <table id="unstable_table" class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Tag Id</th>
+                                <th>Antenna</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Nnumber Of Changes</th>
+                                <th>Last Change</th>
+                                <th>Found</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of unstableInventories" [className]="item.Inventory.Found ? 'ng-star-inserted highlight' : 'ng-star-inserted'">
+                                <td class="tagId">{{ item.Inventory.TagId }}</td>
+                                <td>{{ item.Inventory.TrayLevel }}</td>
+                                <td>{{ item.Inventory.Product.ProductName }}</td>
+                                <td>{{ item.Inventory.Product.Price }}</td>
+                                <td>{{ item.NumberOfChanges }}</td>
+                                <td>{{ item.LastChange | date : 'short'}}</td>
+                                <td>{{ item.Inventory.Found }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 *ngIf="!enClear">Taken Out Items</h4>
+                    <table *ngIf="!enClear" id="takenout_table" class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Tag Id</th>
+                                <th>Antenna</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of missedInventories" [className]="item.Found ? 'ng-star-inserted highlight' : 'ng-star-inserted'">
+                                <td class="tagId">{{ item.TagId }}</td>
+                                <td>{{ item.TrayLevel }}</td>
+                                <td>{{ item.Product.ProductName }}</td>
+                                <td>{{ item.Product.Price }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
